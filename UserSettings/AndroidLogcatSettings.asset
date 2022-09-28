@@ -3,7 +3,7 @@
     "m_SelectedPackage": {
         "deviceId": "e6feed4d",
         "name": "com.DefaultCompany.Android01",
-        "processId": 29007,
+        "processId": 13390,
         "exited": false
     },
     "m_SelectedPriority": 0,
@@ -48,6 +48,24 @@
             "deviceId": "e6feed4d",
             "name": "com.DefaultCompany.Android01",
             "processId": 29007,
+            "exited": false
+        },
+        {
+            "deviceId": "e6feed4d",
+            "name": "com.DefaultCompany.Android01",
+            "processId": 29012,
+            "exited": false
+        },
+        {
+            "deviceId": "e6feed4d",
+            "name": "com.DefaultCompany.Android01",
+            "processId": 29015,
+            "exited": false
+        },
+        {
+            "deviceId": "e6feed4d",
+            "name": "com.DefaultCompany.Android01",
+            "processId": 13390,
             "exited": false
         }
     ],
