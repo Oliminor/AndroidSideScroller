@@ -1,5 +1,18 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-5134699607004799333
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 5
 --- !u!21 &2100000
 Material:
   serializedVersion: 8
@@ -7,13 +20,13 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: TriplanarMat
-  m_Shader: {fileID: -6465566751694194690, guid: 592b5d5e97ea23d4e8ef84df3d4eb143,
+  m_Name: Voronoi
+  m_Shader: {fileID: -6465566751694194690, guid: 07ec19efa4844a841ae8e20f35ecc701,
     type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
-  m_LightmapFlags: 2
-  m_EnableInstancingVariants: 0
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
@@ -35,25 +48,14 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Emission: 0.5
-    - _Power: 4
+    - _NeonStrength: 20
     - _QueueControl: 0
     - _QueueOffset: 0
+    - _alpha: 0.5
+    - _size: 50
+    - _time: 0.5
     m_Colors:
-    - _FrontColor: {r: 0.18316127, g: 0.44924027, b: 0.7924528, a: 0}
-    - _SideColor: {r: 0.8784314, g: 0.12941174, b: 0.81955314, a: 0}
-    - _TopColor: {r: 0.109803915, g: 0.7862525, b: 0.9254902, a: 0}
+    - _Color: {r: 0, g: 0.7117429, b: 1, a: 1}
+    - _clamp: {r: 0.45, g: 0.6, b: 0, a: 0}
+    - _scrollSpeed: {r: -0.1, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
---- !u!114 &3839141511261947000
-MonoBehaviour:
-  m_ObjectHideFlags: 11
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 5

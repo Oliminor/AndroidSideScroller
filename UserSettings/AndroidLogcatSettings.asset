@@ -1,71 +1,53 @@
 {
     "m_SelectedDeviceId": "e6feed4d",
     "m_SelectedPackage": {
-        "deviceId": "e6feed4d",
-        "name": "com.DefaultCompany.Android01",
-        "processId": 13390,
+        "deviceId": "",
+        "name": "",
+        "processId": 0,
         "exited": false
     },
     "m_SelectedPriority": 0,
     "m_KnownPackagesForSerialization": [
         {
             "deviceId": "e6feed4d",
-            "name": "com.DefaultCompany.Android01",
-            "processId": 12273,
+            "name": "net.oneplus.launcher",
+            "processId": 4909,
             "exited": false
         },
         {
             "deviceId": "e6feed4d",
             "name": "com.DefaultCompany.Android01",
-            "processId": 18976,
-            "exited": false
+            "processId": 22511,
+            "exited": true
         },
         {
             "deviceId": "e6feed4d",
             "name": "com.DefaultCompany.Android01",
-            "processId": 18979,
-            "exited": false
+            "processId": 22512,
+            "exited": true
         },
         {
             "deviceId": "e6feed4d",
             "name": "com.DefaultCompany.Android01",
-            "processId": 18985,
-            "exited": false
+            "processId": 22514,
+            "exited": true
         },
         {
             "deviceId": "e6feed4d",
             "name": "com.DefaultCompany.Android01",
-            "processId": 18987,
-            "exited": false
+            "processId": 10595,
+            "exited": true
         },
         {
             "deviceId": "e6feed4d",
             "name": "com.DefaultCompany.Android01",
-            "processId": 29005,
-            "exited": false
+            "processId": 10596,
+            "exited": true
         },
         {
             "deviceId": "e6feed4d",
             "name": "com.DefaultCompany.Android01",
-            "processId": 29007,
-            "exited": false
-        },
-        {
-            "deviceId": "e6feed4d",
-            "name": "com.DefaultCompany.Android01",
-            "processId": 29012,
-            "exited": false
-        },
-        {
-            "deviceId": "e6feed4d",
-            "name": "com.DefaultCompany.Android01",
-            "processId": 29015,
-            "exited": false
-        },
-        {
-            "deviceId": "e6feed4d",
-            "name": "com.DefaultCompany.Android01",
-            "processId": 13390,
+            "processId": 10597,
             "exited": false
         }
     ],

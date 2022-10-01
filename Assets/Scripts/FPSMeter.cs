@@ -40,6 +40,7 @@ public class FPSMeter : MonoBehaviour
 
     void OnGUI()
     {
-        GUI.Label(new Rect(Screen.width - 100, 10, 150, 20), fps);
+        GUI.Label(new Rect(Screen.width - 100, 10, 200, 30), fps);
+        GUI.Label(new Rect(Screen.width - 100, 30, 150, 30), Screen.width.ToString() + "X" + Screen.height.ToString());
     }
 }
