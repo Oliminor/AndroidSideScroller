@@ -30,6 +30,12 @@ public class BackGroundSpawner : MonoBehaviour
     void Update()
     {
         SwapObjects();
+        BackgroundMovement();
+    }
+
+    private void BackgroundMovement()
+    {
+        transform.Translate(GameManager.instance.GetSpeed() * new Vector3(-1, 0, 0) * Time.deltaTime);
     }
 
     private void InstiateObjectToPool()

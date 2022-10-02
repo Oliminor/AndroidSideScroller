@@ -12,7 +12,7 @@ public class EnemySpawner : MonoBehaviour
     List<EnemySpawnData> inActiveObjectPool = new();
     List<EnemySpawnData> activeObjectPool = new();
 
-    float distanceFromPrevSpawn;
+    float timeBetweenSpawn;
     void Start()
     {
         InstiateObjectToPool();
@@ -23,11 +23,11 @@ public class EnemySpawner : MonoBehaviour
     {
         SwapObjects();
 
-        distanceFromPrevSpawn += CameraMovement.instance.GetDeltaDistance();
+        timeBetweenSpawn += Time.deltaTime;
 
-        if (spawnRate <= distanceFromPrevSpawn)
+        if (spawnRate <= timeBetweenSpawn)
         {
-            distanceFromPrevSpawn = 0;
+            timeBetweenSpawn = 0;
             Spawner();
         }
     }
