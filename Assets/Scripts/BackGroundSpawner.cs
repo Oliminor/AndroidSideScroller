@@ -73,14 +73,11 @@ public class BackGroundSpawner : MonoBehaviour
 
     private void SwapObjects()
     {
-        Vector3 cameraPos = Camera.main.transform.position;
-        Vector2 camera2DPos = new Vector2(cameraPos.x, cameraPos.z);
-        Vector3 objectPos = activeObjectPool[0].transform.position;
-        Vector2 object2DPos = new Vector2(objectPos.x, objectPos.z);
+        if (activeObjectPool.Count <= 0) return;
 
-        float distance = Vector2.Distance(camera2DPos, object2DPos);
+        Vector3 pos = Camera.main.WorldToViewportPoint(activeObjectPool[0].transform.position);
 
-        if (distance > 30 && objectPos.x < cameraPos.x)
+        if (pos.x < -0.2)
         {
             activeObjectPool[0].SetActive(false);
             inActiveObjectPool.Add(activeObjectPool[0]);
