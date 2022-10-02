@@ -51,13 +51,13 @@ public class JoystickController : MonoBehaviour, IPointerDownHandler, IDragHandl
         Vector2 movementV = Vector2.ClampMagnitude((eventData.position - tapPosition) / canvas.scaleFactor,
                                                  (rectTransform.sizeDelta.x * maxPivot) + (rectTransform.sizeDelta.x * deadzone));
 
-        Vector2 movePosition = initialPosition + movementV;//ALL THIS MIGHT NEED VEC3
+        Vector2 movePosition = initialPosition + movementV;
         rectTransform.anchoredPosition = movePosition;
 
         //input axis
         float axisX = 0, axisY = 0;
 
-        if (Mathf.Abs(movementV.x) > rectTransform.sizeDelta.x * maxPivot)
+        if (Mathf.Abs(movementV.x) > rectTransform.sizeDelta.x * deadzone)
         {
             axisX = (movementV.x - (rectTransform.sizeDelta.x * deadzone * (movementV.x > 0 ? 1 : -1))) / (rectTransform.sizeDelta.x * maxPivot);
         }
