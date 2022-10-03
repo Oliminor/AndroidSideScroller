@@ -5,7 +5,6 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] List<EnemySpawnData> spawnableObjects;
-    [SerializeField] Transform enemyParentObject;
     [SerializeField] int numberOfObjectToPool;
     [SerializeField] float spawnRate;
 
@@ -38,7 +37,7 @@ public class EnemySpawner : MonoBehaviour
         {
             for (int j = 0; j < spawnableObjects[i].amountOnMap; j++)
             {
-                GameObject go = Instantiate(spawnableObjects[i].spawnObject, enemyParentObject);
+                GameObject go = Instantiate(spawnableObjects[i].spawnObject, transform);
                 go.SetActive(false);
                 inActiveObjectPool.Add(new EnemySpawnData(go, spawnableObjects[i].spawnPosY, 0, spawnableObjects[i].spawnRotation));
             }
