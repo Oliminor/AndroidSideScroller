@@ -22,7 +22,8 @@ public class SpawnManager : MonoBehaviour
         while (true)
         {
             float randomY = Random.Range(-5, 3);
-            Instantiate(spawnObject[0], new Vector3(-14.0f, randomY, 2.5f), Quaternion.identity);
+            Vector3 rotation = new Vector3(0,- 90, 0);
+            Instantiate(spawnObject[0], new Vector3(-14.0f, randomY, 2.5f), Quaternion.Euler(rotation));
             yield return new WaitForSeconds(5.0f);
         }
     }
