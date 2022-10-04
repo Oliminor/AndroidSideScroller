@@ -130,15 +130,30 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2003946156}
     m_Modifications:
+    - target: {fileID: 8680638829847925004, guid: fa3af5cee8f543c458c61ee5a45f53eb,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8680638829847925005, guid: fa3af5cee8f543c458c61ee5a45f53eb,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 80
+      value: 180
       objectReference: {fileID: 0}
     - target: {fileID: 8680638829847925005, guid: fa3af5cee8f543c458c61ee5a45f53eb,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 80
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 8680638829847925006, guid: fa3af5cee8f543c458c61ee5a45f53eb,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 0.53333336
+      objectReference: {fileID: 0}
+    - target: {fileID: 8680638829847925006, guid: fa3af5cee8f543c458c61ee5a45f53eb,
+        type: 3}
+      propertyPath: m_UseSpriteMesh
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8680638829847925233, guid: fa3af5cee8f543c458c61ee5a45f53eb,
         type: 3}
@@ -149,6 +164,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: JoystickRetainer
+      objectReference: {fileID: 0}
+    - target: {fileID: 8680638830867494243, guid: fa3af5cee8f543c458c61ee5a45f53eb,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8680638830867494244, guid: fa3af5cee8f543c458c61ee5a45f53eb,
         type: 3}
@@ -188,12 +208,12 @@ PrefabInstance:
     - target: {fileID: 8680638830867494244, guid: fa3af5cee8f543c458c61ee5a45f53eb,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 100
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 8680638830867494244, guid: fa3af5cee8f543c458c61ee5a45f53eb,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 100
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 8680638830867494244, guid: fa3af5cee8f543c458c61ee5a45f53eb,
         type: 3}
@@ -233,12 +253,12 @@ PrefabInstance:
     - target: {fileID: 8680638830867494244, guid: fa3af5cee8f543c458c61ee5a45f53eb,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 150
+      value: 250
       objectReference: {fileID: 0}
     - target: {fileID: 8680638830867494244, guid: fa3af5cee8f543c458c61ee5a45f53eb,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 150
+      value: 250
       objectReference: {fileID: 0}
     - target: {fileID: 8680638830867494244, guid: fa3af5cee8f543c458c61ee5a45f53eb,
         type: 3}
@@ -254,6 +274,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8680638830867494245, guid: fa3af5cee8f543c458c61ee5a45f53eb,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 0.4392157
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fa3af5cee8f543c458c61ee5a45f53eb, type: 3}
@@ -819,8 +844,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccd3ec161d2b59946ab0300a1e877944, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletTimePowerUp: 1
-  bulletTimeTime: 3
 --- !u!1 &1664367427
 GameObject:
   m_ObjectHideFlags: 0
@@ -10601,14 +10624,39 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1789087257961090748, guid: ad3c6b4e7d1b58e4dbe12bfc658d37e9,
         type: 3}
+      propertyPath: speed
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1789087257961090748, guid: ad3c6b4e7d1b58e4dbe12bfc658d37e9,
+        type: 3}
+      propertyPath: poolSize
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 1789087257961090748, guid: ad3c6b4e7d1b58e4dbe12bfc658d37e9,
+        type: 3}
+      propertyPath: topSpeed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1789087257961090748, guid: ad3c6b4e7d1b58e4dbe12bfc658d37e9,
+        type: 3}
       propertyPath: acceleration
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1789087257961090748, guid: ad3c6b4e7d1b58e4dbe12bfc658d37e9,
         type: 3}
       propertyPath: inputManager
       value: 
       objectReference: {fileID: 1975129443}
+    - target: {fileID: 1789087257961090748, guid: ad3c6b4e7d1b58e4dbe12bfc658d37e9,
+        type: 3}
+      propertyPath: TopAcceleration
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 1789087257961090748, guid: ad3c6b4e7d1b58e4dbe12bfc658d37e9,
+        type: 3}
+      propertyPath: reverseMultiplier
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 2260424507105689082, guid: ad3c6b4e7d1b58e4dbe12bfc658d37e9,
         type: 3}
       propertyPath: m_RootOrder

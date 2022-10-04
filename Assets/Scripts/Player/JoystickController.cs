@@ -34,7 +34,6 @@ public class JoystickController : MonoBehaviour, IPointerDownHandler, IDragHandl
     //INPUT EVENT FUNCTIONS
     public void OnPointerDown(PointerEventData eventData) //when the player touches the button
     {
-
         tapPosition = eventData.pressPosition;
         isHolding = true;
       
