@@ -108,6 +108,11 @@ public class PlayerController : MonoBehaviour
             body.velocity = new Vector3(limit.x, limit.y, limit.z);
         }
 
+        //shooting timer: double
+
+
+        //shooting timer: cone
+
     }
     IEnumerator AutoFire()
     {
@@ -182,7 +187,7 @@ public class PlayerController : MonoBehaviour
         {
             int angle = i == 0 ? 5 : -5; // changethis : changethis  for a tighter/wider cone
             bullet = GetPooled();
-            bullet.transform.SetPositionAndRotation(PlayerMuzzle.position, Quaternion.Euler(0+angle, 90, 0));
+            bullet.transform.SetPositionAndRotation(PlayerMuzzle.position, Quaternion.Euler(PlayerMuzzle.rotation.eulerAngles.x+angle, 90, 0));
             bullet.SetActive(true);
         }
 
