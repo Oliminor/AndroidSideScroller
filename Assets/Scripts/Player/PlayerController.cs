@@ -14,15 +14,14 @@ public class PlayerController : MonoBehaviour
     public GameObject poolThis;
     public int poolSize;
 
-    float timerReset;
+    bool isHolding;
 
     private float xRot=0;
     private float minAngle = -45;
     private float maxAngle = 45;
     float rotationSpeed = 75.0f;
-    Quaternion initialRotation;
 
-    public float timer = 5.0f;
+    Quaternion initialRotation;
 
     Rigidbody body;
 
@@ -32,10 +31,8 @@ public class PlayerController : MonoBehaviour
     {
         body = GetComponent<Rigidbody>();
         body.useGravity = false;
-        timerReset = timer;
         initialRotation = transform.rotation;
 
-        
         bulletInPool = new List<GameObject>();
         GameObject bullet;
         for (int i = 0; i < poolSize; i++)
@@ -46,12 +43,13 @@ public class PlayerController : MonoBehaviour
 
         }
 
-
+        StartCoroutine(AutoFire());
     }
 
     private void FixedUpdate()
     {
         Vector2 moveDir = inputManager.GetInputAxis();
+        isHolding = inputManager.ReturnHoldStatus();
  
 
         Vector3 screenPos = Camera.main.WorldToViewportPoint(transform.position);
@@ -67,38 +65,44 @@ public class PlayerController : MonoBehaviour
             speedTemp.y = 0;
 
         transform.position = Camera.main.ViewportToWorldPoint(screenPos);
-        body.velocity = speedTemp;
         
   
         speed = Mathf.Lerp(acceleration, speed, Time.deltaTime);
         body.AddForce(moveDir * speed);
-        
-        xRot += moveDir.y * rotationSpeed * Time.deltaTime;
-        xRot = Mathf.Clamp(xRot, minAngle, maxAngle);
 
 
-        if (moveDir.y != 0)
-            transform.rotation = Quaternion.Euler(-xRot, 90f, 0f);
-        //if(moveDir.y==0)
-        //    transform.rotation= Quaternion.Slerp(transform.rotation, initialRotation, Time.deltaTime);
 
-
-        timer -= Time.deltaTime;
-        if (timer <= 0)
+        if (isHolding)
         {
-            StartCoroutine(AutoFire());
-            timer = timerReset;
+
+            xRot += moveDir.y * rotationSpeed * Time.deltaTime;
+            xRot = Mathf.Clamp(xRot, minAngle, maxAngle);
+            transform.rotation = Quaternion.Euler(-xRot, 90f, 0f);  
         }
+        if(!isHolding)
+        {
+            float currentAngle = transform.rotation.eulerAngles.x;
+            Debug.Log(currentAngle);
+            transform.rotation = Quaternion.Slerp(transform.rotation, initialRotation, Time.deltaTime);
+            xRot = currentAngle - transform.rotation.eulerAngles.x+xRot;
+            body.AddForce(-body.velocity);
+            
+        }
+
+    
+        //Debug.Log(difference);
 
         
     }
     IEnumerator AutoFire()
     {
-        GameObject bullet = GetPooled();
-        bullet.transform.SetPositionAndRotation(PlayerMuzzle.position, PlayerMuzzle.rotation);
-        bullet.SetActive(true);
-        
-        yield return new WaitForSeconds(1);
+        while (true)
+        {
+            GameObject bullet = GetPooled();
+            bullet.transform.SetPositionAndRotation(PlayerMuzzle.position, PlayerMuzzle.rotation);
+            bullet.SetActive(true);
+            yield return new WaitForSeconds(1);
+        }
 
     }
     public GameObject GetPooled()

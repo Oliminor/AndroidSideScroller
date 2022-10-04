@@ -276,8 +276,7 @@ MonoBehaviour:
   bulletInPool: []
   poolThis: {fileID: 1758893044162241204, guid: 0aa6f099a4ee30346bacba2610afb6b9,
     type: 3}
-  poolSize: 20
-  timer: 5
+  poolSize: 30
   inputManager: {fileID: 375224961}
 --- !u!4 &125470360 stripped
 Transform:
@@ -814,15 +813,17 @@ MonoBehaviour:
       type: 3}
     spawnPosY: 0
     amountOnMap: 50
+    spawnRotation: {x: 0, y: 0, z: 0}
   - spawnObject: {fileID: 2550299777771325845, guid: 9cb39ada473a3d344b4d4be963da6be9,
       type: 3}
     spawnPosY: 0
     amountOnMap: 50
+    spawnRotation: {x: 0, y: 0, z: 0}
   - spawnObject: {fileID: 8880954799402392737, guid: 71c17e6a620b94a499cbc9e1868b6029,
       type: 3}
     spawnPosY: 0.5
     amountOnMap: 50
-  enemyParentObject: {fileID: 598158897}
+    spawnRotation: {x: 0, y: 0, z: 0}
   numberOfObjectToPool: 10
   spawnRate: 2
 --- !u!1 &832575517
@@ -1331,6 +1332,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 3
+  score: 0
 --- !u!1 &1664367427
 GameObject:
   m_ObjectHideFlags: 0
