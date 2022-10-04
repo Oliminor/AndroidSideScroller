@@ -13,11 +13,18 @@ public class EnemyAI : MonoBehaviour
     public Vector3 rotation;
 
     //Sinus wave variables 
-    public int sinusAmplitude;
+    public float sinusAmplitude;
     public float frequency;
+
+    float startY;
 
    [SerializeField]
     private GameObject enemyExplosion;
+
+    private void Start()
+    {
+        startY = transform.position.y;
+    }
 
 
     // Update is called once per frame
@@ -31,23 +38,23 @@ public class EnemyAI : MonoBehaviour
 
         //Sinus wave animation
         float x = transform.position.x;
-        float y = Mathf.Sin(Time.time) * sinusAmplitude;
+        float y = startY + Mathf.Sin(Time.time) * sinusAmplitude;
         float z = transform.position.z;
         transform.position = new Vector3(x, y, z);
 
         //shot
 
-        
+
 
         //respawn
-        if (transform.position.x < -11) 
+        Vector3 pos = Camera.main.WorldToViewportPoint(transform.position);
+        Vector3 respawnPos = Camera.main.ViewportToWorldPoint(new Vector3(1.1f, transform.position.y, GameManager.instance.GetZPosition()));
+
+        if (pos.x < -0.1)
         {
-            //Assuming camera position is (0, 0, 0)
-            float randomY = Random.Range(-5, 3);
-            transform.position = new Vector3(14.0f, randomY, 2.5f);
+            transform.position = respawnPos;
         }
 
-       
     }
 
     //die

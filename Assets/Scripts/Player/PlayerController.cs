@@ -28,8 +28,14 @@ public class PlayerController : MonoBehaviour
 
     public JoystickController inputManager;
 
+    private void Awake()
+    {
+        GameManager.instance.SetPlayer(this.gameObject);
+    }
+
     private void Start()
     {
+
         body = GetComponent<Rigidbody>();
         body.useGravity = false;
         timerReset = timer;
@@ -45,60 +51,32 @@ public class PlayerController : MonoBehaviour
             bulletInPool.Add(bullet);
 
         }
-
+        StartCoroutine(AutoFire());
 
     }
 
     private void FixedUpdate()
     {
         Vector2 moveDir = inputManager.GetInputAxis();
- 
 
-        Vector3 screenPos = Camera.main.WorldToViewportPoint(transform.position);
-        
-        screenPos.x = Mathf.Clamp01(screenPos.x);
-        screenPos.y = Mathf.Clamp01(screenPos.y);
-
-        Vector3 speedTemp = body.velocity;
-
-        if (screenPos.x == 0 || screenPos.x == 1)
-            speedTemp.x= 0;
-        if (screenPos.y == 0 || screenPos.y == 1)
-            speedTemp.y = 0;
-
-        transform.position = Camera.main.ViewportToWorldPoint(screenPos);
-        body.velocity = speedTemp;
-        
-  
-        speed = Mathf.Lerp(acceleration, speed, Time.deltaTime);
-        body.AddForce(moveDir * speed);
-        
-        xRot += moveDir.y * rotationSpeed * Time.deltaTime;
-        xRot = Mathf.Clamp(xRot, minAngle, maxAngle);
-
-
-        if (moveDir.y != 0)
-            transform.rotation = Quaternion.Euler(-xRot, 90f, 0f);
-        //if(moveDir.y==0)
-        //    transform.rotation= Quaternion.Slerp(transform.rotation, initialRotation, Time.deltaTime);
-
-
-        timer -= Time.deltaTime;
-        if (timer <= 0)
+        if (moveDir == Vector2.zero)
         {
-            StartCoroutine(AutoFire());
-            timer = timerReset;
+            speed = Mathf.Lerp(speed, 0, 0.5f);
         }
+        speed = Mathf.Lerp(speed, 4, 0.5f);
 
-        
+        body.velocity = moveDir * speed;
     }
     IEnumerator AutoFire()
     {
-        GameObject bullet = GetPooled();
-        bullet.transform.SetPositionAndRotation(PlayerMuzzle.position, PlayerMuzzle.rotation);
-        bullet.SetActive(true);
-        
-        yield return new WaitForSeconds(1);
+        while (true)
+        {
+            GameObject bullet = GetPooled();
+            bullet.transform.SetPositionAndRotation(PlayerMuzzle.position, PlayerMuzzle.rotation);
+            bullet.SetActive(true);
+
+            yield return new WaitForSeconds(1);
+        }
 
     }
     public GameObject GetPooled()

@@ -48,10 +48,11 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _NeonStrength: 30
-    - _Power: 5
+    - _NeonStrength: 0.397
+    - _Power: 2.46
     - _QueueControl: 0
     - _QueueOffset: 0
     m_Colors:
-    - _Color: {r: 0, g: 0.50931454, b: 1, a: 1}
+    - _Color: {r: 0.13171947, g: 0.655962, b: 0.754717, a: 1}
+    - _Color2: {r: 0.44297934, g: 0, b: 1, a: 0}
   m_BuildTextureStacks: []

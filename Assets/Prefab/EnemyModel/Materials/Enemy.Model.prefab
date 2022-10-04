@@ -29,8 +29,8 @@ Transform:
   m_GameObject: {fileID: 4104544652574019325}
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 6, y: -0.29, z: 2.5}
-  m_LocalScale: {x: 20, y: 20, z: 20}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 10, y: 10, z: 10}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -113,7 +113,7 @@ MonoBehaviour:
   horizontalSpeed: 1.8
   rotationSpeed: 3
   rotation: {x: 0, y: 0, z: -50}
-  sinusAmplitude: 2
+  sinusAmplitude: 1.2
   frequency: 0.5
   enemyExplosion: {fileID: 3993764705548965282, guid: adbf4920f7775ef45b1d386be2c47931,
     type: 3}

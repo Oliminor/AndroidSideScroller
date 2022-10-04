@@ -31,6 +31,12 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
+    IEnumerator GameEnded()
+    {
+        yield return new WaitForSeconds(5);
+        GameManager.instance.LevelFinished();
+    }
+
     private void InstiateObjectToPool()
     {
         for (int i = 0; i < spawnableObjects.Count; i++)
@@ -46,10 +52,14 @@ public class EnemySpawner : MonoBehaviour
 
     private void Spawner()
     {
-        if (inActiveObjectPool.Count <= 0) return;
+        if (inActiveObjectPool.Count <= 0)
+        {
+            StartCoroutine(GameEnded());
+            return;
+        }
 
         float Ypos = Random.Range(0.1f, 0.9f);
-        Vector3 spawnPos = new Vector3(1.2f, Ypos, 5.0f);
+        Vector3 spawnPos = new Vector3(1.2f, Ypos, GameManager.instance.GetZPosition());
         int randomIndex = Random.Range(0, inActiveObjectPool.Count);
 
         if (inActiveObjectPool[randomIndex].spawnPosY != 0) spawnPos = new Vector3(spawnPos.x, inActiveObjectPool[randomIndex].spawnPosY, spawnPos.z);
