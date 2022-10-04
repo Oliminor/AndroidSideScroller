@@ -73,7 +73,7 @@ public class EnemyAI : MonoBehaviour
             int randomNumber = Random.Range(1, 6);
             if (randomNumber == 3) 
             {
-                //Instantiate(drop, transform.position, Quaternion.Euler(rotation));
+                Instantiate(drop, transform.position, Quaternion.identity);
             }
         }
     }
