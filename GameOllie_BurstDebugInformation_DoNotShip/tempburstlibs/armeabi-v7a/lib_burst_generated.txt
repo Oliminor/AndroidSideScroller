@@ -142,10 +142,10 @@ Library: lib_burst_generated
 --root-assembly=E:\Unity\AndroidProject\Temp\StagingArea\Data\Managed\Unity.VisualScripting.Flow.dll
 --root-assembly=E:\Unity\AndroidProject\Temp\StagingArea\Data\Managed\Unity.Mathematics.dll
 --root-assembly=E:\Unity\AndroidProject\Temp\StagingArea\Data\Managed\Unity.Services.Core.Telemetry.dll
+--root-assembly=E:\Unity\AndroidProject\Temp\StagingArea\Data\Managed\Assembly-CSharp.dll
 --root-assembly=E:\Unity\AndroidProject\Temp\StagingArea\Data\Managed\Unity.VisualScripting.State.dll
 --root-assembly=E:\Unity\AndroidProject\Temp\StagingArea\Data\Managed\Unity.VisualScripting.Core.dll
 --root-assembly=E:\Unity\AndroidProject\Temp\StagingArea\Data\Managed\Unity.RenderPipelines.Universal.Runtime.dll
---root-assembly=E:\Unity\AndroidProject\Temp\StagingArea\Data\Managed\Assembly-CSharp.dll
 --root-assembly=E:\Unity\AndroidProject\Temp\StagingArea\Data\Managed\Unity.Services.Core.Environments.Internal.dll
 --root-assembly=E:\Unity\AndroidProject\Temp\StagingArea\Data\Managed\Unity.Burst.dll
 --root-assembly=E:\Unity\AndroidProject\Temp\StagingArea\Data\Managed\Unity.TextMeshPro.dll

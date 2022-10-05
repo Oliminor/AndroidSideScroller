@@ -10732,6 +10732,16 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4854904898661205843, guid: ad3c6b4e7d1b58e4dbe12bfc658d37e9,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5490609933559868339, guid: ad3c6b4e7d1b58e4dbe12bfc658d37e9,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ad3c6b4e7d1b58e4dbe12bfc658d37e9, type: 3}
 --- !u!1 &1931548478
@@ -11027,16 +11037,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4651935442051760186, guid: 97e7b68367feb9a409cf83bccccccb70,
-        type: 3}
-      propertyPath: scorePerSecond
-      value: 25
-      objectReference: {fileID: 0}
-    - target: {fileID: 4651935442051760186, guid: 97e7b68367feb9a409cf83bccccccb70,
-        type: 3}
-      propertyPath: globalZposition
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 4651935442051760187, guid: 97e7b68367feb9a409cf83bccccccb70,
         type: 3}
       propertyPath: m_RootOrder

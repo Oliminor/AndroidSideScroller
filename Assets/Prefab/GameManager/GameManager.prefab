@@ -44,5 +44,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c79e6c129316cc45bbb5c2da5af6e1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timeSinceLevelStarted: 0
   speed: 3
   score: 0
+  scorePerSecond: 25
+  scoreMultiplier: 1
+  globalZposition: 5
+  isTheLevelEnded: 0
+  isGameOver: 0

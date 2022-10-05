@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: NeonMat
+  m_Name: NeonMainMenuMat
   m_Shader: {fileID: -6465566751694194690, guid: b87b878299b6a4847a326b98676e197e,
     type: 3}
   m_ValidKeywords: []
@@ -52,5 +52,5 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     m_Colors:
-    - _Color: {r: 1, g: 0.39124364, b: 0, a: 0}
+    - _Color: {r: 1, g: 0.45844075, b: 0, a: 0}
   m_BuildTextureStacks: []
