@@ -24,8 +24,8 @@ public class PlayerController : MonoBehaviour
     public int poolSize;
 
     //powerup shoot modes
-    public bool doubleBarrel = false;
-    public bool coneFiring;
+    [SerializeField] int barrelNumber;
+    [SerializeField] int angleNumber;
 
 
     //player input
@@ -40,6 +40,8 @@ public class PlayerController : MonoBehaviour
     float rotationSpeed = 75.0f;
     Quaternion initialRotation;
 
+    float timer = 2.0f;
+
     private void Start()
     {
         GameManager.instance.SetPlayer(this.gameObject);
@@ -49,6 +51,8 @@ public class PlayerController : MonoBehaviour
         initialRotation = transform.rotation;
         
         lives = 3;
+        barrelNumber = 1;
+        angleNumber = 0;
 
         //instatiate bullets and add to pool
         bulletInPool = new List<GameObject>();
@@ -118,18 +122,9 @@ public class PlayerController : MonoBehaviour
     {
         while (true)
         {
-            if(doubleBarrel)//bool switches will be triggered by powerup
-            {
-                DoubleBarrelShooting();
-            }
-            else if(coneFiring)
-            {
-                ConeFire();
-            }
-            else
-            {
-                NormalFiring();
-            }
+
+            StartCoroutine(FiringPattern());
+            
             yield return new WaitForSeconds(1);
         }
 
@@ -145,17 +140,8 @@ public class PlayerController : MonoBehaviour
         }
         return null;
     }
-    public void NormalFiring() //default fire setting
-    {
-        GameObject bullet = GetPooled();
-        bullet.transform.SetPositionAndRotation(PlayerMuzzle.position, PlayerMuzzle.rotation);
-        bullet.SetActive(true);
-    }
+   
 
-    public void LaserBeam()
-    {
-
-    }
     public void TakeDamage()
     {
         lives--;
@@ -164,32 +150,48 @@ public class PlayerController : MonoBehaviour
             //player death logic 
         }
     }
-    public void DoubleBarrelShooting()
-    {
-       
-       for (int i = 0; i < 2; i++)
-       {
-            float displacement = i == 0 ? 0.05f : -0.05f; // changethis : changethis  for a larger/smaller offset between bullets
-            GameObject bullet = GetPooled();
-            Vector3 spawnPos = new Vector3(PlayerMuzzle.position.x, PlayerMuzzle.position.y + displacement, PlayerMuzzle.position.z);
-            bullet.transform.SetPositionAndRotation(spawnPos, PlayerMuzzle.rotation);
-            bullet.SetActive(true);
-       }
 
-    }
-    public void ConeFire()
+    IEnumerator FiringPattern()
     {
         GameObject bullet = GetPooled();
         bullet.transform.SetPositionAndRotation(PlayerMuzzle.position, PlayerMuzzle.rotation);
         bullet.SetActive(true);
 
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < angleNumber; i++)
         {
-            int angle = i == 0 ? 5 : -5; // changethis : changethis  for a tighter/wider cone
+            int angleUp = (i + 1) * 5;
+            int angleDown = (i + 1) * -5;
+            float playerXrotation = PlayerMuzzle.rotation.eulerAngles.x;
+
             bullet = GetPooled();
-            bullet.transform.SetPositionAndRotation(PlayerMuzzle.position, Quaternion.Euler(PlayerMuzzle.rotation.eulerAngles.x+angle, 90, 0));
+            bullet.transform.SetPositionAndRotation(PlayerMuzzle.position, Quaternion.Euler(playerXrotation + angleUp, 90, 0));
+            bullet.SetActive(true);
+
+            bullet = GetPooled();
+            bullet.transform.SetPositionAndRotation(PlayerMuzzle.position, Quaternion.Euler(playerXrotation + angleDown, 90, 0));
             bullet.SetActive(true);
         }
 
+        yield return new WaitForSeconds(3.0f);
+
+        for (int i = 0; i < barrelNumber; i++)
+            {
+                float displacementUp = (i + 1) * 0.15f; // changethis : changethis  for a larger/smaller offset between bullets
+                float displacementDown = (i + 1) * -0.15f;
+
+
+                bullet = GetPooled();
+                Vector3 spawnPos = new Vector3(PlayerMuzzle.position.x, PlayerMuzzle.position.y + displacementUp, PlayerMuzzle.position.z);
+                bullet.transform.SetPositionAndRotation(spawnPos, PlayerMuzzle.rotation);
+                bullet.SetActive(true);
+
+                bullet = GetPooled();
+                spawnPos = new Vector3(PlayerMuzzle.position.x, PlayerMuzzle.position.y + displacementDown, PlayerMuzzle.position.z);
+                bullet.transform.SetPositionAndRotation(spawnPos, PlayerMuzzle.rotation);
+                bullet.SetActive(true);
+            }
+            
+        
+        yield return new WaitForSeconds(0.01f);
     }
 }
