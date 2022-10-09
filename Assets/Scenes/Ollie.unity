@@ -306,6 +306,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 104
   m_CollisionDetection: 0
+--- !u!64 &125470362
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 125470358}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 6788383922943872000, guid: 05e798ca549aa7c4ab80e3beb0b00c0d, type: 3}
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -846,16 +860,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnableObjects:
-  - spawnObject: {fileID: 4198512067716415129, guid: 7ab64a86bcef52d43957eed0ed0ecfd4,
+  - spawnObject: {fileID: 5807583689314517343, guid: ffb147ec7638d4f4196a4aed50e185db,
       type: 3}
     spawnPosY: 0
     amountOnMap: 50
-    spawnRotation: {x: 0, y: 0, z: 0}
-  - spawnObject: {fileID: 2550299777771325845, guid: 9cb39ada473a3d344b4d4be963da6be9,
+    spawnRotation: {x: 0, y: -90, z: 0}
+  - spawnObject: {fileID: 5807583689314517343, guid: ffb147ec7638d4f4196a4aed50e185db,
       type: 3}
     spawnPosY: 0
     amountOnMap: 50
-    spawnRotation: {x: 0, y: 0, z: 0}
+    spawnRotation: {x: 0, y: -90, z: 0}
   - spawnObject: {fileID: 8880954799402392737, guid: 71c17e6a620b94a499cbc9e1868b6029,
       type: 3}
     spawnPosY: 0.5
@@ -1050,7 +1064,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 05e798ca549aa7c4ab80e3beb0b00c0d,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -6.49
+      value: -5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 05e798ca549aa7c4ab80e3beb0b00c0d,
         type: 3}
@@ -1091,6 +1105,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SpaceShip2
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 05e798ca549aa7c4ab80e3beb0b00c0d,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 05e798ca549aa7c4ab80e3beb0b00c0d, type: 3}

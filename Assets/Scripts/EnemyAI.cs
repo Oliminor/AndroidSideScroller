@@ -57,7 +57,7 @@ public class EnemyAI : MonoBehaviour
 
         if (other.tag == "Shot" || other.tag == "Player")
         {
-            Destroy(other.gameObject);
+            //Destroy(other.gameObject);
             Instantiate(enemyExplosion, transform.position, Quaternion.identity);
             Destroy(this.gameObject);
         }

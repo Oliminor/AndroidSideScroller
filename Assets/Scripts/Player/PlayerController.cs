@@ -30,7 +30,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] int angleNumber;
     int startBarrels = 1;
     int startAngles = 0;
-    private bool isProtected;
+    [SerializeField] private bool isProtected;
+
 
 
     //player input
@@ -51,6 +52,8 @@ public class PlayerController : MonoBehaviour
         
         body = GetComponent<Rigidbody>();
         body.useGravity = false;
+        
+
         initialRotation = transform.rotation;
         
         lives = 3;
@@ -118,6 +121,16 @@ public class PlayerController : MonoBehaviour
 
 
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag=="Enemy")//ill change this just testing things 
+        {
+            TakeDamage();
+        }
+        Debug.Log("test");
+    }
+
     IEnumerator AutoFire()
     {
         while (true)
@@ -140,7 +153,25 @@ public class PlayerController : MonoBehaviour
         }
         return null;
     }
-   
+
+    public void TakeDamage()
+    {
+        if (isProtected == false) //if no shield is up, take damage and reset barrel count
+        {
+            lives--;
+            barrelNumber = startBarrels;
+            angleNumber = startAngles;
+            currentFireRate = initialFireRate;
+        }
+        else
+            return;
+
+        if (lives <= 0)
+        {
+            //player death logic 
+        }
+    }
+
 
     IEnumerator FiringPattern()
     {
@@ -203,21 +234,4 @@ public class PlayerController : MonoBehaviour
         isProtected = false;
     }
 
-    public void TakeDamage()
-    {
-        if (isProtected == false) //if no shield is up, take damage and reset barrel count
-        {
-            lives--;
-            barrelNumber = startBarrels;
-            angleNumber = startAngles;
-            currentFireRate = initialFireRate;
-        }
-        else
-            return;
-
-        if (lives <= 0)
-        {
-            //player death logic 
-        }
-    }
 }
