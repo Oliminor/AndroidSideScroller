@@ -19,13 +19,18 @@ public class PlayerController : MonoBehaviour
     public Transform PlayerMuzzle;
 
     //bullet pool
-    public List<GameObject> bulletInPool;
+    [SerializeField] List<GameObject> bulletInPool;
     public GameObject poolThis;
-    public int poolSize;
+    [SerializeField] int poolSize;
 
-    //powerup shoot modes
+    //powerup modes
+    [SerializeField] float initialFireRate = 2;
+    [SerializeField] float currentFireRate;
     [SerializeField] int barrelNumber;
     [SerializeField] int angleNumber;
+    int startBarrels = 1;
+    int startAngles = 0;
+    private bool isProtected;
 
 
     //player input
@@ -40,8 +45,6 @@ public class PlayerController : MonoBehaviour
     float rotationSpeed = 75.0f;
     Quaternion initialRotation;
 
-    float timer = 2.0f;
-
     private void Start()
     {
         GameManager.instance.SetPlayer(this.gameObject);
@@ -51,8 +54,9 @@ public class PlayerController : MonoBehaviour
         initialRotation = transform.rotation;
         
         lives = 3;
-        barrelNumber = 1;
-        angleNumber = 0;
+        barrelNumber = startBarrels;
+        angleNumber = startAngles;
+        currentFireRate = initialFireRate;
 
         //instatiate bullets and add to pool
         bulletInPool = new List<GameObject>();
@@ -112,10 +116,6 @@ public class PlayerController : MonoBehaviour
             body.velocity = new Vector3(limit.x, limit.y, limit.z);
         }
 
-        //shooting timer: double
-
-
-        //shooting timer: cone
 
     }
     IEnumerator AutoFire()
@@ -125,11 +125,11 @@ public class PlayerController : MonoBehaviour
 
             StartCoroutine(FiringPattern());
             
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(currentFireRate);
         }
 
     }
-    public GameObject GetPooled()
+    private GameObject GetPooled()
     {
         for (int i = 0; i < poolSize; i++)
         {
@@ -142,22 +142,13 @@ public class PlayerController : MonoBehaviour
     }
    
 
-    public void TakeDamage()
-    {
-        lives--;
-        if(lives<=0)
-        {
-            //player death logic 
-        }
-    }
-
     IEnumerator FiringPattern()
     {
         GameObject bullet = GetPooled();
         bullet.transform.SetPositionAndRotation(PlayerMuzzle.position, PlayerMuzzle.rotation);
         bullet.SetActive(true);
 
-        for (int i = 0; i < angleNumber; i++)
+        for (int i = startAngles; i < angleNumber; i++)
         {
             int angleUp = (i + 1) * 5;
             int angleDown = (i + 1) * -5;
@@ -174,7 +165,7 @@ public class PlayerController : MonoBehaviour
 
         yield return new WaitForSeconds(3.0f);
 
-        for (int i = 0; i < barrelNumber; i++)
+        for (int i = startBarrels; i < barrelNumber; i++)
             {
                 float displacementUp = (i + 1) * 0.15f; // changethis : changethis  for a larger/smaller offset between bullets
                 float displacementDown = (i + 1) * -0.15f;
@@ -193,5 +184,40 @@ public class PlayerController : MonoBehaviour
             
         
         yield return new WaitForSeconds(0.01f);
+    }
+
+    public void AddBarrel() { barrelNumber += 1; }
+
+    public void AddAngle() { angleNumber += 1; }
+
+    public void AddLife() { lives += 1; }
+
+    public void ShootFaster() { currentFireRate /= 2; }
+
+    public IEnumerator Invulnerability()
+    {
+        isProtected = true;
+
+        yield return new WaitForSeconds(3);
+
+        isProtected = false;
+    }
+
+    public void TakeDamage()
+    {
+        if (isProtected == false) //if no shield is up, take damage and reset barrel count
+        {
+            lives--;
+            barrelNumber = startBarrels;
+            angleNumber = startAngles;
+            currentFireRate = initialFireRate;
+        }
+        else
+            return;
+
+        if (lives <= 0)
+        {
+            //player death logic 
+        }
     }
 }
