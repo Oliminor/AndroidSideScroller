@@ -13,11 +13,15 @@ public class EnemyAI : MonoBehaviour
     public Vector3 rotation;
 
     //Sinus wave variables 
-    public int sinusAmplitude;
+    public float sinusAmplitude;
     public float frequency;
 
-    //Other Game Objects
-   [SerializeField]
+    //store Y position
+    float startY; 
+
+
+  //Other Game Objects
+  [SerializeField]
     private GameObject enemyExplosion;
     [SerializeField]
     private GameObject drop;
@@ -26,6 +30,7 @@ public class EnemyAI : MonoBehaviour
 
     void Start()
     {
+        startY = transform.position.y;
         StartCoroutine(enemyShootRoutine());
 
     }
@@ -41,20 +46,13 @@ public class EnemyAI : MonoBehaviour
 
         //Sinus wave animation
         float x = transform.position.x;
-        float y = Mathf.Sin(Time.time) * sinusAmplitude;
+        float y = startY + Mathf.Sin(Time.time) * sinusAmplitude;
         float z = transform.position.z;
         transform.position = new Vector3(x, y, z);
-        
 
-        //respawn if out of the screen
-        if (transform.position.x < -11) 
-        {
-            //Assuming camera position is (0, 0, 0)
-            float randomY = Random.Range(-5, 3);
-            transform.position = new Vector3(14.0f, randomY, 2.5f);
-        }
 
-       
+        Respawn();
+
     }
 
     //die
@@ -75,6 +73,17 @@ public class EnemyAI : MonoBehaviour
             {
                 Instantiate(drop, transform.position, Quaternion.identity);
             }
+        }
+    }
+
+    void Respawn() 
+    {
+        //respawn if out of the screen
+        if (transform.position.x < -11)
+        {
+            //Assuming camera position is (0, 0, 0)
+            float randomY = Random.Range(-5, 3);
+            transform.position = new Vector3(14.0f, randomY, 2.5f);
         }
     }
 
