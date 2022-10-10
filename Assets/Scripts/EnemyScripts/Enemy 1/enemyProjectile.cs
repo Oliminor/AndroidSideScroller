@@ -5,29 +5,27 @@ using UnityEngine;
 public class enemyProjectile : MonoBehaviour
 {
 
-    public float speed;
+    [SerializeField] float speed;
+    [SerializeField] float life;
+    [SerializeField] GameManager particleEffect;
 
 
-    // Update is called once per frame
+    private void Start()
+    {
+        Destroy(this.gameObject, life);
+    }
+
     void Update()
     {
-
         //move forward
         transform.Translate(Vector3.up * speed * Time.deltaTime);
-
-        //destroy if out of the screen
-        if (transform.position.x < -10)
-        {
-            Destroy(this.gameObject);
-        }
-
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player")
+        if (other.gameObject == GameManager.instance.GetPlayer())
         {
-            Destroy(other.gameObject);
+            if (particleEffect != null) Instantiate(particleEffect, transform.position, Quaternion.identity);
             Destroy(this.gameObject);
         }
     }
