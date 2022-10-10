@@ -6,21 +6,21 @@ public class PlayerController : MonoBehaviour
 {
 
     //health and body 
-    int lives;
+    [SerializeField] int lives = 3;
     Rigidbody body;
 
     //speed stuff
     [SerializeField] float reverseMultiplier;
     [SerializeField] float topSpeed=100f;
-    [SerializeField] float acceleration;
-    public float TopAcceleration;
+    [SerializeField] float TopAcceleration;
+    float acceleration;
 
     //weapon stuff
-    public Transform PlayerMuzzle;
+    [SerializeField] Transform PlayerMuzzle;
 
     //bullet pool
-    [SerializeField] List<GameObject> bulletInPool;
-    public GameObject poolThis;
+    [SerializeField] List<GameObject> bulletInPool = new();
+    [SerializeField] GameObject poolThis;
     [SerializeField] int poolSize;
 
     //powerup modes
@@ -35,7 +35,6 @@ public class PlayerController : MonoBehaviour
 
 
     //player input
-    Vector2 moveDir;
     bool isHolding;
     public JoystickController inputManager;
 
@@ -43,7 +42,7 @@ public class PlayerController : MonoBehaviour
     private float xRot=0;
     private float minAngle = -15;
     private float maxAngle = 15;
-    float rotationSpeed = 75.0f;
+    private float rotationSpeed = 75.0f;
     Quaternion initialRotation;
 
     private void Start()
@@ -53,10 +52,8 @@ public class PlayerController : MonoBehaviour
         body = GetComponent<Rigidbody>();
         body.useGravity = false;
         
-
         initialRotation = transform.rotation;
         
-        lives = 3;
         barrelNumber = startBarrels;
         angleNumber = startAngles;
         currentFireRate = initialFireRate;
@@ -69,7 +66,6 @@ public class PlayerController : MonoBehaviour
             bullet = Instantiate(poolThis);
             bullet.SetActive(false);
             bulletInPool.Add(bullet);
-
         }
 
         //start shooting coroutine
@@ -85,11 +81,22 @@ public class PlayerController : MonoBehaviour
 
         screenPos.x = Mathf.Clamp01(screenPos.x);
         screenPos.y = Mathf.Clamp01(screenPos.y);
+
         Vector3 speedTemp = body.velocity;
-        if (screenPos.x == 0 || screenPos.x == 1)
-            speedTemp.x = 0;
-        if (screenPos.y == 0 || screenPos.y == 1)
-            speedTemp.y = 0;
+
+        float bumbValue = 2;
+
+        if (screenPos.x == 0)
+            speedTemp.x = bumbValue;
+        if (screenPos.x == 1)
+            speedTemp.x = -bumbValue;
+        if (screenPos.y == 0)
+            speedTemp.y = bumbValue;
+        if (screenPos.y == 1)
+            speedTemp.y = -bumbValue;
+
+        body.velocity = speedTemp;
+
         transform.position = Camera.main.ViewportToWorldPoint(screenPos);
 
         body.AddForce(moveDir * acceleration);
@@ -118,8 +125,6 @@ public class PlayerController : MonoBehaviour
             Vector3 limit = velocity.normalized * topSpeed;
             body.velocity = new Vector3(limit.x, limit.y, limit.z);
         }
-
-
     }
 
     private void OnTriggerEnter(Collider other)
@@ -135,7 +140,6 @@ public class PlayerController : MonoBehaviour
     {
         while (true)
         {
-
             StartCoroutine(FiringPattern());
             
             yield return new WaitForSeconds(currentFireRate);
@@ -163,8 +167,7 @@ public class PlayerController : MonoBehaviour
             angleNumber = startAngles;
             currentFireRate = initialFireRate;
         }
-        else
-            return;
+        else return;
 
         if (lives <= 0)
         {
@@ -176,8 +179,6 @@ public class PlayerController : MonoBehaviour
     IEnumerator FiringPattern()
     {
         GameObject bullet = GetPooled();
-        bullet.transform.SetPositionAndRotation(PlayerMuzzle.position, PlayerMuzzle.rotation);
-        bullet.SetActive(true);
 
         for (int i = startAngles; i < angleNumber; i++)
         {
@@ -196,24 +197,20 @@ public class PlayerController : MonoBehaviour
 
         yield return new WaitForSeconds(3.0f);
 
-        for (int i = startBarrels; i < barrelNumber; i++)
-            {
-                float displacementUp = (i + 1) * 0.15f; // changethis : changethis  for a larger/smaller offset between bullets
-                float displacementDown = (i + 1) * -0.15f;
+        for (int i = 0; i < barrelNumber; i++)
+        {
+            float gapsize = 0.12f;
+            float displacementUp = i * gapsize; // changethis : changethis  for a larger/smaller offset between bullets
+
+            float pushDown = barrelNumber * gapsize / 2;
+
+            bullet = GetPooled();
+            Vector3 spawnPos = new Vector3(PlayerMuzzle.position.x, PlayerMuzzle.position.y + displacementUp - pushDown, PlayerMuzzle.position.z);
+            bullet.transform.SetPositionAndRotation(spawnPos, PlayerMuzzle.rotation);
+            bullet.SetActive(true);
+        }
 
 
-                bullet = GetPooled();
-                Vector3 spawnPos = new Vector3(PlayerMuzzle.position.x, PlayerMuzzle.position.y + displacementUp, PlayerMuzzle.position.z);
-                bullet.transform.SetPositionAndRotation(spawnPos, PlayerMuzzle.rotation);
-                bullet.SetActive(true);
-
-                bullet = GetPooled();
-                spawnPos = new Vector3(PlayerMuzzle.position.x, PlayerMuzzle.position.y + displacementDown, PlayerMuzzle.position.z);
-                bullet.transform.SetPositionAndRotation(spawnPos, PlayerMuzzle.rotation);
-                bullet.SetActive(true);
-            }
-            
-        
         yield return new WaitForSeconds(0.01f);
     }
 
@@ -227,6 +224,8 @@ public class PlayerController : MonoBehaviour
 
     public IEnumerator Invulnerability()
     {
+        StopCoroutine(Invulnerability());
+
         isProtected = true;
 
         yield return new WaitForSeconds(3);
