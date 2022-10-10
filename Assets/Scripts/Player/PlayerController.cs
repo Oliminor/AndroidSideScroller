@@ -6,8 +6,12 @@ public class PlayerController : MonoBehaviour
 {
     public Transform PlayerMuzzle;
 
-    public float speed;
-    public float acceleration;
+    [SerializeField] float reverseMultiplier;
+    [SerializeField] float topSpeed;
+
+    [SerializeField] float acceleration;
+
+    public float TopAcceleration;
 
     
     public List<GameObject> bulletInPool;
@@ -17,12 +21,13 @@ public class PlayerController : MonoBehaviour
     float timerReset;
 
     private float xRot=0;
-    private float minAngle = -45;
-    private float maxAngle = 45;
+    private float minAngle = -15;
+    private float maxAngle = 15;
     float rotationSpeed = 75.0f;
     Quaternion initialRotation;
 
     public float timer = 5.0f;
+    bool isHolding;
 
     Rigidbody body;
 
@@ -30,6 +35,8 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        GameManager.instance.SetPlayer(this.gameObject);
+
         body = GetComponent<Rigidbody>();
         body.useGravity = false;
         timerReset = timer;
@@ -45,60 +52,68 @@ public class PlayerController : MonoBehaviour
             bulletInPool.Add(bullet);
 
         }
-
+        StartCoroutine(AutoFire());
 
     }
 
     private void FixedUpdate()
     {
         Vector2 moveDir = inputManager.GetInputAxis();
- 
+        isHolding = inputManager.ReturnHoldStatus();
 
         Vector3 screenPos = Camera.main.WorldToViewportPoint(transform.position);
-        
+
         screenPos.x = Mathf.Clamp01(screenPos.x);
         screenPos.y = Mathf.Clamp01(screenPos.y);
-
         Vector3 speedTemp = body.velocity;
-
         if (screenPos.x == 0 || screenPos.x == 1)
-            speedTemp.x= 0;
+            speedTemp.x = 0;
         if (screenPos.y == 0 || screenPos.y == 1)
             speedTemp.y = 0;
-
         transform.position = Camera.main.ViewportToWorldPoint(screenPos);
-        body.velocity = speedTemp;
-        
-  
-        speed = Mathf.Lerp(acceleration, speed, Time.deltaTime);
-        body.AddForce(moveDir * speed);
-        
-        xRot += moveDir.y * rotationSpeed * Time.deltaTime;
-        xRot = Mathf.Clamp(xRot, minAngle, maxAngle);
 
 
-        if (moveDir.y != 0)
-            transform.rotation = Quaternion.Euler(-xRot, 90f, 0f);
-        //if(moveDir.y==0)
-        //    transform.rotation= Quaternion.Slerp(transform.rotation, initialRotation, Time.deltaTime);
 
 
-        timer -= Time.deltaTime;
-        if (timer <= 0)
+
+        body.AddForce(moveDir * acceleration);
+
+        if (isHolding)
         {
-            StartCoroutine(AutoFire());
-            timer = timerReset;
+            acceleration = inputManager.GetInputAxis().magnitude * TopAcceleration;
+            xRot += (body.velocity.y / 3) * rotationSpeed * Time.deltaTime;
+            xRot = Mathf.Clamp(xRot, minAngle, maxAngle);
+            transform.rotation = Quaternion.Euler(-xRot, 90f, 0f);
+        }
+        if (!isHolding)
+        {
+            acceleration = Mathf.Lerp(acceleration, 0, 0.2f);
+            float currentAngle = transform.rotation.eulerAngles.x;
+            //Debug.Log(currentAngle);
+            transform.rotation = Quaternion.Slerp(transform.rotation, initialRotation, Time.deltaTime * reverseMultiplier);
+            xRot = currentAngle - transform.rotation.eulerAngles.x + xRot;
+            body.AddForce(-body.velocity * reverseMultiplier);
+
         }
 
-        
+        Vector3 velocity = new Vector3(body.velocity.x, body.velocity.y, body.velocity.z);
+
+        if (velocity.magnitude > topSpeed)
+        {
+            Vector3 limit = velocity.normalized * topSpeed;
+            body.velocity = new Vector3(limit.x, limit.y, limit.z);
+        }
     }
     IEnumerator AutoFire()
     {
-        GameObject bullet = GetPooled();
-        bullet.transform.SetPositionAndRotation(PlayerMuzzle.position, PlayerMuzzle.rotation);
-        bullet.SetActive(true);
-        
-        yield return new WaitForSeconds(1);
+        while (true)
+        {
+            GameObject bullet = GetPooled();
+            bullet.transform.SetPositionAndRotation(PlayerMuzzle.position, PlayerMuzzle.rotation);
+            bullet.SetActive(true);
+
+            yield return new WaitForSeconds(0.3f);
+        }
 
     }
     public GameObject GetPooled()

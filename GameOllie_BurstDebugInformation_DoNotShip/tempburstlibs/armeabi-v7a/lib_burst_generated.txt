@@ -142,6 +142,7 @@ Library: lib_burst_generated
 --root-assembly=E:\Unity\AndroidProject\Temp\StagingArea\Data\Managed\Unity.VisualScripting.Flow.dll
 --root-assembly=E:\Unity\AndroidProject\Temp\StagingArea\Data\Managed\Unity.Mathematics.dll
 --root-assembly=E:\Unity\AndroidProject\Temp\StagingArea\Data\Managed\Unity.Services.Core.Telemetry.dll
+--root-assembly=E:\Unity\AndroidProject\Temp\StagingArea\Data\Managed\Assembly-CSharp.dll
 --root-assembly=E:\Unity\AndroidProject\Temp\StagingArea\Data\Managed\Unity.VisualScripting.State.dll
 --root-assembly=E:\Unity\AndroidProject\Temp\StagingArea\Data\Managed\Unity.VisualScripting.Core.dll
 --root-assembly=E:\Unity\AndroidProject\Temp\StagingArea\Data\Managed\Unity.RenderPipelines.Universal.Runtime.dll
@@ -157,7 +158,6 @@ Library: lib_burst_generated
 --root-assembly=E:\Unity\AndroidProject\Temp\StagingArea\Data\Managed\Unity.Services.Core.Scheduler.dll
 --root-assembly=E:\Unity\AndroidProject\Temp\StagingArea\Data\Managed\Unity.Services.Core.Registration.dll
 --root-assembly=E:\Unity\AndroidProject\Temp\StagingArea\Data\Managed\Unity.AdaptivePerformance.Samsung.Android.dll
---root-assembly=E:\Unity\AndroidProject\Temp\StagingArea\Data\Managed\Assembly-CSharp.dll
 --root-assembly=E:\Unity\AndroidProject\Temp\StagingArea\Data\Managed\Unity.Services.Core.Device.dll
 --root-assembly=E:\Unity\AndroidProject\Temp\StagingArea\Data\Managed\Unity.Services.Core.Threading.dll
 --root-assembly=E:\Unity\AndroidProject\Temp\StagingArea\Data\Managed\Unity.Services.Core.Networking.dll
