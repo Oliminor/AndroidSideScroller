@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-1414785824841307479
+--- !u!114 &-4882282649576392289
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20,12 +20,12 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: NeonMainMenuMat
-  m_Shader: {fileID: -6465566751694194690, guid: b87b878299b6a4847a326b98676e197e,
+  m_Name: HeightGradMat 1
+  m_Shader: {fileID: -6465566751694194690, guid: e2c8dadbedd750546a9eb34bc7f6f378,
     type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
-  m_LightmapFlags: 2
+  m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
@@ -48,9 +48,14 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Emission: 1
+    - _Ambient_Occlusion: 1.87
+    - _Divide: 7.5
+    - _Float: -6.4
+    - _Metallic: 1
     - _QueueControl: 0
     - _QueueOffset: 0
+    - _Smoothness: 0.3
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 0}
+    - _ColorA: {r: 0.029592374, g: 0.18722214, b: 0.3301887, a: 1}
+    - _ColorB: {r: 0.42940763, g: 0.2627451, b: 0.43529412, a: 1}
   m_BuildTextureStacks: []
