@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] List<GameObject> bulletInPool = new();
     [SerializeField] GameObject poolThis;
     [SerializeField] int poolSize;
+    public bool test=false;
 
     //powerup modes
     [SerializeField] float initialFireRate = 2;
@@ -81,6 +82,14 @@ public class PlayerController : MonoBehaviour
 
         screenPos.x = Mathf.Clamp01(screenPos.x);
         screenPos.y = Mathf.Clamp01(screenPos.y);
+
+        if(test)
+        {
+            Time.timeScale = 0.5f;
+            Time.fixedDeltaTime = 0.02f * Time.timeScale;
+            moveDir *= 2;
+            body.interpolation = RigidbodyInterpolation.Interpolate;
+        }
 
         Vector3 speedTemp = body.velocity;
 
