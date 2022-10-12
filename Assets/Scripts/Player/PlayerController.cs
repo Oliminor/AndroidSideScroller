@@ -87,8 +87,8 @@ public class PlayerController : MonoBehaviour
         {
             Time.timeScale = 0.5f;
             Time.fixedDeltaTime = 0.02f * Time.timeScale;
-            moveDir *= 2;
-            body.interpolation = RigidbodyInterpolation.Interpolate;
+            moveDir *= 2; //this is the wrong thing to multiply but the idea of doubling speed here 
+           
         }
 
         Vector3 speedTemp = body.velocity;

@@ -279,6 +279,7 @@ MonoBehaviour:
   poolThis: {fileID: 1758893044162241204, guid: 0aa6f099a4ee30346bacba2610afb6b9,
     type: 3}
   poolSize: 500
+  test: 0
   initialFireRate: 0.5
   currentFireRate: 0
   barrelNumber: 5
@@ -304,7 +305,7 @@ Rigidbody:
   m_AngularDrag: 1
   m_UseGravity: 0
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 104
   m_CollisionDetection: 0
 --- !u!64 &125470362
@@ -1357,8 +1358,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c79e6c129316cc45bbb5c2da5af6e1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timeSinceLevelStarted: 0
   speed: 3
   score: 0
+  scorePerSecond: 0
+  scoreMultiplier: 1
+  globalZposition: 0
+  isTheLevelEnded: 0
+  isGameOver: 0
 --- !u!1 &1664367427
 GameObject:
   m_ObjectHideFlags: 0
