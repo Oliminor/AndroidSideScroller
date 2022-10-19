@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour
 
     //health and body 
     [SerializeField] GameObject explodeParticle;
-    [SerializeField] int lives = 3;
+    [SerializeField] int maxLives = 3;
     Rigidbody body;
 
     //speed stuff
@@ -35,8 +35,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] MeshRenderer playerMat;
     [SerializeField] MeshRenderer shieldMat;
     [SerializeField] float shieldTime;
+    private bool bulletTimeisOn;
 
 
+    int lives;
 
     //player input
     bool isHolding;
@@ -63,6 +65,7 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        lives = maxLives;
         startPosition = transform.position;
         body = GetComponent<Rigidbody>();
         body.useGravity = false;
@@ -96,6 +99,17 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         ShieldLerp();
+
+        if (bulletTimeisOn)
+        {
+            Time.timeScale = 0.5f;
+            acceleration *= 4;
+        }
+        else
+        {
+            Time.timeScale = 1.0f;
+        }
+
 
         if (lives <= 0)
         {
@@ -271,7 +285,7 @@ public class PlayerController : MonoBehaviour
 
     public void AddLife() 
     {
-        if (lives < 3)
+        if (lives >= maxLives) return;
         lives += 1;
         GamePlayUI.instance.AddHealth();
     }
@@ -302,4 +316,10 @@ public class PlayerController : MonoBehaviour
         shieldMat.material.SetFloat("_dissAmount", shieldDiss);
     }
 
+    public IEnumerator BulletTime()
+    {
+        bulletTimeisOn = true;
+        yield return new WaitForSeconds(0.3f);
+        bulletTimeisOn = false;
+    }
 }

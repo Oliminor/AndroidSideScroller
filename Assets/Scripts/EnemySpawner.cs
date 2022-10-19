@@ -86,7 +86,11 @@ public class EnemySpawner : MonoBehaviour
         Vector3 spawnPos = new Vector3(1.2f, Ypos, GameManager.instance.GetZPosition());
         int randomIndex = Random.Range(0, inActiveObjectPool.Count);
 
-        if (inActiveObjectPool[randomIndex].spawnPosY != 0) spawnPos = new Vector3(spawnPos.x, inActiveObjectPool[randomIndex].spawnPosY, spawnPos.z);
+        if (inActiveObjectPool[randomIndex].spawnPosY != Vector2.zero)
+        {
+            float randomY = Random.Range(inActiveObjectPool[randomIndex].spawnPosY.x, inActiveObjectPool[randomIndex].spawnPosY.y); 
+            spawnPos = new Vector3(spawnPos.x, randomY, spawnPos.z);
+        }
 
         Vector3 spwanPosWorldToPoint = Camera.main.ViewportToWorldPoint(spawnPos);
         Vector3 spawnRotation = inActiveObjectPool[randomIndex].spawnRotation;
@@ -121,11 +125,11 @@ public class EnemySpawner : MonoBehaviour
 public class EnemySpawnData
 {
     public GameObject spawnObject;
-    public float spawnPosY;
+    public Vector2 spawnPosY;
     public int amountOnMap;
     public Vector3 spawnRotation;
 
-    public EnemySpawnData (GameObject _spawnObject, float _spawnPosY, int _amountOnMap, Vector3 _spawnRotation)
+    public EnemySpawnData (GameObject _spawnObject, Vector2 _spawnPosY, int _amountOnMap, Vector3 _spawnRotation)
     {
         spawnObject = _spawnObject;
         spawnPosY = _spawnPosY;

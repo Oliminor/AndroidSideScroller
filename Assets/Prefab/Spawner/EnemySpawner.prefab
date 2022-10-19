@@ -47,8 +47,8 @@ MonoBehaviour:
   spawnableObjects:
   - spawnObject: {fileID: 4104544652574019325, guid: a4f2a09aabdd17d46bf6f0284b371274,
       type: 3}
-    spawnPosY: 0.5
-    amountOnMap: 10
+    spawnPosY: {x: 0, y: 0}
+    amountOnMap: 5
     spawnRotation: {x: 0, y: -90, z: 0}
   numberOfObjectToPool: 10
   spawnRate: 3
