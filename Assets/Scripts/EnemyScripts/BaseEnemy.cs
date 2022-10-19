@@ -36,9 +36,13 @@ public class BaseEnemy : MonoBehaviour
 
     private void powerUpDrop()
     {
-        GameObject targetPower = EnemySpawner.singleton.availiblePowerups[0];
-        EnemySpawner.singleton.availiblePowerups.Remove(targetPower);
-        Instantiate(targetPower,transform.position,Quaternion.identity);
+        int randomChance = Random.Range(0, 2);
+        if(randomChance==1)
+        {
+            GameObject targetPower = EnemySpawner.singleton.availiblePowerups[0];
+            EnemySpawner.singleton.availiblePowerups.Remove(targetPower);
+            Instantiate(targetPower, transform.position, Quaternion.identity);
+        }
     }
 
     void OnTriggerEnter(Collider other)

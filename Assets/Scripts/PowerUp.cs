@@ -8,7 +8,7 @@ public class PowerUp : MonoBehaviour
     GameObject player;
     PlayerController playerScript;
     float speed = 10f;
-    [SerializeField]private enum PowerupType { SHIELD, FIRERATE, ANGLE, BARREL, LIFE }
+    [SerializeField]private enum PowerupType { SHIELD, FIRERATE, ANGLE, BARREL, LIFE, BULLETTIME }
     [SerializeField] PowerupType powerupType;
 
     void Start()
@@ -37,7 +37,7 @@ public class PowerUp : MonoBehaviour
             switch (powerupType)
             {
                 case PowerupType.SHIELD:
-                    playerScript.Invulnerability();
+                    StartCoroutine(playerScript.Invulnerability());
                     break;
                 case PowerupType.FIRERATE:
                     playerScript.ShootFaster();
@@ -50,6 +50,9 @@ public class PowerUp : MonoBehaviour
                     break;
                 case PowerupType.LIFE:
                     playerScript.AddLife();
+                    break;
+                case PowerupType.BULLETTIME:
+                    StartCoroutine(playerScript.BulletTime());
                     break;
             }
             Destroy(gameObject);

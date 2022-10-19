@@ -45,6 +45,7 @@ public class PlayerController : MonoBehaviour
     private float maxAngle = 15;
     private float rotationSpeed = 75.0f;
     Quaternion initialRotation;
+    [SerializeField] private bool bulletTimeisOn;
 
     private void Start()
     {
@@ -78,6 +79,7 @@ public class PlayerController : MonoBehaviour
         Vector2 moveDir = inputManager.GetInputAxis();
         isHolding = inputManager.ReturnHoldStatus();
 
+
         Vector3 screenPos = Camera.main.WorldToViewportPoint(transform.position);
 
         screenPos.x = Mathf.Clamp01(screenPos.x);
@@ -107,6 +109,16 @@ public class PlayerController : MonoBehaviour
         body.velocity = speedTemp;
 
         transform.position = Camera.main.ViewportToWorldPoint(screenPos);
+        
+        if (bulletTimeisOn)
+        {
+            Time.timeScale = 0.5f;
+            acceleration *= 4;
+        }
+        else
+        {
+            Time.timeScale = 1.0f;
+        }
 
         body.AddForce(moveDir * acceleration);
 
@@ -233,7 +245,6 @@ public class PlayerController : MonoBehaviour
 
     public IEnumerator Invulnerability()
     {
-        StopCoroutine(Invulnerability());
 
         isProtected = true;
 
@@ -241,5 +252,14 @@ public class PlayerController : MonoBehaviour
 
         isProtected = false;
     }
+    public IEnumerator BulletTime()
+    {
 
+        bulletTimeisOn = true;
+
+        yield return new WaitForSeconds(1);
+
+        bulletTimeisOn = false;
+
+    }
 }

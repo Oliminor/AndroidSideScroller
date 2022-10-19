@@ -20,6 +20,15 @@ public class Projectiles : MonoBehaviour
             gameObject.SetActive(false);
         transform.position = Camera.main.ViewportToWorldPoint(screenPos);
 
+        if(Time.timeScale<1)
+        {
+            speed =15f;
+        }
+        else
+        {
+            speed = 7.5f;
+        }
+
         transform.Translate(Vector3.forward * speed * Time.deltaTime);
     }
 

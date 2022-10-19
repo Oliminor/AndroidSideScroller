@@ -13,6 +13,7 @@ public class EnemySpawner : MonoBehaviour
 
     public List<GameObject> availiblePowerups = new();
     [SerializeField] GameObject[] powerUpTypes;
+    [SerializeField] int numberOfEachPowerupType;
 
     List<EnemySpawnData> inActiveObjectPool = new();
     List<EnemySpawnData> activeObjectPool = new();
@@ -105,11 +106,10 @@ public class EnemySpawner : MonoBehaviour
     }
     private List<GameObject> AvailablePowerupList()
     {
-        int numberOfEachType = 4;
         List<GameObject> containedList = new();
         foreach (var powerUp in powerUpTypes)
         {
-            for (int i = 0; i < numberOfEachType; i++)
+            for (int i = 0; i < numberOfEachPowerupType; i++)
             {
                 containedList.Add(powerUp);
             }
