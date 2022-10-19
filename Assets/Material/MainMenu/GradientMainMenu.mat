@@ -47,10 +47,10 @@ Material:
     - _Float: 1
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Rotate: 45
+    - _Rotate: 90
     m_Colors:
-    - _Color: {r: 0.754717, g: 0.32264477, b: 0.08899963, a: 0}
-    - _Color2: {r: 0.09803923, g: 0.3903853, b: 0.8862745, a: 1}
+    - _Color: {r: 0.24705884, g: 0.29803923, b: 0.9960785, a: 1}
+    - _Color2: {r: 0.10588236, g: 0.078431375, b: 0.3921569, a: 1}
     - _Vector2: {r: 0.5, g: 0.5, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &6016236110051566174

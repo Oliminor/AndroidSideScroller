@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4470840859592041284}
   - component: {fileID: 4470840859592041285}
-  - component: {fileID: 4470840860269306884}
   m_Layer: 0
   m_Name: EnemySpawner
   m_TagString: Untagged
@@ -48,28 +47,10 @@ MonoBehaviour:
   spawnableObjects:
   - spawnObject: {fileID: 4104544652574019325, guid: a4f2a09aabdd17d46bf6f0284b371274,
       type: 3}
-    spawnPosY: 0.5
-    amountOnMap: 50
+    spawnPosY: {x: 0, y: 0}
+    amountOnMap: 5
     spawnRotation: {x: 0, y: -90, z: 0}
-  numberOfObjectToPool: 20
+  numberOfObjectToPool: 10
   spawnRate: 3
---- !u!114 &4470840860269306884
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4470840859592041287}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c27167f5818ad3447bf27928aaacf675, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  availiblePowerups: []
-  powerUpTypes:
-  - {fileID: 4467057164015338351, guid: 8668982aeff07a9468eb3d71d59b7710, type: 3}
-  - {fileID: 5226063281503091744, guid: 0b7778b4c83ffef41ba17f67a4b2acb8, type: 3}
-  - {fileID: 4384547241342226611, guid: 1db34434f0fad1549a2f633acfa3e2ae, type: 3}
-  - {fileID: 8410956036858946263, guid: c5bd6f9cd2cccfb479757325d7d66f97, type: 3}
-  - {fileID: 6802329505934868341, guid: e2d7f30cb81ee0f4788f892871feef54, type: 3}
-  numberOfEachPowerupType: 20
+  delayStartTime: 5
+  delayEndTime: 5
