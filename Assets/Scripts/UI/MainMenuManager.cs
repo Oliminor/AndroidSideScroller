@@ -45,6 +45,15 @@ public class MainMenuManager : MonoBehaviour
 
     public void SelectLevel(int _index)
     {
+        StartCoroutine(LoadLevel(_index));
+    }
+
+    IEnumerator LoadLevel(int _index)
+    {
+        Transition.instance.CloseTransition();
+
+        yield return new WaitForSeconds(1);
+
         SceneManager.LoadScene(_index);
     }
 

@@ -31,6 +31,9 @@ public class PlayerController : MonoBehaviour
     int startBarrels = 1;
     int startAngles = 0;
     [SerializeField] private bool isProtected;
+    [SerializeField] MeshRenderer playerMat;
+    [SerializeField] MeshRenderer shieldMat;
+    [SerializeField] float shieldTime;
 
 
 
@@ -44,11 +47,22 @@ public class PlayerController : MonoBehaviour
     private float maxAngle = 15;
     private float rotationSpeed = 75.0f;
     Quaternion initialRotation;
+    bool isBulletTimeOn = false;
+    Vector3 startPosition;
+
+    private float shieldLerp = 1;
+    private float shieldDiss = 1;
+
+    public int GetLives() { return lives; }
+
+    private void Awake()
+    {
+        GameManager.instance.SetPlayer(this);
+    }
 
     private void Start()
     {
-        GameManager.instance.SetPlayer(this.gameObject);
-        
+        startPosition = transform.position;
         body = GetComponent<Rigidbody>();
         body.useGravity = false;
         
@@ -72,8 +86,24 @@ public class PlayerController : MonoBehaviour
         StartCoroutine(AutoFire());
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space)) StartCoroutine(Invulnerability(true, shieldTime));
+
+    }
+
     private void FixedUpdate()
     {
+        ShieldLerp();
+
+        if (lives <= 0)
+        {
+            body.velocity = Vector3.zero;
+            return;
+        }
+
+        if (GameManager.instance.GetIsPaused()) return;
+
         Vector2 moveDir = inputManager.GetInputAxis();
         isHolding = inputManager.ReturnHoldStatus();
 
@@ -98,6 +128,8 @@ public class PlayerController : MonoBehaviour
         body.velocity = speedTemp;
 
         transform.position = Camera.main.ViewportToWorldPoint(screenPos);
+
+        if (isBulletTimeOn) acceleration *= 4;
 
         body.AddForce(moveDir * acceleration);
 
@@ -166,12 +198,28 @@ public class PlayerController : MonoBehaviour
             barrelNumber = startBarrels;
             angleNumber = startAngles;
             currentFireRate = initialFireRate;
+            GamePlayUI.instance.RemoveHealth();
+            transform.position = startPosition;
+            StartCoroutine(Invulnerability(false, 3));
+            StartCoroutine(RespawnEffect());
         }
         else return;
 
         if (lives <= 0)
         {
+            GamePlayUI.instance.TriggerGameOver();
             //player death logic 
+        }
+    }
+
+    IEnumerator RespawnEffect()
+    {
+        while (isProtected)
+        {
+            playerMat.material.SetFloat("_Alpha", 1);
+            yield return new WaitForSeconds(0.25f);
+            playerMat.material.SetFloat("_Alpha", 0);
+            yield return new WaitForSeconds(0.25f);
         }
     }
 
@@ -218,19 +266,36 @@ public class PlayerController : MonoBehaviour
 
     public void AddAngle() { angleNumber += 1; }
 
-    public void AddLife() { lives += 1; }
+    public void AddLife() 
+    {
+        lives += 1;
+        GamePlayUI.instance.AddHealth();
+    }
 
     public void ShootFaster() { currentFireRate /= 2; }
 
-    public IEnumerator Invulnerability()
+    public IEnumerator Invulnerability(bool isShield, float _shieldTime)
     {
-        StopCoroutine(Invulnerability());
 
-        isProtected = true;
+        float time = _shieldTime;
 
-        yield return new WaitForSeconds(3);
+        while (time > 0)
+        {
+            isProtected = true;
+            if (isShield) shieldLerp = 0;
+            time -= Time.deltaTime;
+            yield return null;
+        }
 
         isProtected = false;
+        if (isShield) shieldLerp = 1;
+    }
+
+    void ShieldLerp()
+    {
+        shieldDiss = Mathf.Lerp(shieldDiss, shieldLerp, 0.1f);
+
+        shieldMat.material.SetFloat("_dissAmount", shieldDiss);
     }
 
 }

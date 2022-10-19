@@ -4,16 +4,28 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
+    public static EnemySpawner instance;
+
     [SerializeField] List<EnemySpawnData> spawnableObjects;
     [SerializeField] int numberOfObjectToPool;
     [SerializeField] float spawnRate;
+    [SerializeField] float delayStartTime;
+    [SerializeField] float delayEndTime;
 
     List<EnemySpawnData> inActiveObjectPool = new();
     List<EnemySpawnData> activeObjectPool = new();
+
+    public float GetSpawnRate() { return spawnRate; }
+    public int GetObjectNumber() { return spawnableObjects.Count; }
+
+    private void Awake()
+    {
+        instance = this;
+    }
     void Start()
     {
         InstiateObjectToPool();
-        StartCoroutine(ObjectSpawner(spawnRate));
+        StartCoroutine(StartDelay());
     }
 
     // Update is called once per frame
@@ -31,10 +43,19 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
+
+    IEnumerator StartDelay()
+    {
+        yield return new WaitForSeconds(delayStartTime);
+        StartCoroutine(ObjectSpawner(spawnRate));
+        StartCoroutine(GameManager.instance.ScoreAdditionPerSecond());
+    }
+
     IEnumerator GameEnded()
     {
-        yield return new WaitForSeconds(5);
         GameManager.instance.LevelFinished();
+        yield return new WaitForSeconds(delayEndTime);
+        GamePlayUI.instance.EndLevelSceneTrigger();
     }
 
     private void InstiateObjectToPool()
@@ -44,6 +65,7 @@ public class EnemySpawner : MonoBehaviour
             for (int j = 0; j < spawnableObjects[i].amountOnMap; j++)
             {
                 GameObject go = Instantiate(spawnableObjects[i].spawnObject, transform);
+                if (go.tag == "Enemy") GameManager.instance.SetEnemyNumber();
                 go.SetActive(false);
                 inActiveObjectPool.Add(new EnemySpawnData(go, spawnableObjects[i].spawnPosY, 0, spawnableObjects[i].spawnRotation));
             }
@@ -52,7 +74,9 @@ public class EnemySpawner : MonoBehaviour
 
     private void Spawner()
     {
-        if (inActiveObjectPool.Count <= 0)
+        if (GameManager.instance.GetIsLevelEnded()) return;
+
+        if (inActiveObjectPool.Count <= 0 && !GameManager.instance.GetIsLevelEnded())
         {
             StartCoroutine(GameEnded());
             return;

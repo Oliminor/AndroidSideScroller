@@ -111,7 +111,7 @@ GameObject:
   - component: {fileID: 4320194426750614658}
   m_Layer: 0
   m_Name: Enemy2_prefab
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -159,11 +159,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3db5a01ba4c17c14ba76c04d7412aec0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  horizontalSpeed: 2
   health: 3
   enemyExplosion: {fileID: 3993764705548965282, guid: adbf4920f7775ef45b1d386be2c47931,
     type: 3}
-  drop: {fileID: 8132482373069115342, guid: 3b69fd241887d704e93ed99b14659da1, type: 3}
+  isPresistent: 0
+  horizontalSpeed: 2
 --- !u!1 &6608952873085725768
 GameObject:
   m_ObjectHideFlags: 0

@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3762524720862697953}
   m_Layer: 0
   m_Name: Enemy.Model
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -110,13 +110,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 690c003e727951440ae82a54961f4a81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 0
+  enemyExplosion: {fileID: 3993764705548965282, guid: adbf4920f7775ef45b1d386be2c47931,
+    type: 3}
+  isPresistent: 0
   horizontalSpeed: 1.8
   rotationSpeed: 3
   rotation: {x: 0, y: 0, z: -50}
   sinusAmplitude: 1.2
   frequency: 0.5
-  enemyExplosion: {fileID: 3993764705548965282, guid: adbf4920f7775ef45b1d386be2c47931,
-    type: 3}
-  drop: {fileID: 8132482373069115342, guid: 3b69fd241887d704e93ed99b14659da1, type: 3}
   projectile: {fileID: 8878272156242073113, guid: 4ec186192e9937e4a974d17e13d7300f,
     type: 3}

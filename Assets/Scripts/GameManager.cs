@@ -6,82 +6,118 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
-    [SerializeField] float timeSinceLevelStarted;
-    [SerializeField] float speed;
-    [SerializeField] float score;
-    [SerializeField] int scorePerSecond;
-    [SerializeField] float scoreMultiplier = 1;
-    [SerializeField] float globalZposition;
-    [SerializeField] bool isTheLevelEnded = false;
-    [SerializeField] bool isGameOver = false;
+    [SerializeField] private float speed;
+    [SerializeField] private float gameScore;
+    [SerializeField] private List<float> multiplierValue;
+    [SerializeField] private int[] multiplierTick;
+    [SerializeField] private int scorePerSecond;
+    [SerializeField] private float spawnTime;
+    [SerializeField] private float globalZposition;
+    [SerializeField] private bool isTheLevelEnded = false;
+    [SerializeField] private bool isGameOver = false;
+    private bool isPaused = false;
 
-    private GameObject player;
+    private PlayerController player;
 
-    float lerpScore;
-    float lerpTime;
+    private float lerpScore;
+    private float lerpTime;
+    private float scoreMultiplier = 1;
+    private float tempScoreMultiplier;
+    private int multiplierIndex;
+
+    private float timeScore;
+    private int enemyKilled;
+    private int allEnemyNumber;
     // Start is called before the first frame update
 
+    public List<float> GetMultiplierValue() { return multiplierValue; }
+    public int[] GetMultiplierTick() { return multiplierTick; }
+    public float GetSpawnTime() { return spawnTime; }
     public void SetSpeed(float _speed) { speed = _speed; } 
     public float GetSpeed() { return speed; }
-    public void SetPlayer(GameObject _player) { player = _player; }
-    public GameObject GetPlayer() { return player; }
-    public void SetScore(int _score) { score = _score; }
-    public int GetScore() { return (int)score; }
+    public void SetPlayer(PlayerController _player) { player = _player; }
+    public PlayerController GetPlayer() { return player; }
+    public void SetScore(int _score) { gameScore = _score; }
+    public int GetScore() { return (int)gameScore; }
     public float GetZPosition() { return globalZposition; }
     public void SetScoreMultiplier(float _scoreMultiplier) { scoreMultiplier = _scoreMultiplier; }
     public float GetScoreMultiplier() { return scoreMultiplier; }
+    public int GetMultiplierIndex() { return multiplierIndex; }
+    public bool GetIsPaused() { return isPaused; }
+    public void SetIsPaused(bool _isPaused) { isPaused = _isPaused; }
+    public bool GetIsLevelEnded() { return isTheLevelEnded; }
+    public float GetTimeScore() { return (int)timeScore; }
+    public int GetEnemyNumber() { return allEnemyNumber; }
+    public void SetEnemyNumber() { allEnemyNumber++; }
+    public int GetEnemyKilledNumber() { return enemyKilled; }
+    public void SetEnemyKilled() { enemyKilled++; }
+          
 
     void Awake()
     {
+        multiplierTick = new int[multiplierValue.Count];
+        tempScoreMultiplier = scoreMultiplier;
         instance = this;
-    }
-
-    private void Start()
-    {
-        StartCoroutine(ScoreAdditionPerSecond(1));
     }
 
     private void Update()
     {
-        timeSinceLevelStarted = Time.deltaTime;
-
         LerpScore();
         ScoreMultiplierLayer();
     }
 
+    public int GetTotalScore() 
+    {
+        float totalScore = gameScore * GetPlayer().GetLives();
+        return (int)totalScore; 
+    }
+
+    public int GetMaximumScore()
+    {
+        float spawnRate = EnemySpawner.instance.GetSpawnRate();
+        int spawnObjectNumber = EnemySpawner.instance.GetObjectNumber();
+        int playerMaxLife = 3;
+
+        float maximumScore = (spawnRate * spawnObjectNumber * scorePerSecond + allEnemyNumber * 100) * multiplierValue[multiplierValue.Count - 1] * playerMaxLife;
+
+        return (int)maximumScore;
+    }
+
     private void ScoreMultiplierLayer()
     {
-        if (isTheLevelEnded || isGameOver) return; 
+        if (isTheLevelEnded) return;
 
         Vector3 playerPos = Camera.main.WorldToViewportPoint(player.transform.position);
 
-        if (playerPos.x < 0.8f) scoreMultiplier = 2.5f;
-        if (playerPos.x < 0.6f) scoreMultiplier = 2;
-        if (playerPos.x < 0.4f) scoreMultiplier = 1.5f;
-        if (playerPos.x < 0.2f) scoreMultiplier = 1;
+        if (playerPos.x < 1.0f) multiplierIndex = 2;
+        if (playerPos.x < 0.666f) multiplierIndex = 1;
+        if (playerPos.x < 0.333f) multiplierIndex = 0;
+
+        scoreMultiplier = multiplierValue[multiplierIndex];
+
+
+        if (tempScoreMultiplier != multiplierIndex) GamePlayUI.instance.SetScoreMultiplierTextSize(multiplierIndex);
+
+        tempScoreMultiplier = multiplierIndex;
 
     }
 
-    IEnumerator ScoreAdditionPerSecond(float _spawnrate)
+    public IEnumerator ScoreAdditionPerSecond()
     {
-        while (true)
+        while (!isGameOver && !isTheLevelEnded)
         {
             lerpScore += scorePerSecond * scoreMultiplier;
+            timeScore += scorePerSecond * scoreMultiplier;
+            multiplierTick[multiplierIndex]++;
             ResetLerpTime();
-            yield return new WaitForSeconds(_spawnrate);
+            yield return new WaitForSeconds(spawnTime);
         }
-    }
-
-    public void AdditionalScore(int _score)
-    {
-        lerpScore += _score * scoreMultiplier;
-        ResetLerpTime();
     }
 
     private void LerpScore()
     {
         lerpTime += Time.deltaTime * 2;
-        score = Mathf.Lerp(score, lerpScore, lerpTime);
+        gameScore = Mathf.Lerp(gameScore, lerpScore, lerpTime);
     }
 
     private void ResetLerpTime()

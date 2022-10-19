@@ -9,7 +9,7 @@ public class PowerUp : MonoBehaviour
 
     void Start()
     {
-        player = GameManager.instance.GetPlayer();
+        player = GameManager.instance.GetPlayer().gameObject;
     }
 
     // Update is called once per frame
