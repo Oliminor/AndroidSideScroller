@@ -8,7 +8,6 @@ public class BaseEnemy : MonoBehaviour
     [SerializeField] private GameObject enemyExplosion;
     [SerializeField] bool isPresistent;
     // Start is called before the first frame update
-
     protected void Respawn()
     {
         if (!isPresistent) return;
@@ -37,7 +36,9 @@ public class BaseEnemy : MonoBehaviour
 
     private void powerUpDrop()
     {
-        //Not yet finalized how is it going to be
+        GameObject targetPower = EnemySpawner.singleton.availiblePowerups[0];
+        EnemySpawner.singleton.availiblePowerups.Remove(targetPower);
+        Instantiate(targetPower,transform.position,Quaternion.identity);
     }
 
     void OnTriggerEnter(Collider other)
@@ -49,5 +50,15 @@ public class BaseEnemy : MonoBehaviour
             Instantiate(enemyExplosion, transform.position, Quaternion.identity);
             Destroy(this.gameObject);
         }
+        if (other.TryGetComponent(out Projectiles projectiles))
+        {
+            if (health > 0)
+            {
+                TakeDamage();
+                other.gameObject.SetActive(false);
+            }
+            
+        }
+
     }
 }

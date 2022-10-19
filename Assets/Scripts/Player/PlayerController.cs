@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] List<GameObject> bulletInPool = new();
     [SerializeField] GameObject poolThis;
     [SerializeField] int poolSize;
-    public bool test=false;
+    
 
     //powerup modes
     [SerializeField] float initialFireRate = 2;
@@ -83,13 +83,13 @@ public class PlayerController : MonoBehaviour
         screenPos.x = Mathf.Clamp01(screenPos.x);
         screenPos.y = Mathf.Clamp01(screenPos.y);
 
-        if(test)
-        {
-            Time.timeScale = 0.5f;
-            Time.fixedDeltaTime = 0.02f * Time.timeScale;
-            moveDir *= 2; //this is the wrong thing to multiply but the idea of doubling speed here 
+        //if(test)
+        //{
+        //    Time.timeScale = 0.5f;
+        //    Time.fixedDeltaTime = 0.02f * Time.timeScale;
+        //    moveDir *= 2; //this is the wrong thing to multiply but the idea of doubling speed here 
            
-        }
+        //}
 
         Vector3 speedTemp = body.velocity;
 

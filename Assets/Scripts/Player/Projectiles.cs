@@ -8,7 +8,7 @@ public class Projectiles : MonoBehaviour
     // Start is called before the first frame update
 
     // Update is called once per frame
-    private void FixedUpdate()
+    void Update()
     {
         Vector3 screenPos = Camera.main.WorldToViewportPoint(transform.position);
 
@@ -23,11 +23,4 @@ public class Projectiles : MonoBehaviour
         transform.Translate(Vector3.forward * speed * Time.deltaTime);
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        gameObject.SetActive(false);
-
-        //if enemy call damage function for enemy 
-        //if obstacle, deactivate bullet
-    }
 }

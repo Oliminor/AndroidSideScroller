@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2591463064965017384}
   - component: {fileID: 3762524720862697952}
   - component: {fileID: 3762524720862697953}
+  - component: {fileID: 3876304497864419310}
   m_Layer: 0
   m_Name: Enemy.Model
   m_TagString: Untagged
@@ -93,7 +94,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4104544652574019325}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.069238365, y: 0.036001224, z: 0.053551998}
@@ -110,13 +111,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 690c003e727951440ae82a54961f4a81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 1
+  enemyExplosion: {fileID: 3993764705548965282, guid: adbf4920f7775ef45b1d386be2c47931,
+    type: 3}
+  isPresistent: 0
   horizontalSpeed: 1.8
   rotationSpeed: 3
   rotation: {x: 0, y: 0, z: -50}
   sinusAmplitude: 1.2
   frequency: 0.5
-  enemyExplosion: {fileID: 3993764705548965282, guid: adbf4920f7775ef45b1d386be2c47931,
-    type: 3}
-  drop: {fileID: 8132482373069115342, guid: 3b69fd241887d704e93ed99b14659da1, type: 3}
   projectile: {fileID: 8878272156242073113, guid: 4ec186192e9937e4a974d17e13d7300f,
     type: 3}
+--- !u!54 &3876304497864419310
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4104544652574019325}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
