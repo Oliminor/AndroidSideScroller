@@ -39,8 +39,8 @@ public class BaseEnemy : MonoBehaviour
         int randomChance = Random.Range(0, 2);
         if(randomChance==1)
         {
-            GameObject targetPower = EnemySpawner.singleton.availiblePowerups[0];
-            EnemySpawner.singleton.availiblePowerups.Remove(targetPower);
+            GameObject targetPower = PowerUpManager.instance.availiblePowerups[0];
+            PowerUpManager.instance.availiblePowerups.Remove(targetPower);
             Instantiate(targetPower, transform.position, Quaternion.identity);
         }
     }

@@ -4,29 +4,18 @@ using UnityEngine;
 
 
 public class EnemySpawner : MonoBehaviour
-{
-    public static EnemySpawner singleton;
-    
+{    
     [SerializeField] List<EnemySpawnData> spawnableObjects;
     [SerializeField] int numberOfObjectToPool;
     [SerializeField] float spawnRate;
 
-    public List<GameObject> availiblePowerups = new();
-    [SerializeField] GameObject[] powerUpTypes;
-    [SerializeField] int numberOfEachPowerupType;
-
     List<EnemySpawnData> inActiveObjectPool = new();
     List<EnemySpawnData> activeObjectPool = new();
-    private void Awake()
-    {
-        singleton = this;
-    }
+
     void Start()
     {
         InstiateObjectToPool();
         StartCoroutine(ObjectSpawner(spawnRate));
-        availiblePowerups = AvailablePowerupList();
-
     }
 
     // Update is called once per frame
@@ -48,7 +37,7 @@ public class EnemySpawner : MonoBehaviour
     {
         yield return new WaitForSeconds(5);
         GameManager.instance.LevelFinished();
-        availiblePowerups.Clear();
+        PowerUpManager.instance.ClearAvailiblePowerUps();
     }
 
     private void InstiateObjectToPool()
@@ -102,31 +91,6 @@ public class EnemySpawner : MonoBehaviour
                 //inActiveObjectPool.Add(activeObjectPool[i]);
                 activeObjectPool.RemoveAt(i);
             }
-        }
-    }
-    private List<GameObject> AvailablePowerupList()
-    {
-        List<GameObject> containedList = new();
-        foreach (var powerUp in powerUpTypes)
-        {
-            for (int i = 0; i < numberOfEachPowerupType; i++)
-            {
-                containedList.Add(powerUp);
-            }
-        }
-
-        Shuffle(containedList);
-        return containedList;
-
-    }
-    private void Shuffle(List<GameObject> list)
-    {
-        for (int i = list.Count - 1; i > 0; i--)
-        {
-            int rnd = Random.Range(0, i);
-            GameObject temp = list[i];
-            list[i] = list[rnd];
-            list[rnd] = temp;
         }
     }
 }
