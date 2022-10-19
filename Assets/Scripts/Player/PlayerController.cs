@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour
 {
 
     //health and body 
+    [SerializeField] GameObject explodeParticle;
     [SerializeField] int lives = 3;
     Rigidbody body;
 
@@ -195,6 +196,8 @@ public class PlayerController : MonoBehaviour
         if (isProtected == false) //if no shield is up, take damage and reset barrel count
         {
             lives--;
+            GameObject go = Instantiate(explodeParticle, transform.position, Quaternion.identity);
+            Destroy(go, 1.5f);
             barrelNumber = startBarrels;
             angleNumber = startAngles;
             currentFireRate = initialFireRate;
@@ -268,6 +271,7 @@ public class PlayerController : MonoBehaviour
 
     public void AddLife() 
     {
+        if (lives < 3)
         lives += 1;
         GamePlayUI.instance.AddHealth();
     }

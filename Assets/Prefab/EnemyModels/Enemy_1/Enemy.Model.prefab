@@ -93,7 +93,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4104544652574019325}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.069238365, y: 0.036001224, z: 0.053551998}
@@ -110,8 +110,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 690c003e727951440ae82a54961f4a81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 0
-  enemyExplosion: {fileID: 3993764705548965282, guid: adbf4920f7775ef45b1d386be2c47931,
+  health: 3
+  enemyExplosion: {fileID: 7901355001004251967, guid: 6b52787238f77cb4d848b81829c720fd,
     type: 3}
   isPresistent: 0
   horizontalSpeed: 1.8

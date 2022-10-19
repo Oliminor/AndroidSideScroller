@@ -49,5 +49,11 @@ public class BaseEnemy : MonoBehaviour
             Instantiate(enemyExplosion, transform.position, Quaternion.identity);
             Destroy(this.gameObject);
         }
+
+        if (other.TryGetComponent<Projectiles>(out Projectiles _projectile))
+        {
+            TakeDamage();
+            _projectile.ProjectileExplode();
+        }
     }
 }

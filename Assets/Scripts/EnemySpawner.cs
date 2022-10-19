@@ -104,12 +104,12 @@ public class EnemySpawner : MonoBehaviour
 
         for (int i = 0; i < activeObjectPool.Count; i++)
         {
+            if (!activeObjectPool[i].spawnObject) return;
             Vector3 pos = Camera.main.WorldToViewportPoint(activeObjectPool[i].spawnObject.transform.position);
 
             if (pos.x < -0.5)
             {
                 activeObjectPool[i].spawnObject.SetActive(false);
-                //inActiveObjectPool.Add(activeObjectPool[i]);
                 activeObjectPool.RemoveAt(i);
             }
         }

@@ -147,6 +147,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb6b9e7b95f638b45be8c453dae7b663, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  explodeParticle: {fileID: 7901355001004251967, guid: c673dd3f315e0094bbc5263c6458d3d9,
+    type: 3}
   lives: 3
   reverseMultiplier: 5
   topSpeed: 2
@@ -163,7 +165,7 @@ MonoBehaviour:
   isProtected: 0
   playerMat: {fileID: 4541291469440303050}
   shieldMat: {fileID: 214733690}
-  shieldTime: 3
+  shieldTime: 5
   inputManager: {fileID: 0}
 --- !u!65 &1344962541
 BoxCollider:

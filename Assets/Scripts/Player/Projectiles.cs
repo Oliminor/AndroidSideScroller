@@ -5,10 +5,11 @@ using UnityEngine;
 public class Projectiles : MonoBehaviour
 {
     float speed = 7.5f;
+    [SerializeField] GameObject explodeProjectile;
     // Start is called before the first frame update
 
     // Update is called once per frame
-    private void FixedUpdate()
+    private void Update()
     {
         Vector3 screenPos = Camera.main.WorldToViewportPoint(transform.position);
 
@@ -23,11 +24,10 @@ public class Projectiles : MonoBehaviour
         transform.Translate(Vector3.forward * speed * Time.deltaTime);
     }
 
-    private void OnCollisionEnter(Collision collision)
+    public void ProjectileExplode()
     {
         gameObject.SetActive(false);
-
-        //if enemy call damage function for enemy 
-        //if obstacle, deactivate bullet
+        GameObject go = Instantiate(explodeProjectile, transform.position, Quaternion.identity);
+        Destroy(go, 2);
     }
 }
