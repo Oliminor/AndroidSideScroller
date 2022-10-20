@@ -4,10 +4,18 @@ using UnityEngine;
 
 public class BaseEnemy : MonoBehaviour
 {
-    [SerializeField] int health;
+    [SerializeField] protected int health;
+    [SerializeField] int score;
     [SerializeField] private GameObject enemyExplosion;
     [SerializeField] bool isPresistent;
     // Start is called before the first frame update
+
+    public int GetEnemyScore() { return score; }
+
+    private void Update()
+    {
+        Respawn();
+    }
     protected void Respawn()
     {
         if (!isPresistent) return;
@@ -30,6 +38,8 @@ public class BaseEnemy : MonoBehaviour
         {
             Instantiate(enemyExplosion, transform.position, Quaternion.identity);
             powerUpDrop();
+            GameManager.instance.AddScoreFromEnemy(score);
+            GameManager.instance.SetEnemyKilled();
             Destroy(gameObject);
         }
     }
@@ -41,7 +51,7 @@ public class BaseEnemy : MonoBehaviour
         {
             GameObject targetPower = PowerUpManager.instance.availiblePowerups[0];
             PowerUpManager.instance.availiblePowerups.Remove(targetPower);
-            Instantiate(targetPower, transform.position, Quaternion.identity);
+            GameObject go = Instantiate(targetPower, transform.position, Quaternion.identity);
         }
     }
 
@@ -49,7 +59,7 @@ public class BaseEnemy : MonoBehaviour
     {
         Debug.Log("Enemy destroyed by player collide");
 
-        if (other.gameObject == GameManager.instance.GetPlayer())
+        if (other.gameObject == GameManager.instance.GetPlayer().gameObject)
         {
             Instantiate(enemyExplosion, transform.position, Quaternion.identity);
             Destroy(this.gameObject);
@@ -60,6 +70,7 @@ public class BaseEnemy : MonoBehaviour
             {
                 TakeDamage();
                 other.gameObject.SetActive(false);
+                projectiles.InstantiateDestroyEffect();
             }
             
         }

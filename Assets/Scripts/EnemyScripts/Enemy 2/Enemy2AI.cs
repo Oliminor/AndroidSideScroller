@@ -5,13 +5,50 @@ using UnityEngine;
 public class Enemy2AI : BaseEnemy
 {
     //Movement speed
-    public float horizontalSpeed;
+    [SerializeField] private float horizontalSpeed;
+    [SerializeField] Transform thruster;
+
+    private bool isChargeing = false;
+    private bool startFollow = false;
+    private float lerpY;
 
     // Update is called once per frame
     void Update()
     {
         //move forward
-        transform.Translate(Vector3.left * horizontalSpeed * Time.deltaTime);
+        if (!startFollow) transform.Translate(Vector3.left * horizontalSpeed * Time.deltaTime);
+
+        if (startFollow && !isChargeing)
+        {
+            lerpY = Mathf.Lerp(transform.position.y, GameManager.instance.GetPlayer().transform.position.y, 0.02f);
+
+            transform.position = new Vector3(transform.position.x, lerpY, transform.position.z);
+        }
+
+        if (isChargeing) transform.Translate(Vector3.left * horizontalSpeed * 5 * Time.deltaTime);
+
+        StopAtSide();
+    }
+
+    IEnumerator Delay()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(5);
+            isChargeing = true;
+            health = 1;
+        }
+    }
+
+    private void StopAtSide()
+    {
+        Vector3 pos = Camera.main.WorldToViewportPoint(transform.position);
+
+        if (pos.x < 0.9 && !startFollow)
+        {
+            startFollow = true;
+            StartCoroutine(Delay());
+        }
     }
 }
 

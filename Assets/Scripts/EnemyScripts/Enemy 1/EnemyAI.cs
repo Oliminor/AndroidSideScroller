@@ -51,9 +51,9 @@ public class EnemyAI : BaseEnemy
         while (true)
         {
             float randomTime = Random.Range(3, 5);
+            yield return new WaitForSeconds(randomTime);
             Vector3 rotation = new Vector3(0, 0, 90);
             Instantiate(projectile, transform.position, Quaternion.Euler(rotation));
-            yield return new WaitForSeconds(randomTime);
         }
     }
 

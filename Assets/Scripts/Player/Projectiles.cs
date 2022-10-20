@@ -4,10 +4,14 @@ using UnityEngine;
 
 public class Projectiles : MonoBehaviour
 {
-    float speed = 7.5f;
-    // Start is called before the first frame update
+    [SerializeField] float speed = 7.5f;
+    [SerializeField] GameObject destroyParticle;
 
-    // Update is called once per frame
+    private void Start()
+    {
+        destroyParticle = Instantiate(destroyParticle, transform.position, Quaternion.identity);
+        destroyParticle.GetComponent<ParticleSystem>().Stop();
+    }
     void Update()
     {
         Vector3 screenPos = Camera.main.WorldToViewportPoint(transform.position);
@@ -30,6 +34,12 @@ public class Projectiles : MonoBehaviour
         }
 
         transform.Translate(Vector3.forward * speed * Time.deltaTime);
+    }
+
+    public void InstantiateDestroyEffect()
+    {
+        destroyParticle.transform.position = transform.position;
+        destroyParticle.GetComponent<ParticleSystem>().Play();
     }
 
 }

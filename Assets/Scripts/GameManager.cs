@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
     private float timeScore;
     private int enemyKilled;
     private int allEnemyNumber;
+    private int enemyScore;
     // Start is called before the first frame update
 
     public List<float> GetMultiplierValue() { return multiplierValue; }
@@ -49,6 +50,7 @@ public class GameManager : MonoBehaviour
     public float GetTimeScore() { return (int)timeScore; }
     public int GetEnemyNumber() { return allEnemyNumber; }
     public void SetEnemyNumber() { allEnemyNumber++; }
+    public void SetEnemyScore(int _score) { enemyScore += _score; }
     public int GetEnemyKilledNumber() { return enemyKilled; }
     public void SetEnemyKilled() { enemyKilled++; }
           
@@ -78,7 +80,7 @@ public class GameManager : MonoBehaviour
         int spawnObjectNumber = EnemySpawner.instance.GetObjectNumber();
         int playerMaxLife = 3;
 
-        float maximumScore = (spawnRate * spawnObjectNumber * scorePerSecond + allEnemyNumber * 100) * multiplierValue[multiplierValue.Count - 1] * playerMaxLife;
+        float maximumScore = (spawnRate * spawnObjectNumber * scorePerSecond + enemyScore) * multiplierValue[multiplierValue.Count - 1] * playerMaxLife;
 
         return (int)maximumScore;
     }
@@ -127,11 +129,19 @@ public class GameManager : MonoBehaviour
 
     public void LevelFinished()
     {
+        if (isGameOver) return;
         isTheLevelEnded = true;
     }
 
     public void GameOver()
     {
+        if (isTheLevelEnded) return;
         isGameOver = true;
+    }
+
+    public void AddScoreFromEnemy(int _score)
+    {
+        lerpScore += _score;
+        GamePlayUI.instance.SetScoreTextSize();
     }
 }

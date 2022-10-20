@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 3728300107571336263}
   - component: {fileID: 293383394192530402}
   - component: {fileID: 2591463064965017384}
-  - component: {fileID: 3762524720862697952}
   - component: {fileID: 3762524720862697953}
+  - component: {fileID: 3762524720862697952}
   m_Layer: 0
   m_Name: Enemy.Model
   m_TagString: Enemy
@@ -63,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 8259684170726394269, guid: ea3d573286f48c14294bab8f255e841f, type: 3}
+  - {fileID: 2100000, guid: dd00f06a6eed2d642b98249f0b7f2bb8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -85,6 +85,30 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &3762524720862697953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4104544652574019325}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 690c003e727951440ae82a54961f4a81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 2
+  score: 200
+  enemyExplosion: {fileID: 7901355001004251967, guid: 6b52787238f77cb4d848b81829c720fd,
+    type: 3}
+  isPresistent: 0
+  horizontalSpeed: 1.8
+  rotationSpeed: 3
+  rotation: {x: 0, y: 0, z: -50}
+  sinusAmplitude: 0.6
+  frequency: 1.5
+  projectile: {fileID: 8878272156242073113, guid: 4ec186192e9937e4a974d17e13d7300f,
+    type: 3}
 --- !u!65 &3762524720862697952
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -98,26 +122,3 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.069238365, y: 0.036001224, z: 0.053551998}
   m_Center: {x: 0.00000039339065, y: 0.0022709593, z: 0.017764488}
---- !u!114 &3762524720862697953
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4104544652574019325}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 690c003e727951440ae82a54961f4a81, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  health: 3
-  enemyExplosion: {fileID: 7901355001004251967, guid: 6b52787238f77cb4d848b81829c720fd,
-    type: 3}
-  isPresistent: 0
-  horizontalSpeed: 1.8
-  rotationSpeed: 3
-  rotation: {x: 0, y: 0, z: -50}
-  sinusAmplitude: 1.2
-  frequency: 0.5
-  projectile: {fileID: 8878272156242073113, guid: 4ec186192e9937e4a974d17e13d7300f,
-    type: 3}

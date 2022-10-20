@@ -5,8 +5,7 @@ using UnityEngine;
 public class PowerUp : MonoBehaviour
 {
     // Start is called before the first frame update
-    GameObject player;
-    PlayerController playerScript;
+    PlayerController player;
     float speed = 10f;
     [SerializeField]private enum PowerupType { SHIELD, FIRERATE, ANGLE, BARREL, LIFE, BULLETTIME }
     [SerializeField] PowerupType powerupType;
@@ -14,7 +13,6 @@ public class PowerUp : MonoBehaviour
     void Start()
     {
         player = GameManager.instance.GetPlayer();
-        playerScript=player.GetComponent<PlayerController>();
     }
 
     // Update is called once per frame
@@ -32,27 +30,27 @@ public class PowerUp : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject == player)
+        if (other.gameObject == player.gameObject)
         {
             switch (powerupType)
             {
                 case PowerupType.SHIELD:
-                    StartCoroutine(playerScript.Invulnerability());
+                    player.ActivateShield();
                     break;
                 case PowerupType.FIRERATE:
-                    playerScript.ShootFaster();
+                    player.ShootFaster();
                     break;
                 case PowerupType.ANGLE:
-                    playerScript.AddAngle();
+                    player.AddAngle();
                     break;
                 case PowerupType.BARREL:
-                    playerScript.AddBarrel();
+                    player.AddBarrel();
                     break;
                 case PowerupType.LIFE:
-                    playerScript.AddLife();
+                    player.AddLife();
                     break;
                 case PowerupType.BULLETTIME:
-                    StartCoroutine(playerScript.BulletTime());
+                    StartCoroutine(player.BulletTime());
                     break;
             }
             Destroy(gameObject);

@@ -147,9 +147,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb6b9e7b95f638b45be8c453dae7b663, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  projectileParent: {fileID: 0}
   explodeParticle: {fileID: 7901355001004251967, guid: c673dd3f315e0094bbc5263c6458d3d9,
     type: 3}
-  lives: 3
+  maxLives: 3
+  shieldTime: 5
   reverseMultiplier: 5
   topSpeed: 2
   TopAcceleration: 50
@@ -158,14 +160,12 @@ MonoBehaviour:
   poolThis: {fileID: 1758893044162241204, guid: 0aa6f099a4ee30346bacba2610afb6b9,
     type: 3}
   poolSize: 300
-  initialFireRate: 0.5
-  currentFireRate: 0.5
+  initialFireRate: 1
   barrelNumber: 2
   angleNumber: 2
   isProtected: 0
   playerMat: {fileID: 4541291469440303050}
   shieldMat: {fileID: 214733690}
-  shieldTime: 5
   inputManager: {fileID: 0}
 --- !u!65 &1344962541
 BoxCollider:

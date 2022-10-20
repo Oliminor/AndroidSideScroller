@@ -65,7 +65,11 @@ public class EnemySpawner : MonoBehaviour
             for (int j = 0; j < spawnableObjects[i].amountOnMap; j++)
             {
                 GameObject go = Instantiate(spawnableObjects[i].spawnObject, transform);
-                if (go.tag == "Enemy") GameManager.instance.SetEnemyNumber();
+                if (go.tag == "Enemy")
+                {
+                    GameManager.instance.SetEnemyNumber();
+                    GameManager.instance.SetEnemyScore(go.GetComponent<BaseEnemy>().GetEnemyScore());
+                }
                 go.SetActive(false);
                 inActiveObjectPool.Add(new EnemySpawnData(go, spawnableObjects[i].spawnPosY, 0, spawnableObjects[i].spawnRotation));
             }
@@ -100,6 +104,7 @@ public class EnemySpawner : MonoBehaviour
         inActiveObjectPool[randomIndex].spawnObject.gameObject.transform.rotation = Quaternion.Euler(spawnRotation);
         activeObjectPool.Add(inActiveObjectPool[randomIndex]);
         inActiveObjectPool.RemoveAt(randomIndex);
+
     }
 
     private void SwapObjects()

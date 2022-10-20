@@ -6,8 +6,10 @@ public class PlayerController : MonoBehaviour
 {
 
     //health and body 
+    [SerializeField] Transform projectileParent;
     [SerializeField] GameObject explodeParticle;
     [SerializeField] int maxLives = 3;
+    [SerializeField] float shieldTime;
     Rigidbody body;
 
     //speed stuff
@@ -26,7 +28,6 @@ public class PlayerController : MonoBehaviour
 
     //powerup modes
     [SerializeField] float initialFireRate = 2;
-    [SerializeField] float currentFireRate;
     [SerializeField] int barrelNumber;
     [SerializeField] int angleNumber;
     int startBarrels = 1;
@@ -34,7 +35,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private bool isProtected;
     [SerializeField] MeshRenderer playerMat;
     [SerializeField] MeshRenderer shieldMat;
-    [SerializeField] float shieldTime;
     private bool bulletTimeisOn;
 
 
@@ -49,6 +49,7 @@ public class PlayerController : MonoBehaviour
     private float minAngle = -15;
     private float maxAngle = 15;
     private float rotationSpeed = 75.0f;
+    float currentFireRate;
     Quaternion initialRotation;
     bool isBulletTimeOn = false;
     Vector3 startPosition;
@@ -60,12 +61,12 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
+        lives = maxLives;
         GameManager.instance.SetPlayer(this);
     }
 
     private void Start()
     {
-        lives = maxLives;
         startPosition = transform.position;
         body = GetComponent<Rigidbody>();
         body.useGravity = false;
@@ -84,6 +85,7 @@ public class PlayerController : MonoBehaviour
             bullet = Instantiate(poolThis);
             bullet.SetActive(false);
             bulletInPool.Add(bullet);
+            bullet.transform.parent = projectileParent;
         }
 
         //start shooting coroutine
@@ -92,7 +94,6 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space)) StartCoroutine(Invulnerability(true, shieldTime));
 
     }
 
@@ -111,8 +112,10 @@ public class PlayerController : MonoBehaviour
         }
 
 
-        if (lives <= 0)
+        if (lives <= 0 || GameManager.instance.GetIsLevelEnded())
         {
+            transform.position = Vector3.Lerp(transform.position, startPosition, 0.01f);
+            transform.rotation = Quaternion.Euler(new Vector3(0, 90, 0));
             body.velocity = Vector3.zero;
             return;
         }
@@ -176,11 +179,10 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag=="Enemy")//ill change this just testing things 
+        if (other.tag=="Enemy" || other.tag == "Obstacle")//ill change this just testing things 
         {
             TakeDamage();
         }
-        Debug.Log("test");
     }
 
     IEnumerator AutoFire()
@@ -207,6 +209,8 @@ public class PlayerController : MonoBehaviour
 
     public void TakeDamage()
     {
+        if (GameManager.instance.GetIsLevelEnded() || GameManager.instance.GetIsLevelEnded()) return;
+
         if (isProtected == false) //if no shield is up, take damage and reset barrel count
         {
             lives--;
@@ -217,15 +221,15 @@ public class PlayerController : MonoBehaviour
             currentFireRate = initialFireRate;
             GamePlayUI.instance.RemoveHealth();
             transform.position = startPosition;
+            transform.rotation = Quaternion.Euler(new Vector3(0, 90, 0));
             StartCoroutine(Invulnerability(false, 3));
             StartCoroutine(RespawnEffect());
-        }
-        else return;
 
-        if (lives <= 0)
-        {
-            GamePlayUI.instance.TriggerGameOver();
-            //player death logic 
+            if (lives <= 0)
+            {
+                GamePlayUI.instance.TriggerGameOver();
+                StartCoroutine(Invulnerability(false, 1000));
+            }
         }
     }
 
@@ -260,7 +264,7 @@ public class PlayerController : MonoBehaviour
             bullet.SetActive(true);
         }
 
-        yield return new WaitForSeconds(3.0f);
+        yield return new WaitForSeconds(currentFireRate / 2);
 
         for (int i = 0; i < barrelNumber; i++)
         {
@@ -274,9 +278,6 @@ public class PlayerController : MonoBehaviour
             bullet.transform.SetPositionAndRotation(spawnPos, PlayerMuzzle.rotation);
             bullet.SetActive(true);
         }
-
-
-        yield return new WaitForSeconds(0.01f);
     }
 
     public void AddBarrel() { barrelNumber += 1; }
@@ -285,13 +286,17 @@ public class PlayerController : MonoBehaviour
 
     public void AddLife() 
     {
-        if (lives >= maxLives) return;
+        if (lives >= maxLives || lives <= 0) return;
         lives += 1;
         GamePlayUI.instance.AddHealth();
     }
 
     public void ShootFaster() { currentFireRate /= 2; }
 
+    public void ActivateShield()
+    {
+        StartCoroutine(Invulnerability(true, shieldTime));
+    }
     public IEnumerator Invulnerability(bool isShield, float _shieldTime)
     {
 

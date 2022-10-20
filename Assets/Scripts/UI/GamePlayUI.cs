@@ -79,6 +79,7 @@ public class GamePlayUI : MonoBehaviour
         gameHUB.gameObject.SetActive(true);
         pauseMenuUI.gameObject.SetActive(false);
         gameOverScene.gameObject.SetActive(true);
+        endLevelScreen.gameObject.SetActive(true);
         if (Transition.instance) Transition.instance.OpenTransition();
     }
 
@@ -197,8 +198,6 @@ public class GamePlayUI : MonoBehaviour
 
     public void AddHealth()
     {
-        if (GameManager.instance.GetPlayer().GetLives() >= 3) return;
-
         Image go = Instantiate(playerLivesImage, playerHealth);
         playerHealthList.Add(go);
     }
