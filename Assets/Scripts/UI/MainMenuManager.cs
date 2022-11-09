@@ -27,10 +27,7 @@ public class MainMenuManager : MonoBehaviour
 
     bool optionsBool = false;
     bool startGameBool = false;
-    private void Awake()
-    {
-        mainMenuCanvas.GetComponent<CanvasScaler>().referenceResolution = new Vector2(Screen.width, Screen.height);
-    }
+
     void Start()
     {
         SetupOptionsMenu();
@@ -65,7 +62,7 @@ public class MainMenuManager : MonoBehaviour
             startGameLerpX = startGameStartX;
             backButton.gameObject.SetActive(false);
 
-            selectorLerpX = Screen.width + 1500;
+            selectorLerpX = Screen.width * 2.5f;
         }
         else
         {
@@ -82,7 +79,7 @@ public class MainMenuManager : MonoBehaviour
                 optionsBool = false;
                 optionsButton.interactable = false;
                 optionsButton.interactable = true;
-                optionsLerpY = Screen.height + 1000;
+                optionsLerpY = Screen.height * 2.5f;
             }
         }
     }
@@ -98,7 +95,7 @@ public class MainMenuManager : MonoBehaviour
             optionsBool = false;
             optionsButton.interactable = false;
             optionsButton.interactable = true;
-            optionsLerpY = Screen.height + 1000;
+            optionsLerpY = Screen.height * 2.5f;
         }
     }
 
@@ -107,7 +104,7 @@ public class MainMenuManager : MonoBehaviour
         optionsMenu.gameObject.SetActive(true);
         optionsStartY = optionsMenu.position.y;
         Vector2 defaultPos = optionsMenu.position;
-        optionsLerpY = Screen.height + 1000;
+        optionsLerpY = Screen.height * 2.5f;
         optionsPosY = optionsLerpY;
         optionsMenu.position = new Vector2(defaultPos.x, optionsLerpY);
     }
@@ -125,7 +122,7 @@ public class MainMenuManager : MonoBehaviour
 
         Vector2 defaultPosSelector = levelSelector.position;
         selectorStartX = defaultPosSelector.x;
-        selectorLerpX = Screen.width + 1500;
+        selectorLerpX = Screen.width * 2.5f;
         selectorPosX = selectorLerpX;
         levelSelector.position = new Vector2(selectorPosX, defaultPosSelector.y);
     }
@@ -146,6 +143,16 @@ public class MainMenuManager : MonoBehaviour
         Vector2 defaultPosSelector = levelSelector.position;
         selectorPosX = Mathf.Lerp(selectorPosX, selectorLerpX, 0.2f);
         levelSelector.position = new Vector3(selectorPosX, defaultPosSelector.y);
+    }
+
+    public void SetResolution(int width)
+    {
+        float height = width * 0.5625f;
+        Screen.SetResolution(width, (int)height, true);
+        SceneManager.LoadScene(0);
+        optionsBool = true;
+        optionsLerpY = optionsStartY;
+        optionsMenu.position = new Vector3(optionsMenu.position.x, optionsPosY);
     }
 
     public void ExitGame()
