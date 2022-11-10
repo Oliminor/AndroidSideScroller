@@ -6,8 +6,8 @@ public class PlayerSettings : MonoBehaviour
 {
     public static PlayerSettings instance;
 
-    private int controllerType = 1;
-    private float renderScale = 0.7f;
+    [SerializeField] private int controllerType = 1;
+    private float renderScale = 1.0f;
     private bool isOptionIsOn = false;
     private bool isBloomOn = false;
     private bool isHDROn = true;
