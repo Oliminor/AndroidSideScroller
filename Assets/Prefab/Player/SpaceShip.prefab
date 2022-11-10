@@ -151,7 +151,7 @@ MonoBehaviour:
   explodeParticle: {fileID: 7901355001004251967, guid: c673dd3f315e0094bbc5263c6458d3d9,
     type: 3}
   maxLives: 3
-  shieldTime: 5
+  shieldTime: 10
   reverseMultiplier: 5
   topSpeed: 2
   TopAcceleration: 50

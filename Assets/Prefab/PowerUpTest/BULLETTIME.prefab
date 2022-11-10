@@ -112,6 +112,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   powerupType: 5
+  powerUpName: 
+  powerUpColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!114 &6444039980369246972
 MonoBehaviour:
   m_ObjectHideFlags: 0

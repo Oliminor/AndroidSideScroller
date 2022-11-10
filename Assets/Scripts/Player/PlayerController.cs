@@ -94,12 +94,14 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-
+        FollowTouchControllerMovement();
     }
 
     private void FixedUpdate()
     {
         ShieldLerp();
+
+        if (PlayerSettings.instance.ControllerType != 0) return;
 
         if (bulletTimeisOn)
         {
@@ -175,6 +177,17 @@ public class PlayerController : MonoBehaviour
             Vector3 limit = velocity.normalized * topSpeed;
             body.velocity = new Vector3(limit.x, limit.y, limit.z);
         }
+    }
+
+    private void FollowTouchControllerMovement()
+    {
+        if (PlayerSettings.instance.ControllerType != 1) return;
+
+        Vector3 arrowPosition = new Vector3(FollowTouchController.instance.ArrowPosition.x, FollowTouchController.instance.ArrowPosition.y, GameManager.instance.GetZPosition());
+
+        Vector3 arrowPos = Camera.main.ScreenToWorldPoint(arrowPosition);
+
+        transform.position = Vector3.MoveTowards(transform.position, arrowPos, Time.deltaTime * topSpeed * 2);
     }
 
     private void OnTriggerEnter(Collider other)

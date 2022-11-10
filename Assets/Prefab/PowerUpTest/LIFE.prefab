@@ -130,3 +130,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   powerupType: 4
+  powerUpName: +1 Extra life
+  powerUpColor: {r: 0.044010334, g: 0.08198248, b: 0.4056604, a: 1}

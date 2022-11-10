@@ -9,7 +9,9 @@ public class PowerUp : MonoBehaviour
     float speed = 10f;
     [SerializeField]private enum PowerupType { SHIELD, FIRERATE, ANGLE, BARREL, LIFE, BULLETTIME }
     [SerializeField] PowerupType powerupType;
-
+    [SerializeField] string powerUpName;
+    [SerializeField] Color powerUpColor;
+    
     void Start()
     {
         player = GameManager.instance.GetPlayer();
@@ -53,6 +55,7 @@ public class PowerUp : MonoBehaviour
                     StartCoroutine(player.BulletTime());
                     break;
             }
+            PowerUpTextPopUp.instance.InstantiatePopUpText(powerUpName, powerUpColor, transform.position);
             Destroy(gameObject);
         }
     }

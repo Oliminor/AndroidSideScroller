@@ -13,10 +13,8 @@ public class Transition : MonoBehaviour
 
         DontDestroyOnLoad(transform.parent);
 
-        if (instance == null)
-            instance = this;
-        else
-            Destroy(transform.parent.gameObject);
+        if (instance == null) instance = this;
+        else Destroy(transform.parent.gameObject);
     }
 
     private void Start()

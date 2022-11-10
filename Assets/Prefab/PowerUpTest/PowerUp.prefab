@@ -9738,6 +9738,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   powerupType: 0
+  powerUpName: Shield Activated
+  powerUpColor: {r: 0.36862746, g: 0.27058825, b: 0.86666673, a: 1}
 --- !u!114 &4467057164015338336
 MonoBehaviour:
   m_ObjectHideFlags: 0

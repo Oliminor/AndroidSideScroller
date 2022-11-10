@@ -112,6 +112,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   powerupType: 3
+  powerUpName: Barrel shot +1
+  powerUpColor: {r: 0.3962264, g: 0.3962264, b: 0.3962264, a: 1}
 --- !u!114 &-4843203163099029376
 MonoBehaviour:
   m_ObjectHideFlags: 0
