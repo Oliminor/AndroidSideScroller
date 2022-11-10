@@ -976,6 +976,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: BackGround
       objectReference: {fileID: 0}
+    - target: {fileID: 3023492836045978352, guid: 348d826b28363dd4cac026a9db03082f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3023492836045978353, guid: 348d826b28363dd4cac026a9db03082f,
         type: 3}
       propertyPath: m_RootOrder
