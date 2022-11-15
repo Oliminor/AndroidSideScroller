@@ -26,6 +26,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject poolThis;
     [SerializeField] int poolSize;
 
+    //cone bullet pool
+    [SerializeField] List<GameObject> coneBulletInPool = new();
+    [SerializeField] GameObject conePoolBullet;
+    [SerializeField] int conePoolSize;
+
     //powerup modes
     [SerializeField] float initialFireRate = 2;
     [SerializeField] int barrelNumber;
@@ -36,6 +41,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] MeshRenderer playerMat;
     [SerializeField] MeshRenderer shieldMat;
     private bool bulletTimeisOn;
+    [SerializeField] private bool coneShot;
+    [SerializeField] int coneShotAngle = 5;
 
 
     int lives;
@@ -86,6 +93,17 @@ public class PlayerController : MonoBehaviour
             bullet.SetActive(false);
             bulletInPool.Add(bullet);
             bullet.transform.parent = projectileParent;
+        }
+
+        //instatiate bullets and add to pool
+        coneBulletInPool = new List<GameObject>();
+        GameObject coneBullet;
+        for (int i = 0; i < poolSize; i++)
+        {
+            coneBullet = Instantiate(conePoolBullet);
+            coneBullet.SetActive(false);
+            coneBulletInPool.Add(coneBullet);
+            coneBullet.transform.parent = projectileParent;
         }
 
         //start shooting coroutine
@@ -203,8 +221,10 @@ public class PlayerController : MonoBehaviour
         while (true)
         {
             StartCoroutine(FiringPattern());
+           
+            yield return new WaitForSeconds(coneShot?currentFireRate/4:currentFireRate); //less delay if the cone shooting is active, otherwise normal fire rate delay (/2 just for testing ofc needs nicer numners) 
             
-            yield return new WaitForSeconds(currentFireRate);
+            
         }
 
     }
@@ -215,6 +235,18 @@ public class PlayerController : MonoBehaviour
             if (!bulletInPool[i].activeInHierarchy)
             {
                 return bulletInPool[i];
+            }
+        }
+        return null;
+    }
+
+    private GameObject GetPooledConeBullet()
+    {
+        for (int i = 0; i < poolSize; i++)
+        {
+            if (!coneBulletInPool[i].activeInHierarchy)
+            {
+                return coneBulletInPool[i];
             }
         }
         return null;
@@ -260,37 +292,62 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator FiringPattern()
     {
-        GameObject bullet = GetPooled();
+        GameObject bullet;
+        GameObject coneBullet;
 
-        for (int i = startAngles; i < angleNumber; i++)
+        if(!coneShot)
         {
-            int angleUp = (i + 1) * 5;
-            int angleDown = (i + 1) * -5;
+            for (int i = startAngles; i < angleNumber; i++)
+            {
+                int angleUp = (i + 1) * 5;
+                int angleDown = (i + 1) * -5;
+                float playerXrotation = PlayerMuzzle.rotation.eulerAngles.x;
+
+                bullet = GetPooled();
+                bullet.transform.SetPositionAndRotation(PlayerMuzzle.position, Quaternion.Euler(playerXrotation + angleUp, 90, 0));
+                bullet.SetActive(true);
+
+                bullet = GetPooled();
+                bullet.transform.SetPositionAndRotation(PlayerMuzzle.position, Quaternion.Euler(playerXrotation + angleDown, 90, 0));
+                bullet.SetActive(true);
+            }
+
+            yield return new WaitForSeconds(currentFireRate / 2);
+
+            for (int i = 0; i < barrelNumber; i++)
+            {
+                float gapsize = 0.12f;
+                float displacementUp = i * gapsize; // changethis : changethis  for a larger/smaller offset between bullets
+
+                float pushDown = barrelNumber * gapsize / 2;
+
+                bullet = GetPooled();
+                Vector3 spawnPos = new Vector3(PlayerMuzzle.position.x, PlayerMuzzle.position.y + displacementUp - pushDown, PlayerMuzzle.position.z);
+                bullet.transform.SetPositionAndRotation(spawnPos, PlayerMuzzle.rotation);
+                bullet.SetActive(true);
+            }
+        }
+        
+        if(coneShot)
+        {  
             float playerXrotation = PlayerMuzzle.rotation.eulerAngles.x;
 
-            bullet = GetPooled();
-            bullet.transform.SetPositionAndRotation(PlayerMuzzle.position, Quaternion.Euler(playerXrotation + angleUp, 90, 0));
-            bullet.SetActive(true);
+            coneBullet = GetPooled();
+            coneBullet.transform.SetPositionAndRotation(PlayerMuzzle.position, Quaternion.Euler(playerXrotation + coneShotAngle, 90, 0));
+            coneBullet.SetActive(true);
+
+            coneBullet = GetPooled();
+            coneBullet.transform.SetPositionAndRotation(PlayerMuzzle.position, Quaternion.Euler(playerXrotation -coneShotAngle, 90, 0));
+            coneBullet.SetActive(true);
 
             bullet = GetPooled();
-            bullet.transform.SetPositionAndRotation(PlayerMuzzle.position, Quaternion.Euler(playerXrotation + angleDown, 90, 0));
-            bullet.SetActive(true);
-        }
-
-        yield return new WaitForSeconds(currentFireRate / 2);
-
-        for (int i = 0; i < barrelNumber; i++)
-        {
-            float gapsize = 0.12f;
-            float displacementUp = i * gapsize; // changethis : changethis  for a larger/smaller offset between bullets
-
-            float pushDown = barrelNumber * gapsize / 2;
-
-            bullet = GetPooled();
-            Vector3 spawnPos = new Vector3(PlayerMuzzle.position.x, PlayerMuzzle.position.y + displacementUp - pushDown, PlayerMuzzle.position.z);
+            Vector3 spawnPos = new Vector3(PlayerMuzzle.position.x, PlayerMuzzle.position.y, PlayerMuzzle.position.z);
             bullet.transform.SetPositionAndRotation(spawnPos, PlayerMuzzle.rotation);
             bullet.SetActive(true);
+
+            yield break;
         }
+
     }
 
     public void AddBarrel() { barrelNumber += 1; }
@@ -305,6 +362,8 @@ public class PlayerController : MonoBehaviour
     }
 
     public void ShootFaster() { currentFireRate /= 2; }
+
+    public void ConeShoot() { coneShot=true; }
 
     public void ActivateShield()
     {
