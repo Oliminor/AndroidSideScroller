@@ -43,6 +43,7 @@ public class PlayerController : MonoBehaviour
     private bool bulletTimeisOn;
     [SerializeField] private bool coneShot;
     [SerializeField] int coneShotAngle = 5;
+    [SerializeField] float coneShootingTime;
 
 
     int lives;
@@ -363,7 +364,7 @@ public class PlayerController : MonoBehaviour
 
     public void ShootFaster() { currentFireRate /= 2; }
 
-    public void ConeShoot() { coneShot=true; }
+    public void ConeShoot() { ConeShootingTimer(coneShootingTime); } //know you will probably look at this ben i tried to mimic what you did for the shield
 
     public void ActivateShield()
     {
@@ -384,6 +385,19 @@ public class PlayerController : MonoBehaviour
 
         isProtected = false;
         if (isShield) shieldLerp = 1;
+    }
+
+    private IEnumerator ConeShootingTimer(float _shootingTime)
+    {
+        float time = _shootingTime;
+
+        while (time>0)
+        {
+            coneShot = true;
+            time -= Time.deltaTime;
+            yield return null;
+        }
+        coneShot = false;
     }
 
     void ShieldLerp()
