@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] bool godMode;
 
     //health and body 
     [SerializeField] Transform projectileParent;
@@ -222,6 +223,8 @@ public class PlayerController : MonoBehaviour
 
     public void TakeDamage()
     {
+        if (godMode) return;
+
         if (GameManager.instance.GetIsLevelEnded() || GameManager.instance.GetIsLevelEnded()) return;
 
         if (isProtected == false) //if no shield is up, take damage and reset barrel count

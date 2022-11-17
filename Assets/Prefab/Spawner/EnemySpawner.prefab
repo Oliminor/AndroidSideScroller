@@ -45,26 +45,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 895b4192cea0bfd4c82ccef7af0791f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnableObjects:
+  spawnableEnemyObjects:
   - spawnObject: {fileID: 4104544652574019325, guid: a4f2a09aabdd17d46bf6f0284b371274,
       type: 3}
-    spawnPosY: {x: 0.3, y: 0.7}
+    spawnPosY: {x: 0.2, y: 0.8}
     amountOnMap: 20
     spawnRotation: {x: 0, y: -90, z: 0}
-  - spawnObject: {fileID: 1323580739796764374, guid: 70ac275ec0fa5df4b93a12898cd53fee,
-      type: 3}
-    spawnPosY: {x: 0.4, y: 0.6}
-    amountOnMap: 5
-    spawnRotation: {x: 0, y: 180, z: 0}
   - spawnObject: {fileID: 3978085987261645767, guid: e01cc223ef4ebcf449b091ec4a1ef557,
       type: 3}
-    spawnPosY: {x: 0, y: 0}
+    spawnPosY: {x: 0.1, y: 0.9}
     amountOnMap: 10
     spawnRotation: {x: 0, y: 0, z: 0}
-  numberOfObjectToPool: 10
-  spawnRate: 3
+  enemySpawnRate:
+  - spawnRate: 3
+    spawnRateTimeLimit: 60
+  - spawnRate: 2
+    spawnRateTimeLimit: 120
+  spawnablObstacleObjects:
+  - spawnObject: {fileID: 1323580739796764374, guid: 70ac275ec0fa5df4b93a12898cd53fee,
+      type: 3}
+    spawnPosY: {x: 0.1, y: 0.7}
+    amountOnMap: 10
+    spawnRotation: {x: 0, y: 180, z: 0}
+  obstacleSpawnRate:
+  - spawnRate: 7
+    spawnRateTimeLimit: 120
   delayStartTime: 5
-  delayEndTime: 5
+  delayEndTime: 10
 --- !u!114 &1500221306
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -20,7 +20,7 @@ public class Enemy2AI : BaseEnemy
 
         if (startFollow && !isChargeing)
         {
-            lerpY = Mathf.Lerp(transform.position.y, GameManager.instance.GetPlayer().transform.position.y, 0.02f);
+            lerpY = Mathf.Lerp(transform.position.y, GameManager.instance.GetPlayer().transform.position.y - 0.3f, 0.02f);
 
             transform.position = new Vector3(transform.position.x, lerpY, transform.position.z);
         }
