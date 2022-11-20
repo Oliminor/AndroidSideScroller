@@ -5,14 +5,15 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
 
-    //health and body 
+    [Header("Health and Body")]//health and body 
     [SerializeField] Transform projectileParent;
     [SerializeField] GameObject explodeParticle;
     [SerializeField] int maxLives = 3;
     [SerializeField] float shieldTime;
     Rigidbody body;
 
-    //speed stuff
+    
+    [Header("Movement speed")]//speed stuff
     [SerializeField] float reverseMultiplier;
     [SerializeField] float topSpeed=100f;
     [SerializeField] float TopAcceleration;
@@ -21,7 +22,7 @@ public class PlayerController : MonoBehaviour
     //weapon stuff
     [SerializeField] Transform PlayerMuzzle;
 
-    //bullet pool
+    [Header("Object pools")] //bullet pool
     [SerializeField] List<GameObject> bulletInPool = new();
     [SerializeField] GameObject poolThis;
     [SerializeField] int poolSize;
@@ -31,7 +32,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject conePoolBullet;
     [SerializeField] int conePoolSize;
 
-    //powerup modes
+    [Header("Powerup Modes")]//powerup modes
     [SerializeField] float initialFireRate = 2;
     [SerializeField] int barrelNumber;
     [SerializeField] int angleNumber;
@@ -43,8 +44,16 @@ public class PlayerController : MonoBehaviour
     private bool bulletTimeisOn;
     [SerializeField] private bool coneShot;
     [SerializeField] int coneShotAngle = 5;
-    [SerializeField] float coneShootingTime;
+    
+    private enum ShootingPatternSwitch { STANDARDPATTERN, CONEPATTERN, HOMINGPATTERN, LASERPATTERN};
+    private ShootingPatternSwitch shootingPatternSwitch;
 
+    [Header("Powerup Time and number restrictions")]
+    [SerializeField] float anglePowerupTime;
+    [SerializeField] float barrelPowerupTime;
+    [SerializeField] float coneShootingTime;
+    [SerializeField] int maxBarrels;
+    [SerializeField] int maxAngles;
 
     int lives;
 
@@ -71,6 +80,7 @@ public class PlayerController : MonoBehaviour
     {
         lives = maxLives;
         GameManager.instance.SetPlayer(this);
+        shootingPatternSwitch = ShootingPatternSwitch.STANDARDPATTERN;
     }
 
     private void Start()
@@ -296,64 +306,108 @@ public class PlayerController : MonoBehaviour
         GameObject bullet;
         GameObject coneBullet;
 
-        if(!coneShot)
+        switch (shootingPatternSwitch)
         {
-            for (int i = startAngles; i < angleNumber; i++)
-            {
-                int angleUp = (i + 1) * 5;
-                int angleDown = (i + 1) * -5;
-                float playerXrotation = PlayerMuzzle.rotation.eulerAngles.x;
+            case ShootingPatternSwitch.STANDARDPATTERN:                      // BARRELS AND ANGLES CASE- STANDARD SHOOTING PATTERNS 
+                for (int i = startAngles; i < angleNumber; i++)
+                {
+                    int angleUp = (i + 1) * 5;
+                    int angleDown = (i + 1) * -5;
+                    float playerXrotation = PlayerMuzzle.rotation.eulerAngles.x;
 
-                bullet = GetPooled();
-                bullet.transform.SetPositionAndRotation(PlayerMuzzle.position, Quaternion.Euler(playerXrotation + angleUp, 90, 0));
-                bullet.SetActive(true);
+                    bullet = GetPooled();
+                    bullet.transform.SetPositionAndRotation(PlayerMuzzle.position, Quaternion.Euler(playerXrotation + angleUp, 90, 0));
+                    bullet.SetActive(true);
 
-                bullet = GetPooled();
-                bullet.transform.SetPositionAndRotation(PlayerMuzzle.position, Quaternion.Euler(playerXrotation + angleDown, 90, 0));
-                bullet.SetActive(true);
-            }
+                    bullet = GetPooled();
+                    bullet.transform.SetPositionAndRotation(PlayerMuzzle.position, Quaternion.Euler(playerXrotation + angleDown, 90, 0));
+                    bullet.SetActive(true);
+                }
 
-            yield return new WaitForSeconds(currentFireRate / 2);
+                yield return new WaitForSeconds(currentFireRate / 2);
 
-            for (int i = 0; i < barrelNumber; i++)
-            {
-                float gapsize = 0.12f;
-                float displacementUp = i * gapsize; // changethis : changethis  for a larger/smaller offset between bullets
+                for (int i = 0; i < barrelNumber; i++)
+                {
+                    float gapsize = 0.12f;
+                    float displacementUp = i * gapsize; // changethis : changethis  for a larger/smaller offset between bullets
 
-                float pushDown = barrelNumber * gapsize / 2;
+                    float pushDown = barrelNumber * gapsize / 2;
 
-                bullet = GetPooled();
-                Vector3 spawnPos = new Vector3(PlayerMuzzle.position.x, PlayerMuzzle.position.y + displacementUp - pushDown, PlayerMuzzle.position.z);
-                bullet.transform.SetPositionAndRotation(spawnPos, PlayerMuzzle.rotation);
-                bullet.SetActive(true);
-            }
-        }
-        
-        if(coneShot)
-        {  
-            float playerXrotation = PlayerMuzzle.rotation.eulerAngles.x;
+                    bullet = GetPooled();
+                    Vector3 spawnPos = new Vector3(PlayerMuzzle.position.x, PlayerMuzzle.position.y + displacementUp - pushDown, PlayerMuzzle.position.z);
+                    bullet.transform.SetPositionAndRotation(spawnPos, PlayerMuzzle.rotation);
+                    bullet.SetActive(true);
+                }
+                break;
+            case ShootingPatternSwitch.CONEPATTERN:                      // NON STANDARD PATTERN- 3 BULLETS IN A TRIANGULAR SHAPE 
+                {
+                    float playerXrotation = PlayerMuzzle.rotation.eulerAngles.x;
 
-            coneBullet = GetPooled();
-            coneBullet.transform.SetPositionAndRotation(PlayerMuzzle.position, Quaternion.Euler(playerXrotation + coneShotAngle, 90, 0));
-            coneBullet.SetActive(true);
+                    coneBullet = GetPooled();
+                    coneBullet.transform.SetPositionAndRotation(PlayerMuzzle.position, Quaternion.Euler(playerXrotation + coneShotAngle, 90, 0));
+                    coneBullet.SetActive(true);
 
-            coneBullet = GetPooled();
-            coneBullet.transform.SetPositionAndRotation(PlayerMuzzle.position, Quaternion.Euler(playerXrotation -coneShotAngle, 90, 0));
-            coneBullet.SetActive(true);
+                    coneBullet = GetPooled();
+                    coneBullet.transform.SetPositionAndRotation(PlayerMuzzle.position, Quaternion.Euler(playerXrotation - coneShotAngle, 90, 0));
+                    coneBullet.SetActive(true);
 
-            bullet = GetPooled();
-            Vector3 spawnPos = new Vector3(PlayerMuzzle.position.x, PlayerMuzzle.position.y, PlayerMuzzle.position.z);
-            bullet.transform.SetPositionAndRotation(spawnPos, PlayerMuzzle.rotation);
-            bullet.SetActive(true);
+                    bullet = GetPooled();
+                    Vector3 spawnPos = new Vector3(PlayerMuzzle.position.x, PlayerMuzzle.position.y, PlayerMuzzle.position.z);
+                    bullet.transform.SetPositionAndRotation(spawnPos, PlayerMuzzle.rotation);
+                    bullet.SetActive(true);
 
-            yield break;
+                    yield break;
+                }
+
+            case ShootingPatternSwitch.HOMINGPATTERN:
+                break;
+            case ShootingPatternSwitch.LASERPATTERN:
+                break;
         }
 
     }
 
-    public void AddBarrel() { barrelNumber += 1; }
+    public void AddBarrel() { StartCoroutine(AddRemoveBarrel()); }
 
-    public void AddAngle() { angleNumber += 1; }
+    public void AddAngle() { StartCoroutine(AddRemoveAngle()); }
+
+    private IEnumerator AddRemoveAngle()
+    {
+        if(angleNumber<maxAngles)
+        {
+            angleNumber++;
+        }
+        else
+        {
+            yield break;
+        }
+        
+        yield return new WaitForSeconds(anglePowerupTime);
+
+        if(angleNumber>startAngles)
+        {
+            angleNumber--;
+        }
+        
+    }
+    private IEnumerator AddRemoveBarrel()
+    {
+        if(barrelNumber<maxBarrels)
+        {
+            barrelNumber ++;
+        }
+        else
+        {
+            yield break;
+        }
+
+        yield return new WaitForSeconds(barrelPowerupTime);
+
+        if(barrelNumber>startBarrels)
+        {
+            barrelNumber--;        
+        }
+    }
 
     public void AddLife() 
     {
@@ -364,7 +418,7 @@ public class PlayerController : MonoBehaviour
 
     public void ShootFaster() { currentFireRate /= 2; }
 
-    public void ConeShoot() { ConeShootingTimer(coneShootingTime); } //know you will probably look at this ben i tried to mimic what you did for the shield
+    public void ConeShoot() { StartCoroutine(ConeShootingTimer(coneShootingTime)); } //know you will probably look at this ben i tried to mimic what you did for the shield
 
     public void ActivateShield()
     {
@@ -387,17 +441,18 @@ public class PlayerController : MonoBehaviour
         if (isShield) shieldLerp = 1;
     }
 
-    private IEnumerator ConeShootingTimer(float _shootingTime)
+    private IEnumerator ConeShootingTimer(float _shootingTime) // assuming we want this pattern specifically to add to the current time rather than run in parallel
     {
         float time = _shootingTime;
 
-        while (time>0)
+        while (time > 0)
         {
-            coneShot = true;
+            shootingPatternSwitch = ShootingPatternSwitch.CONEPATTERN;
             time -= Time.deltaTime;
             yield return null;
         }
-        coneShot = false;
+        shootingPatternSwitch = ShootingPatternSwitch.STANDARDPATTERN;
+
     }
 
     void ShieldLerp()

@@ -729,14 +729,40 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1789087257961090748, guid: ad3c6b4e7d1b58e4dbe12bfc658d37e9,
         type: 3}
+      propertyPath: conePoolSize
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1789087257961090748, guid: ad3c6b4e7d1b58e4dbe12bfc658d37e9,
+        type: 3}
       propertyPath: inputManager
       value: 
       objectReference: {fileID: 1975129443}
     - target: {fileID: 1789087257961090748, guid: ad3c6b4e7d1b58e4dbe12bfc658d37e9,
         type: 3}
+      propertyPath: conePoolBullet
+      value: 
+      objectReference: {fileID: 1758893044162241204, guid: 0aa6f099a4ee30346bacba2610afb6b9,
+        type: 3}
+    - target: {fileID: 1789087257961090748, guid: ad3c6b4e7d1b58e4dbe12bfc658d37e9,
+        type: 3}
+      propertyPath: anglePowerupTime
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1789087257961090748, guid: ad3c6b4e7d1b58e4dbe12bfc658d37e9,
+        type: 3}
+      propertyPath: coneShootingTime
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1789087257961090748, guid: ad3c6b4e7d1b58e4dbe12bfc658d37e9,
+        type: 3}
       propertyPath: projectileParent
       value: 
       objectReference: {fileID: 272182299}
+    - target: {fileID: 1789087257961090748, guid: ad3c6b4e7d1b58e4dbe12bfc658d37e9,
+        type: 3}
+      propertyPath: barrelPowerupTime
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 2260424507105689082, guid: ad3c6b4e7d1b58e4dbe12bfc658d37e9,
         type: 3}
       propertyPath: m_RootOrder

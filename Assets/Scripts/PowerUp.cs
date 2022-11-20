@@ -7,7 +7,7 @@ public class PowerUp : MonoBehaviour
     // Start is called before the first frame update
     PlayerController player;
     float speed = 10f;
-    [SerializeField]private enum PowerupType { SHIELD, FIRERATE, ANGLE, BARREL, LIFE, BULLETTIME }
+    [SerializeField]private enum PowerupType { SHIELD, FIRERATE, ANGLE, BARREL, LIFE, CONESHOOT, BULLETTIME, HOMINGPROJECTILE, BOMB, LASER }
     [SerializeField] PowerupType powerupType;
     [SerializeField] string powerUpName;
     [SerializeField] Color powerUpColor;
@@ -53,6 +53,15 @@ public class PowerUp : MonoBehaviour
                     break;
                 case PowerupType.BULLETTIME:
                     StartCoroutine(player.BulletTime());
+                    break;
+                case PowerupType.CONESHOOT:
+                    player.ConeShoot();
+                    break;
+                case PowerupType.HOMINGPROJECTILE:
+                    break;
+                case PowerupType.BOMB:
+                    break;
+                case PowerupType.LASER:
                     break;
             }
             PowerUpTextPopUp.instance.InstantiatePopUpText(powerUpName, powerUpColor, transform.position);
