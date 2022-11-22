@@ -90,4 +90,8 @@ public class FollowTouchController : MonoBehaviour
         previousPosition = currentPosition;
     }
 
+    public void SetPosition(Vector3 _pos)
+    {
+        transform.position = _pos;
+    }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
-#endif
+
 
 [CustomEditor(typeof(EnemySpawner)), CanEditMultipleObjects]
 public class EnemySpawnerEditor : Editor
@@ -37,3 +37,4 @@ public class EnemySpawnerEditor : Editor
         GUILayout.EndHorizontal();
     }
 }
+#endif

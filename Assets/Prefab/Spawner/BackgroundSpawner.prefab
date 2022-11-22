@@ -77,17 +77,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnableObjects:
-  - {fileID: 3194330243919119034, guid: 4daf1b699374c58439dd7500bef7b2c7, type: 3}
-  - {fileID: 838184145414667385, guid: e0b5a93ae29806c4883116c78bee2915, type: 3}
-  - {fileID: 6445618241587073676, guid: 0e0e6a098b928114ab058bd5d4f484dc, type: 3}
-  - {fileID: 1657020520733575956, guid: 8dc4827689012164384b8f264f00e6b1, type: 3}
+  - {fileID: 8307684852020630185, guid: baf4f4b9247b2684abcec5d0b5f73c66, type: 3}
+  - {fileID: 4679042136301049837, guid: 10143e4c098746e48a56b5ae4c326b51, type: 3}
+  - {fileID: 8918373032086071120, guid: 8f2431312ababf24c9417fe96c11dc8e, type: 3}
+  - {fileID: 6195899941749223813, guid: 712ebd05d9dc9f249a35738d639726b5, type: 3}
+  - {fileID: 5141824949978630602, guid: 05ec02c0ca784df4fb76f2a02e27367a, type: 3}
+  - {fileID: 2607065197691539778, guid: 7989286a0dc638e4c85c36827cfa5204, type: 3}
+  - {fileID: 8105663664233458049, guid: 90ac8e29f078dce4c808f6e01e406cd4, type: 3}
   backgroundParentObj: {fileID: 7543627134135339091}
   numberOfObjectToPool: 6
-  objectOnTheSceneN: 12
-  fixedXPosition: 4
+  objectOnTheSceneN: 8
+  fixedXPosition: 12
   fixedZPosition: 6
   xPosMinMax: {x: 0, y: 3}
-  yPosMinMax: {x: -1.5, y: 1.5}
-  zPosMinMax: {x: 0, y: 5}
+  yPosMinMax: {x: 0.5, y: 3}
+  zPosMinMax: {x: 4, y: 6}
   yRotMinMax: {x: 0, y: 360}
-  scaleMinMax: {x: 4, y: 8}
+  scaleMinMax: {x: 1, y: 1.5}

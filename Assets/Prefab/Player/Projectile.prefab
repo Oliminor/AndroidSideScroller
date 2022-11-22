@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1802988347930992968}
   - component: {fileID: -2959797165839916900}
-  - component: {fileID: 8561377670759105427}
   - component: {fileID: 1699761184062169317}
   - component: {fileID: 2738860774949395364}
   - component: {fileID: -7564502996115302155}
@@ -53,20 +52,7 @@ MonoBehaviour:
     type: 3}
   whatIsSolid:
     serializedVersion: 2
-    m_Bits: 192
---- !u!135 &8561377670759105427
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1758893044162241204}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
+    m_Bits: 448
 --- !u!198 &1699761184062169317
 ParticleSystem:
   m_ObjectHideFlags: 0

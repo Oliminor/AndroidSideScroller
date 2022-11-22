@@ -193,8 +193,8 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag=="Enemy" || other.tag == "Obstacle")//ill change this just testing things 
-        {
+        if (other.tag == "Enemy" || other.tag == "Obstacle")//ill change this just testing things 
+        { 
             TakeDamage();
         }
     }
@@ -204,7 +204,6 @@ public class PlayerController : MonoBehaviour
         while (true)
         {
             StartCoroutine(FiringPattern());
-            
             yield return new WaitForSeconds(currentFireRate);
         }
 

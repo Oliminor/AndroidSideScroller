@@ -17,10 +17,14 @@ public class ObjectMovement : MonoBehaviour
     [SerializeField] bool oldSchoolMovement = false;
     [SerializeField] float stepSize;
     [SerializeField] float stepTime;
+
+    [SerializeField] bool random90Rotation;
     float startY;
 
     private void Start()
     {
+        Random90Rotation();
+
         startY = transform.position.y;
 
         if (oldSchoolMovement) StartCoroutine(RetroMovement());
@@ -38,6 +42,15 @@ public class ObjectMovement : MonoBehaviour
 
         movementSpeed += incrementalAdditionalSpeedStep;
         if (exponentialSpeed) movementSpeed *= exponentialStep;
+    }
+
+    public void Random90Rotation()
+    {
+        if (random90Rotation)
+        {
+            int rotation = Random.Range(0, 4);
+            transform.rotation = Quaternion.Euler(new Vector3(rotation * 90, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z));
+        }
     }
 
     IEnumerator RetroMovement()

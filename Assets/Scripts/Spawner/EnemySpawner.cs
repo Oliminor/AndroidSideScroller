@@ -6,6 +6,8 @@ public class EnemySpawner : MonoBehaviour
 {
     public static EnemySpawner instance;
 
+    [SerializeField] List<UniqueObject> uniqueObjectList; 
+
     [SerializeField] List<EnemySpawnData> spawnableEnemyObjects;
     [SerializeField] List<SpawnRate> enemySpawnRate;
 
@@ -15,7 +17,7 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] float delayStartTime;
     [SerializeField] float delayEndTime;
 
-    private int gameTime;
+    [SerializeField] private List<Transform> activeEnemyList = new();
 
     private float currentEnemySpawnaRate;
     private float currentObstacleSpawnaRate;
@@ -27,8 +29,13 @@ public class EnemySpawner : MonoBehaviour
     public List<EnemySpawnData> GetEnemySpawnerObjects() { return spawnableEnemyObjects; }
 
     public List<SpawnRate> GetObstacleSpawnRate() { return obstacleSpawnRate; }
-    public List<EnemySpawnData> GetObstaclepawnerObjects() { return spawnablObstacleObjects; }
-    public void SetGameTime(int _gameTIme) { gameTime = _gameTIme; }        
+    public List<EnemySpawnData> GetObstaclepawnerObjects() { return spawnablObstacleObjects; }   
+
+    public List<Transform> GetActiveEnemyList()
+    {
+        for (int i = 0; i < activeEnemyList.Count; i++) if (activeEnemyList[i] == null) activeEnemyList.RemoveAt(i);
+        return activeEnemyList;
+    }
     
 
     private void Awake()
@@ -37,6 +44,7 @@ public class EnemySpawner : MonoBehaviour
     }
     void Start()
     {
+        SetUniqueObjects();
         EnemyInstantiate();
         ObjectInstantiate();
         StartCoroutine(StartDelay());
@@ -54,28 +62,27 @@ public class EnemySpawner : MonoBehaviour
     IEnumerator SpawnEnemy()
     {
         int spawnIndex = 0;
-        while (true)
+        while (enemyList.Count > 0)
         {
-            Spawner(enemyList);
-
             if (enemySpawnRate[spawnIndex].spawnRateTimeLimit < GameManager.instance.GetGameTIme()) spawnIndex++;
             currentEnemySpawnaRate = enemySpawnRate[spawnIndex].spawnRate;
 
             yield return new WaitForSeconds(currentEnemySpawnaRate);
+            Spawner(enemyList);
         }
     }
 
     IEnumerator SpawnObstacle()
     {
         int spawnIndex = 0;
-        while (true)
+        while (obstacleList.Count > 0)
         {
-            Spawner(obstacleList);
 
             if (obstacleSpawnRate[spawnIndex].spawnRateTimeLimit < GameManager.instance.GetGameTIme()) spawnIndex++;
             currentObstacleSpawnaRate = obstacleSpawnRate[spawnIndex].spawnRate;
 
             yield return new WaitForSeconds(currentObstacleSpawnaRate);
+            Spawner(obstacleList);
         }
     }
 
@@ -83,8 +90,8 @@ public class EnemySpawner : MonoBehaviour
     IEnumerator StartDelay()
     {
         yield return new WaitForSeconds(delayStartTime);
-        StartCoroutine(SpawnEnemy());
-        StartCoroutine(SpawnObstacle());
+        if (spawnableEnemyObjects.Count != 0) StartCoroutine(SpawnEnemy());
+        if (spawnablObstacleObjects.Count != 0) StartCoroutine(SpawnObstacle());
         StartCoroutine(GameManager.instance.ScoreAdditionPerSecond());
     }
 
@@ -95,8 +102,30 @@ public class EnemySpawner : MonoBehaviour
         GamePlayUI.instance.EndLevelSceneTrigger();
     }
 
+    IEnumerator SpawnUniqueEnemy(float _spawnDelay, GameObject _object)
+    {
+        yield return new WaitForSeconds(delayStartTime + _spawnDelay);
+
+        Vector3 spawnPos = new Vector3(0.5f, 0.5f, GameManager.instance.GetZPosition());
+
+        Vector3 spwanPosWorldToPoint = Camera.main.ViewportToWorldPoint(spawnPos);
+
+        GameObject go = Instantiate(_object, spwanPosWorldToPoint, Quaternion.identity);
+
+    }
+
+    private void SetUniqueObjects()
+    {
+        foreach (UniqueObject item in uniqueObjectList)
+        {
+            StartCoroutine(SpawnUniqueEnemy(item.spawnTime, item.spawnObject));
+        }
+    }
+
     private void EnemyInstantiate()
     {
+        if (spawnableEnemyObjects.Count == 0) return;
+
         for (int i = 0; i < spawnableEnemyObjects.Count; i++)
         {
             for (int j = 0; j < spawnableEnemyObjects[i].amountOnMap; j++)
@@ -113,6 +142,8 @@ public class EnemySpawner : MonoBehaviour
 
     private void ObjectInstantiate()
     {
+        if (spawnablObstacleObjects.Count == 0) return;
+
         for (int i = 0; i < spawnablObstacleObjects.Count; i++)
         {
             for (int j = 0; j < spawnablObstacleObjects[i].amountOnMap; j++)
@@ -148,6 +179,9 @@ public class EnemySpawner : MonoBehaviour
         _list[randomIndex].spawnObject.gameObject.transform.position = spwanPosWorldToPoint;
         _list[randomIndex].spawnObject.SetActive(true);
         _list[randomIndex].spawnObject.gameObject.transform.rotation = Quaternion.Euler(spawnRotation);
+
+        if (_list[randomIndex].spawnObject.tag == "Enemy") activeEnemyList.Add(_list[randomIndex].spawnObject.transform);
+
         _list.RemoveAt(randomIndex);
 
     }
@@ -223,5 +257,18 @@ public class SpawnRate
     {
         spawnRate = _spawnRate;
         spawnRateTimeLimit = _startSpawnRateFrom;
+    }
+}
+
+[System.Serializable]
+public class UniqueObject
+{
+    public float spawnTime;
+    public GameObject spawnObject;
+
+    public UniqueObject(float _spawnTime, GameObject _spawnObject)
+    {
+        spawnTime = _spawnTime;
+        spawnObject = _spawnObject;
     }
 }

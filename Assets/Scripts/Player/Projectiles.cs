@@ -12,9 +12,13 @@ public class Projectiles : MonoBehaviour
 
     private void Start()
     {
-        previousPosition = transform.position;
         destroyParticle = Instantiate(destroyParticle, transform.position, Quaternion.identity);
         destroyParticle.GetComponent<ParticleSystem>().Stop();
+    }
+
+    private void OnEnable()
+    {
+        previousPosition = transform.localToWorldMatrix.GetPosition();
     }
 
     void Update()
@@ -53,7 +57,7 @@ public class Projectiles : MonoBehaviour
     {
         float distance = Vector3.Distance(previousPosition, transform.position);
         RaycastHit hit;
-        if (Physics.Raycast(previousPosition, transform.forward, out hit, distance, whatIsSolid))
+        if (Physics.SphereCast(previousPosition - transform.forward * distance * 10, 0.15f, transform.forward, out hit, distance * 10, whatIsSolid))
         {
             if (hit.transform.TryGetComponent(out IDamageable damageTarget))
             {
@@ -63,7 +67,7 @@ public class Projectiles : MonoBehaviour
             InstantiateDestroyEffect(hit.point);
             gameObject.SetActive(false);
         }
-        previousPosition = transform.position;
+        previousPosition = transform.localToWorldMatrix.GetPosition();
     }
 
 }

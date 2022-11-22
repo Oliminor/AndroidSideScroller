@@ -8,6 +8,7 @@ public class BaseEnemy : MonoBehaviour, IDamageable
     [SerializeField] int score;
     [SerializeField] private GameObject enemyExplosion;
     [SerializeField] bool isPresistent;
+    [SerializeField] List<MeshRenderer> damageMeshRendererList;
     // Start is called before the first frame update
 
     public int GetEnemyScore() { return score; }
@@ -30,6 +31,12 @@ public class BaseEnemy : MonoBehaviour, IDamageable
         }
     }
 
+    public void WipeAllEnemyOnTheScreen()
+    {
+        Vector3 pos = Camera.main.WorldToViewportPoint(transform.position);
+        if (pos.x < 1.0 && pos.x > 0) EnemyDeath();
+    }
+
     virtual protected void TakeDamage()
     {
         Vector3 pos = Camera.main.WorldToViewportPoint(transform.position);
@@ -37,19 +44,47 @@ public class BaseEnemy : MonoBehaviour, IDamageable
         if (pos.x > 1.0) return;
 
         health--;
+        StartCoroutine(DamageFlash());
 
         if (health <= 0)
         {
-            GameObject go = Instantiate(enemyExplosion, transform.position, Quaternion.identity);
-            powerUpDrop();
-            GameManager.instance.AddScoreFromEnemy(score);
-            GameManager.instance.SetEnemyKilled();
-            Destroy(go, 3);
-            Destroy(gameObject);
-            float _score = GameManager.instance.GetScoreMultiplier() * score;
-            int _popUpScore = (int)_score;
-            PowerUpTextPopUp.instance.InstantiatePopUpText("+" + _popUpScore.ToString(), Color.white, transform.position);
+            EnemyDeath();
         }
+    }
+
+    IEnumerator DamageFlash()
+    {
+        for (int i = 0; i < damageMeshRendererList.Count; i++)
+        {
+            for (int j = 0; j < damageMeshRendererList[i].materials.Length; j++)
+            {
+                damageMeshRendererList[i].materials[j].SetFloat("_Lerp", 1);
+            }
+        }
+
+        yield return new WaitForSeconds(0.1f);
+
+        for (int i = 0; i < damageMeshRendererList.Count; i++)
+        {
+            for (int j = 0; j < damageMeshRendererList[i].materials.Length; j++)
+            {
+                damageMeshRendererList[i].materials[j].SetFloat("_Lerp", 0);
+            }
+        }
+    }
+
+    private void EnemyDeath()
+    {
+        GameObject go = Instantiate(enemyExplosion, transform.position, Quaternion.identity);
+        powerUpDrop();
+        GameManager.instance.AddScoreFromEnemy(score);
+        GameManager.instance.SetEnemyKilled();
+        Destroy(go, 3);
+        Destroy(gameObject);
+        float _score = GameManager.instance.GetScoreMultiplier() * score;
+        int _popUpScore = (int)_score;
+        CameraShake.instance.TriggerShake(0.1f, 0.1f, 0.05f);
+        PowerUpTextPopUp.instance.InstantiatePopUpText("+" + _popUpScore.ToString(), Color.white, transform.position);
     }
 
     private void powerUpDrop()
