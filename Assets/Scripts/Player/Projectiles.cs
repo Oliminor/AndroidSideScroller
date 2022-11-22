@@ -9,6 +9,9 @@ public class Projectiles : MonoBehaviour
     [SerializeField] bool isHomingProjectile;
     [SerializeField] GameObject target;
 
+    [SerializeField] LayerMask whatIsSolid;
+    private Vector3 previousPosition;
+
     private void Start()
     {
         destroyParticle = Instantiate(destroyParticle, transform.position, Quaternion.identity);
@@ -16,14 +19,19 @@ public class Projectiles : MonoBehaviour
     }
     private void OnEnable()
     {
-        if(isHomingProjectile)
+        previousPosition = transform.localToWorldMatrix.GetPosition();
+
+        if (isHomingProjectile)
         {
             //GameObject                                 //prob gonna need a list for this stuff 
+            //EnemySpawner.instance.GetActiveEnemyList(); // Here you go
             //target=
         }
     }
     void Update()
     {
+        CheckBetweenTwoPositions();
+
         Vector3 screenPos = Camera.main.WorldToViewportPoint(transform.position);
 
         screenPos.x = Mathf.Clamp01(screenPos.x);
@@ -50,10 +58,27 @@ public class Projectiles : MonoBehaviour
         transform.Translate(Vector3.forward * speed * Time.deltaTime);
     }
 
-    public void InstantiateDestroyEffect()
+
+    public void InstantiateDestroyEffect(Vector3 _explodePosition)
     {
-        destroyParticle.transform.position = transform.position;
+        destroyParticle.transform.position = _explodePosition;
         destroyParticle.GetComponent<ParticleSystem>().Play();
+    }
+
+    private void CheckBetweenTwoPositions()
+    {
+        float distance = Vector3.Distance(previousPosition, transform.position);
+        RaycastHit hit;
+        if (Physics.SphereCast(previousPosition - transform.forward * distance * 10, 0.15f, transform.forward, out hit, distance * 10, whatIsSolid))
+        {
+            if (hit.transform.TryGetComponent(out IDamageable damageTarget))
+            {
+                damageTarget.TakeDamage();
+            }
+            InstantiateDestroyEffect(hit.point);
+            gameObject.SetActive(false);
+        }
+        previousPosition = transform.localToWorldMatrix.GetPosition();
     }
 
 }

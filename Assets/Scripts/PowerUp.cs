@@ -62,6 +62,7 @@ public class PowerUp : MonoBehaviour
                 case PowerupType.BOMB:
                     break;
                 case PowerupType.LASER:
+                    player.ActivatePlayerLaser();
                     break;
             }
             PowerUpTextPopUp.instance.InstantiatePopUpText(powerUpName, powerUpColor, transform.position);

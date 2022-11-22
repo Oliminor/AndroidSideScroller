@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] bool isGodModeOn = false;
 
     [Header("Health and Body")]//health and body 
     [SerializeField] Transform projectileParent;
@@ -31,6 +32,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] List<GameObject> coneBulletInPool = new();
     [SerializeField] GameObject conePoolBullet;
     [SerializeField] int conePoolSize;
+
+    [Header("Laser")]
+    [SerializeField] GameObject LaserProjectile;
+    [SerializeField] float laserActiveTime;
 
     [Header("Powerup Modes")]//powerup modes
     [SerializeField] float initialFireRate = 2;
@@ -85,6 +90,8 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        LaserProjectile.SetActive(false);
+
         startPosition = transform.position;
         body = GetComponent<Rigidbody>();
         body.useGravity = false;
@@ -109,7 +116,7 @@ public class PlayerController : MonoBehaviour
         //instatiate bullets and add to pool
         coneBulletInPool = new List<GameObject>();
         GameObject coneBullet;
-        for (int i = 0; i < poolSize; i++)
+        for (int i = 0; i < conePoolSize; i++)
         {
             coneBullet = Instantiate(conePoolBullet);
             coneBullet.SetActive(false);
@@ -253,7 +260,7 @@ public class PlayerController : MonoBehaviour
 
     private GameObject GetPooledConeBullet()
     {
-        for (int i = 0; i < poolSize; i++)
+        for (int i = 0; i < conePoolSize; i++)
         {
             if (!coneBulletInPool[i].activeInHierarchy)
             {
@@ -266,6 +273,8 @@ public class PlayerController : MonoBehaviour
     public void TakeDamage()
     {
         if (GameManager.instance.GetIsLevelEnded() || GameManager.instance.GetIsLevelEnded()) return;
+
+        if (isGodModeOn) return;
 
         if (isProtected == false) //if no shield is up, take damage and reset barrel count
         {
@@ -280,6 +289,7 @@ public class PlayerController : MonoBehaviour
             transform.rotation = Quaternion.Euler(new Vector3(0, 90, 0));
             StartCoroutine(Invulnerability(false, 3));
             StartCoroutine(RespawnEffect());
+            FollowTouchController.instance.SetPosition();
 
             if (lives <= 0)
             {
@@ -315,11 +325,11 @@ public class PlayerController : MonoBehaviour
                     int angleDown = (i + 1) * -5;
                     float playerXrotation = PlayerMuzzle.rotation.eulerAngles.x;
 
-                    bullet = GetPooled();
+                    bullet = GetPooledConeBullet();
                     bullet.transform.SetPositionAndRotation(PlayerMuzzle.position, Quaternion.Euler(playerXrotation + angleUp, 90, 0));
                     bullet.SetActive(true);
 
-                    bullet = GetPooled();
+                    bullet = GetPooledConeBullet();
                     bullet.transform.SetPositionAndRotation(PlayerMuzzle.position, Quaternion.Euler(playerXrotation + angleDown, 90, 0));
                     bullet.SetActive(true);
                 }
@@ -343,11 +353,11 @@ public class PlayerController : MonoBehaviour
                 {
                     float playerXrotation = PlayerMuzzle.rotation.eulerAngles.x;
 
-                    coneBullet = GetPooled();
+                    coneBullet = GetPooledConeBullet();
                     coneBullet.transform.SetPositionAndRotation(PlayerMuzzle.position, Quaternion.Euler(playerXrotation + coneShotAngle, 90, 0));
                     coneBullet.SetActive(true);
 
-                    coneBullet = GetPooled();
+                    coneBullet = GetPooledConeBullet();
                     coneBullet.transform.SetPositionAndRotation(PlayerMuzzle.position, Quaternion.Euler(playerXrotation - coneShotAngle, 90, 0));
                     coneBullet.SetActive(true);
 
@@ -370,6 +380,17 @@ public class PlayerController : MonoBehaviour
     public void AddBarrel() { StartCoroutine(AddRemoveBarrel()); }
 
     public void AddAngle() { StartCoroutine(AddRemoveAngle()); }
+
+    public void ActivatePlayerLaser() { StartCoroutine(ActicateLaser()); }
+
+    private IEnumerator ActicateLaser()
+    {
+        LaserProjectile.SetActive(true);
+
+        yield return new WaitForSeconds(laserActiveTime);
+
+        LaserProjectile.SetActive(false);
+    }
 
     private IEnumerator AddRemoveAngle()
     {

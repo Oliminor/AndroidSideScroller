@@ -10,6 +10,7 @@ public class FollowTouchController : MonoBehaviour
 
     Vector3 previousPosition;
     Vector3 currentPosition;
+    Vector3 startPosition;
 
     bool isFirstTouch = false;
     bool mouseIsHold = false;
@@ -19,6 +20,7 @@ public class FollowTouchController : MonoBehaviour
     {
         instance = this;
         previousPosition = transform.position;
+        startPosition = transform.position;
     }
 
     // Update is called once per frame
@@ -32,6 +34,7 @@ public class FollowTouchController : MonoBehaviour
         MouseMovement();
 #endif
     }
+
 
     private void TouchMovement()
     {
@@ -87,11 +90,20 @@ public class FollowTouchController : MonoBehaviour
 
         transform.position += direction.normalized * distance;
 
+        Vector3 screenPos = transform.position;
+
+        float padding = Screen.height / 30;
+
+        screenPos.x = Mathf.Clamp(screenPos.x, padding, Screen.width - padding);
+        screenPos.y = Mathf.Clamp(screenPos.y, padding, Screen.height - padding);
+
+        transform.position = screenPos;
+
         previousPosition = currentPosition;
     }
 
-    public void SetPosition(Vector3 _pos)
+    public void SetPosition()
     {
-        transform.position = _pos;
+        transform.position = startPosition;
     }
 }
