@@ -95,9 +95,9 @@ GameObject:
   - component: {fileID: 1789087257961090738}
   - component: {fileID: 1789087257961090748}
   - component: {fileID: 1344962541}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: SpaceShip
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -147,6 +147,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb6b9e7b95f638b45be8c453dae7b663, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  godMode: 0
   projectileParent: {fileID: 0}
   explodeParticle: {fileID: 7901355001004251967, guid: c673dd3f315e0094bbc5263c6458d3d9,
     type: 3}
@@ -160,7 +161,7 @@ MonoBehaviour:
   poolThis: {fileID: 1758893044162241204, guid: 0aa6f099a4ee30346bacba2610afb6b9,
     type: 3}
   poolSize: 300
-  initialFireRate: 1
+  initialFireRate: 0.4
   barrelNumber: 2
   angleNumber: 2
   isProtected: 0

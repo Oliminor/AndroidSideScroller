@@ -45,13 +45,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 3
-  score: 0
+  gameScore: 0
   multiplierValue:
   - 1
   - 1.5
   - 2
   multiplierTick: 
-  scorePerSecond: 25
-  spawnTime: 1
+  scorePerSecond: 50
   globalZposition: 5
   isTheLevelEnded: 0
+  isGameOver: 0

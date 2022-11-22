@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7712622841308598644}
   - component: {fileID: 1754341813579827632}
   - component: {fileID: 4320194427102740903}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -62,8 +62,8 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 68f5a883bdff968459d5b09ddea47a01, type: 2}
-  - {fileID: 2100000, guid: c7a96450ebcada346af3389395ca683e, type: 2}
+  - {fileID: 2100000, guid: b6d72ef910a54b94685718b723b4bc71, type: 2}
+  - {fileID: 2100000, guid: 5c6c522b799abb04a8c0fbf165636a7c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -109,7 +109,8 @@ GameObject:
   - component: {fileID: 4359150791034984829}
   - component: {fileID: 4320194426750614668}
   - component: {fileID: 4320194426750614658}
-  m_Layer: 0
+  - component: {fileID: 7343449379388200566}
+  m_Layer: 7
   m_Name: Enemy2_prefab
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -161,12 +162,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 10
-  score: 200
+  score: 150
   enemyExplosion: {fileID: 7901355001004251967, guid: 6b52787238f77cb4d848b81829c720fd,
     type: 3}
   isPresistent: 0
+  damageMeshRendererList:
+  - {fileID: 1754341813579827632}
+  - {fileID: 8101484652225474425}
+  - {fileID: 7960708636282816021}
   horizontalSpeed: 2
   thruster: {fileID: 1446405121116462117}
+--- !u!114 &7343449379388200566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3978085987261645767}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30752721b00d7df43b082271b3275e65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6608952873085725768
 GameObject:
   m_ObjectHideFlags: 0
@@ -178,7 +195,7 @@ GameObject:
   - component: {fileID: 1083229634788638678}
   - component: {fileID: 1798411605258793707}
   - component: {fileID: 8101484652225474425}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: engine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -228,7 +245,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -1294058508819152814, guid: b7ed23930a66f2c4b9bd5bd5100a7378, type: 3}
+  - {fileID: 2100000, guid: 5c6c522b799abb04a8c0fbf165636a7c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -261,8 +278,7 @@ GameObject:
   - component: {fileID: 8216530977998033243}
   - component: {fileID: 5622240302246174182}
   - component: {fileID: 7960708636282816021}
-  - component: {fileID: 4320194428117606830}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -312,7 +328,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d57325fda1726de43aa9c2780f71b45f, type: 2}
+  - {fileID: 2100000, guid: c8154740d21e72f419325544ac12a1a1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -334,25 +350,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &4320194428117606830
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7409021526631123600}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1dc955a8c24157843a9e8a8e632bcfd6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lerpTime: 0.85
-  myColors:
-  - {r: 1, g: 0.6897315, b: 0, a: 1}
-  - {r: 1, g: 0.41960785, b: 0, a: 1}
-  - {r: 1, g: 0, b: 0.08235294, a: 1}
-  - {r: 0.5188679, g: 0.002447496, b: 0.26936135, a: 1}
-  - {r: 0, g: 0, b: 0, a: 1}
 --- !u!1001 &943268357655477613
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -364,6 +361,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: EnemyThruster
+      objectReference: {fileID: 0}
+    - target: {fileID: 1758893044162241204, guid: 76397c122d2ce66418e1cc3c8d59c5f6,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 1802988347930992968, guid: 76397c122d2ce66418e1cc3c8d59c5f6,
         type: 3}

@@ -11,7 +11,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private List<float> multiplierValue;
     [SerializeField] private int[] multiplierTick;
     [SerializeField] private int scorePerSecond;
-    [SerializeField] private float spawnTime;
     [SerializeField] private float globalZposition;
     [SerializeField] private bool isTheLevelEnded = false;
     [SerializeField] private bool isGameOver = false;
@@ -24,6 +23,7 @@ public class GameManager : MonoBehaviour
     private float scoreMultiplier = 1;
     private float tempScoreMultiplier;
     private int multiplierIndex;
+    private int gameTime;
 
     private float timeScore;
     private int enemyKilled;
@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour
 
     public List<float> GetMultiplierValue() { return multiplierValue; }
     public int[] GetMultiplierTick() { return multiplierTick; }
-    public float GetSpawnTime() { return spawnTime; }
+    public int GetGameTIme() { return gameTime; }
     public void SetSpeed(float _speed) { speed = _speed; } 
     public float GetSpeed() { return speed; }
     public void SetPlayer(PlayerController _player) { player = _player; }
@@ -76,11 +76,11 @@ public class GameManager : MonoBehaviour
 
     public int GetMaximumScore()
     {
-        float spawnRate = EnemySpawner.instance.GetSpawnRate();
-        int spawnObjectNumber = EnemySpawner.instance.GetObjectNumber();
+        int gameTime = EnemySpawner.instance.GetGameTime();
+
         int playerMaxLife = 3;
 
-        float maximumScore = (spawnRate * spawnObjectNumber * scorePerSecond + enemyScore) * multiplierValue[multiplierValue.Count - 1] * playerMaxLife;
+        float maximumScore = (gameTime * scorePerSecond + enemyScore) * multiplierValue[multiplierValue.Count - 1] * playerMaxLife;
 
         return (int)maximumScore;
     }
@@ -111,8 +111,9 @@ public class GameManager : MonoBehaviour
             lerpScore += scorePerSecond * scoreMultiplier;
             timeScore += scorePerSecond * scoreMultiplier;
             multiplierTick[multiplierIndex]++;
+            gameTime++;
             ResetLerpTime();
-            yield return new WaitForSeconds(spawnTime);
+            yield return new WaitForSeconds(1);
         }
     }
 
@@ -141,7 +142,7 @@ public class GameManager : MonoBehaviour
 
     public void AddScoreFromEnemy(int _score)
     {
-        lerpScore += _score;
+        lerpScore += _score * scoreMultiplier;
         GamePlayUI.instance.SetScoreTextSize();
     }
 }

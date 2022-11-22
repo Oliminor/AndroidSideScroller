@@ -45,26 +45,66 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 895b4192cea0bfd4c82ccef7af0791f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnableObjects:
+  uniqueObjectList:
+  - spawnTime: 35
+    spawnObject: {fileID: 185371263490242052, guid: 42bbcd5f1d8f66e4191c5d898ecacb57,
+      type: 3}
+  spawnableEnemyObjects:
   - spawnObject: {fileID: 4104544652574019325, guid: a4f2a09aabdd17d46bf6f0284b371274,
       type: 3}
-    spawnPosY: {x: 0.3, y: 0.7}
-    amountOnMap: 20
-    spawnRotation: {x: 0, y: -90, z: 0}
-  - spawnObject: {fileID: 1323580739796764374, guid: 70ac275ec0fa5df4b93a12898cd53fee,
-      type: 3}
-    spawnPosY: {x: 0.4, y: 0.6}
+    spawnPosY: {x: 0.2, y: 0.8}
     amountOnMap: 5
-    spawnRotation: {x: 0, y: 180, z: 0}
+    spawnRotation: {x: 0, y: -90, z: 0}
   - spawnObject: {fileID: 3978085987261645767, guid: e01cc223ef4ebcf449b091ec4a1ef557,
       type: 3}
-    spawnPosY: {x: 0, y: 0}
-    amountOnMap: 10
+    spawnPosY: {x: 0.2, y: 0.8}
+    amountOnMap: 5
     spawnRotation: {x: 0, y: 0, z: 0}
-  numberOfObjectToPool: 10
-  spawnRate: 3
+  enemySpawnRate:
+  - spawnRate: 0.5
+    spawnRateTimeLimit: 12
+  spawnablObstacleObjects:
+  - spawnObject: {fileID: 8158471139404077839, guid: 0dfa6e7c255361f4aa2281c643f4aaaf,
+      type: 3}
+    spawnPosY: {x: 0.1, y: 0.9}
+    amountOnMap: 15
+    spawnRotation: {x: 0, y: -90, z: 0}
+  - spawnObject: {fileID: 1571362670439007529, guid: 3b96ab4d893b66042995554dc9490df6,
+      type: 3}
+    spawnPosY: {x: 0.1, y: 0.9}
+    amountOnMap: 15
+    spawnRotation: {x: 0, y: -90, z: 0}
+  - spawnObject: {fileID: 6614920242449510896, guid: 48040a8d38528d64ebad623da6f349f8,
+      type: 3}
+    spawnPosY: {x: 0.1, y: 0.9}
+    amountOnMap: 15
+    spawnRotation: {x: 0, y: -90, z: 0}
+  - spawnObject: {fileID: 4782023021147811676, guid: ef7ea334aa947a34a98a7431b55d27f0,
+      type: 3}
+    spawnPosY: {x: 0.1, y: 0.9}
+    amountOnMap: 15
+    spawnRotation: {x: 0, y: -90, z: 0}
+  - spawnObject: {fileID: 7826775764178410735, guid: fe4086a1d37bb9949bbb135da1917655,
+      type: 3}
+    spawnPosY: {x: 0.1, y: 0.9}
+    amountOnMap: 15
+    spawnRotation: {x: 0, y: -90, z: 0}
+  - spawnObject: {fileID: 4257050771112614781, guid: 2a4d940780e21dc4cb74d6ce0ad8e5b1,
+      type: 3}
+    spawnPosY: {x: 0.1, y: 0.9}
+    amountOnMap: 15
+    spawnRotation: {x: 0, y: -90, z: 0}
+  - spawnObject: {fileID: 6696258177427343739, guid: f25311512e9220f4a81d1e70b8264c82,
+      type: 3}
+    spawnPosY: {x: 0.1, y: 0.9}
+    amountOnMap: 15
+    spawnRotation: {x: 0, y: -90, z: 0}
+  obstacleSpawnRate:
+  - spawnRate: 300
+    spawnRateTimeLimit: 300
   delayStartTime: 5
-  delayEndTime: 5
+  delayEndTime: 10
+  activeEnemyList: []
 --- !u!114 &1500221306
 MonoBehaviour:
   m_ObjectHideFlags: 0

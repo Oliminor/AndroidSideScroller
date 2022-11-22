@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BaseEnemy : MonoBehaviour
+public class BaseEnemy : MonoBehaviour, IDamageable
 {
     [SerializeField] protected int health;
     [SerializeField] int score;
     [SerializeField] private GameObject enemyExplosion;
     [SerializeField] bool isPresistent;
+    [SerializeField] List<MeshRenderer> damageMeshRendererList;
     // Start is called before the first frame update
 
     public int GetEnemyScore() { return score; }
@@ -30,18 +31,60 @@ public class BaseEnemy : MonoBehaviour
         }
     }
 
+    public void WipeAllEnemyOnTheScreen()
+    {
+        Vector3 pos = Camera.main.WorldToViewportPoint(transform.position);
+        if (pos.x < 1.0 && pos.x > 0) EnemyDeath();
+    }
+
     virtual protected void TakeDamage()
     {
+        Vector3 pos = Camera.main.WorldToViewportPoint(transform.position);
+
+        if (pos.x > 1.0) return;
+
         health--;
+        StartCoroutine(DamageFlash());
 
         if (health <= 0)
         {
-            Instantiate(enemyExplosion, transform.position, Quaternion.identity);
-            powerUpDrop();
-            GameManager.instance.AddScoreFromEnemy(score);
-            GameManager.instance.SetEnemyKilled();
-            Destroy(gameObject);
+            EnemyDeath();
         }
+    }
+
+    IEnumerator DamageFlash()
+    {
+        for (int i = 0; i < damageMeshRendererList.Count; i++)
+        {
+            for (int j = 0; j < damageMeshRendererList[i].materials.Length; j++)
+            {
+                damageMeshRendererList[i].materials[j].SetFloat("_Lerp", 1);
+            }
+        }
+
+        yield return new WaitForSeconds(0.1f);
+
+        for (int i = 0; i < damageMeshRendererList.Count; i++)
+        {
+            for (int j = 0; j < damageMeshRendererList[i].materials.Length; j++)
+            {
+                damageMeshRendererList[i].materials[j].SetFloat("_Lerp", 0);
+            }
+        }
+    }
+
+    private void EnemyDeath()
+    {
+        GameObject go = Instantiate(enemyExplosion, transform.position, Quaternion.identity);
+        powerUpDrop();
+        GameManager.instance.AddScoreFromEnemy(score);
+        GameManager.instance.SetEnemyKilled();
+        Destroy(go, 3);
+        Destroy(gameObject);
+        float _score = GameManager.instance.GetScoreMultiplier() * score;
+        int _popUpScore = (int)_score;
+        CameraShake.instance.TriggerShake(0.1f, 0.1f, 0.05f);
+        PowerUpTextPopUp.instance.InstantiatePopUpText("+" + _popUpScore.ToString(), Color.white, transform.position);
     }
 
     private void powerUpDrop()
@@ -51,29 +94,27 @@ public class BaseEnemy : MonoBehaviour
         {
             GameObject targetPower = PowerUpManager.instance.availiblePowerups[0];
             PowerUpManager.instance.availiblePowerups.Remove(targetPower);
-            GameObject go = Instantiate(targetPower, transform.position, Quaternion.identity);
+            Instantiate(targetPower, transform.position, Quaternion.identity);
         }
     }
 
     void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Enemy destroyed by player collide");
-
         if (other.gameObject == GameManager.instance.GetPlayer().gameObject)
         {
-            Instantiate(enemyExplosion, transform.position, Quaternion.identity);
+            GameObject go = Instantiate(enemyExplosion, transform.position, Quaternion.identity);
+            Destroy(go, 2);
             Destroy(this.gameObject);
         }
-        if (other.TryGetComponent(out Projectiles projectiles))
-        {
-            if (health > 0)
-            {
-                TakeDamage();
-                other.gameObject.SetActive(false);
-                projectiles.InstantiateDestroyEffect();
-            }
-            
-        }
-
     }
+
+    void IDamageable.TakeDamage()
+    {
+        if (health > 0) TakeDamage();
+    }
+}
+
+public interface IDamageable
+{ 
+    public void TakeDamage();
 }
