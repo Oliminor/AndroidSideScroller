@@ -7,10 +7,12 @@ public class Projectiles : MonoBehaviour
     [SerializeField] float speed = 7.5f;
     [SerializeField] GameObject destroyParticle;
     [SerializeField] bool isHomingProjectile;
-    [SerializeField] GameObject target;
+    bool wasTargeting=false;
+    [SerializeField] Transform target;
 
     [SerializeField] LayerMask whatIsSolid;
     private Vector3 previousPosition;
+    Rigidbody body;
 
     private void Start()
     {
@@ -23,9 +25,12 @@ public class Projectiles : MonoBehaviour
 
         if (isHomingProjectile)
         {
-            //GameObject                                 //prob gonna need a list for this stuff 
-            //EnemySpawner.instance.GetActiveEnemyList(); // Here you go
-            //target=
+            if(EnemySpawner.instance.GetActiveEnemyList().Count>0)
+            {
+                body = gameObject.GetComponent<Rigidbody>();
+                List<Transform> targetList = EnemySpawner.instance.GetActiveEnemyList(); // Here you go
+                target = targetList[0];
+            }
         }
     }
     void Update()
@@ -53,9 +58,38 @@ public class Projectiles : MonoBehaviour
 
         if(isHomingProjectile)
         {
-           // transform.Translate(Vector3.MoveTowards(gameObject.transform.position, )
+            if(target!=null)
+            {
+                float travel = (speed*2f) * Time.deltaTime;
+                transform.position = Vector3.MoveTowards(transform.position, target.position, travel);
+                wasTargeting = true;
+            }
+            else
+            {
+                if(EnemySpawner.instance.GetActiveEnemyList().Count>0)
+                {
+                    target = EnemySpawner.instance.GetActiveEnemyList()[0];
+                }
+                else
+                {
+                    if (wasTargeting)
+                    {
+                        transform.Translate( transform.forward* speed * Time.deltaTime);
+                    }
+                    else
+                    {
+                        transform.Translate(Vector3.forward * speed * Time.deltaTime);
+                    }
+                }
+                
+            }
+            
         }
-        transform.Translate(Vector3.forward * speed * Time.deltaTime);
+        else
+        {
+            transform.Translate(Vector3.forward * speed * Time.deltaTime);
+        }
+        
     }
 
 
@@ -80,5 +114,19 @@ public class Projectiles : MonoBehaviour
         }
         previousPosition = transform.localToWorldMatrix.GetPosition();
     }
-
+    private void OnTriggerEnter(Collider other)
+    {
+        if(isHomingProjectile)
+        {
+            if (other.tag == "Enemy")
+            {
+                if (other.TryGetComponent(out IDamageable damageTarget))
+                {
+                    damageTarget.TakeDamage();
+                }
+                InstantiateDestroyEffect(gameObject.transform.position);
+                gameObject.SetActive(false);
+            }
+        }
+    }
 }

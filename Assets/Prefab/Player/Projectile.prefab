@@ -50,6 +50,8 @@ MonoBehaviour:
   speed: 9
   destroyParticle: {fileID: 5683088716714617447, guid: 9e26d7b96a7b3cd4fab8bd36cdb794cc,
     type: 3}
+  isHomingProjectile: 0
+  target: {fileID: 0}
   whatIsSolid:
     serializedVersion: 2
     m_Bits: 448

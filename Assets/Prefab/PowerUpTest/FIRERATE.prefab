@@ -132,3 +132,10 @@ MonoBehaviour:
   movementSpeed: 1
   sinValue: 0.2
   sinFrequency: 3
+  incrementalAdditionalSpeedStep: 0
+  exponentialStep: 0
+  exponentialSpeed: 0
+  oldSchoolMovement: 0
+  stepSize: 0
+  stepTime: 0
+  random90Rotation: 0

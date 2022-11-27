@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 7936723137683292311}
   - component: {fileID: -4118284490450045601}
   m_Layer: 0
-  m_Name: LIFE
+  m_Name: CONE
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -136,6 +136,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccd3ec161d2b59946ab0300a1e877944, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  powerupType: 4
-  powerUpName: +1 Extra life
-  powerUpColor: {r: 0.044010334, g: 0.08198248, b: 0.4056604, a: 1}
+  powerupType: 5
+  powerUpName: Cone Shooting
+  powerUpColor: {r: 0.40392157, g: 0.043137245, b: 0.24602854, a: 1}

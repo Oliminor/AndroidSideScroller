@@ -33,6 +33,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject conePoolBullet;
     [SerializeField] int conePoolSize;
 
+    [SerializeField] List<GameObject> homingBulletInPool = new();
+    [SerializeField] GameObject homingPoolBullet;
+    [SerializeField] int homingPoolSize;
+
     [Header("Laser")]
     [SerializeField] GameObject LaserProjectile;
     [SerializeField] float laserActiveTime;
@@ -122,6 +126,16 @@ public class PlayerController : MonoBehaviour
             coneBullet.SetActive(false);
             coneBulletInPool.Add(coneBullet);
             coneBullet.transform.parent = projectileParent;
+        }
+
+        homingBulletInPool = new List<GameObject>();
+        GameObject homingBullet;
+        for (int i = 0; i < poolSize; i++)
+        {
+            homingBullet = Instantiate(homingPoolBullet);
+            homingBullet.SetActive(false);
+            homingBulletInPool.Add(homingBullet);
+            homingBullet.transform.parent = projectileParent;
         }
 
         //start shooting coroutine
@@ -270,6 +284,18 @@ public class PlayerController : MonoBehaviour
         return null;
     }
 
+    private GameObject GetPooledHomingBullet()
+    {
+        for (int i = 0; i < homingPoolSize; i++)
+        {
+            if (!homingBulletInPool[i].activeInHierarchy)
+            {
+                return homingBulletInPool[i];
+            }
+        }
+        return null;
+    }
+
     public void TakeDamage()
     {
         if (GameManager.instance.GetIsLevelEnded() || GameManager.instance.GetIsLevelEnded()) return;
@@ -315,6 +341,7 @@ public class PlayerController : MonoBehaviour
     {
         GameObject bullet;
         GameObject coneBullet;
+        GameObject homingBullet;
 
         switch (shootingPatternSwitch)
         {
@@ -370,6 +397,11 @@ public class PlayerController : MonoBehaviour
                 }
 
             case ShootingPatternSwitch.HOMINGPATTERN:
+                {
+                    homingBullet = GetPooledHomingBullet();
+                    homingBullet.transform.SetPositionAndRotation(PlayerMuzzle.position, PlayerMuzzle.rotation);
+                    homingBullet.SetActive(true);
+                }
                 break;
             case ShootingPatternSwitch.LASERPATTERN:
                 break;
@@ -460,6 +492,24 @@ public class PlayerController : MonoBehaviour
 
         isProtected = false;
         if (isShield) shieldLerp = 1;
+    }
+
+    public void ActivateHoming()
+    {
+        StartCoroutine(HomingMissiles(coneShootingTime));
+    }
+    private IEnumerator HomingMissiles(float _shootingTime) // assuming we want this pattern specifically to add to the current time rather than run in parallel
+    {
+        float time = _shootingTime;
+
+        while (time > 0)
+        {
+            shootingPatternSwitch = ShootingPatternSwitch.HOMINGPATTERN;
+            time -= Time.deltaTime;
+            yield return null;
+        }
+        shootingPatternSwitch = ShootingPatternSwitch.STANDARDPATTERN;
+
     }
 
     private IEnumerator ConeShootingTimer(float _shootingTime) // assuming we want this pattern specifically to add to the current time rather than run in parallel

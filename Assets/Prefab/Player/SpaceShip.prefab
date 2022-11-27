@@ -315,6 +315,10 @@ MonoBehaviour:
   conePoolBullet: {fileID: 1758893044162241204, guid: ba47fc050b688694681fb03a74e92342,
     type: 3}
   conePoolSize: 100
+  homingBulletInPool: []
+  homingPoolBullet: {fileID: 1758893044162241204, guid: a18b18958329b4145b121119fc0c244f,
+    type: 3}
+  homingPoolSize: 100
   LaserProjectile: {fileID: 1247439927}
   laserActiveTime: 15
   initialFireRate: 0.4
@@ -328,8 +332,8 @@ MonoBehaviour:
   anglePowerupTime: 3
   barrelPowerupTime: 3
   coneShootingTime: 3
-  maxBarrels: 0
-  maxAngles: 0
+  maxBarrels: 4
+  maxAngles: 4
   inputManager: {fileID: 0}
 --- !u!65 &1344962541
 BoxCollider:

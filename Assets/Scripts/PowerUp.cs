@@ -58,6 +58,7 @@ public class PowerUp : MonoBehaviour
                     player.ConeShoot();
                     break;
                 case PowerupType.HOMINGPROJECTILE:
+                    player.ActivateHoming();
                     break;
                 case PowerupType.BOMB:
                     break;
