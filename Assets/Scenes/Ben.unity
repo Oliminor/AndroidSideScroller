@@ -811,6 +811,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1789087257961090748, guid: ad3c6b4e7d1b58e4dbe12bfc658d37e9,
         type: 3}
+      propertyPath: isGodModeOn
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1789087257961090748, guid: ad3c6b4e7d1b58e4dbe12bfc658d37e9,
+        type: 3}
       propertyPath: inputManager
       value: 
       objectReference: {fileID: 1975129443}
@@ -1011,6 +1016,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4470840859592041285, guid: 759dd6213709b5e4b911c9a4ff73bde4,
+        type: 3}
+      propertyPath: fixedTime
+      value: 65
       objectReference: {fileID: 0}
     - target: {fileID: 4470840859592041287, guid: 759dd6213709b5e4b911c9a4ff73bde4,
         type: 3}

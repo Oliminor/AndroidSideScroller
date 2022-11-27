@@ -45,7 +45,7 @@ public class PongBallBounce : MonoBehaviour
         rb.velocity = _direction.normalized * speed;
         if (speed > speedLimit) speed = speedLimit;
 
-        CameraShake.instance.TriggerShake(0.03f, 0.1f, 0.05f);
+        CameraShake.instance.TriggerShake(0.06f, 0.1f, 0.05f);
 
         direction = _direction;
     }

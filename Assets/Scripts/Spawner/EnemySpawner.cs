@@ -14,6 +14,7 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] List<EnemySpawnData> spawnablObstacleObjects;
     [SerializeField] List<SpawnRate> obstacleSpawnRate;
 
+    [SerializeField] float fixedTime;
     [SerializeField] float delayStartTime;
     [SerializeField] float delayEndTime;
 
@@ -21,6 +22,7 @@ public class EnemySpawner : MonoBehaviour
 
     private float currentEnemySpawnaRate;
     private float currentObstacleSpawnaRate;
+    private float maxFixedTime;
 
     private List<EnemySpawnData> enemyList = new();
     private List<EnemySpawnData> obstacleList = new();
@@ -44,6 +46,8 @@ public class EnemySpawner : MonoBehaviour
     }
     void Start()
     {
+        maxFixedTime = fixedTime;
+        fixedTime += delayStartTime;
         SetUniqueObjects();
         EnemyInstantiate();
         ObjectInstantiate();
@@ -52,7 +56,9 @@ public class EnemySpawner : MonoBehaviour
 
     private void Update()
     {
-        if (enemyList.Count <= 0 && obstacleList.Count <= 0 && !GameManager.instance.GetIsLevelEnded())
+        fixedTime -= Time.deltaTime;
+
+        if (enemyList.Count <= 0 && obstacleList.Count <= 0 && !GameManager.instance.GetIsLevelEnded() && fixedTime <= 0)
         {
             StartCoroutine(GameEnded());
             return;
@@ -193,6 +199,7 @@ public class EnemySpawner : MonoBehaviour
 
         int longerTime = (int)enemyTime;
         if (obstacleTime > enemyTime) longerTime = (int)obstacleTime;
+        if (maxFixedTime > obstacleTime) longerTime = (int)maxFixedTime;
 
         return longerTime;
     }
