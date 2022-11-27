@@ -9,10 +9,12 @@ public class Projectiles : MonoBehaviour
     [SerializeField] bool isHomingProjectile;
     bool wasTargeting=false;
     [SerializeField] Transform target;
+    List<Transform> targetList;
+    List<Transform> activeEnemies;
 
     [SerializeField] LayerMask whatIsSolid;
     private Vector3 previousPosition;
-    Rigidbody body;
+
 
     private void Start()
     {
@@ -25,11 +27,23 @@ public class Projectiles : MonoBehaviour
 
         if (isHomingProjectile)
         {
-            if(EnemySpawner.instance.GetActiveEnemyList().Count>0)
+            activeEnemies = EnemySpawner.instance.GetActiveEnemyList();
+            if (activeEnemies.Count>0)
             {
-                body = gameObject.GetComponent<Rigidbody>();
-                List<Transform> targetList = EnemySpawner.instance.GetActiveEnemyList(); // Here you go
-                target = targetList[0];
+                float distance = Mathf.Infinity;
+                int enemyIndex=0;
+
+                for (int i=0;i<activeEnemies.Count;i++)
+                {
+                    float anotherDistance = Vector3.Distance(activeEnemies[i].position, transform.position);
+                    if (anotherDistance < distance)
+                    {
+                        distance = anotherDistance;
+                        enemyIndex = i;
+                    }
+                }
+
+                target = activeEnemies[enemyIndex];
             }
         }
     }
@@ -68,7 +82,22 @@ public class Projectiles : MonoBehaviour
             {
                 if(EnemySpawner.instance.GetActiveEnemyList().Count>0)
                 {
-                    target = EnemySpawner.instance.GetActiveEnemyList()[0];
+                    targetList = EnemySpawner.instance.GetActiveEnemyList();
+                    float distance = Mathf.Infinity;
+                    int enemyIndex = 0;
+
+                    for (int i = 0; i < targetList.Count; i++)
+                    {
+                        float anotherDistance = Vector3.Distance(targetList[i].position, transform.position);
+                        Debug.Log(i);
+                        if (anotherDistance < distance)
+                        {
+                            distance = anotherDistance;
+                            enemyIndex = i;
+                        }
+                    }
+
+                    target = targetList[enemyIndex];
                 }
                 else
                 {
@@ -129,4 +158,5 @@ public class Projectiles : MonoBehaviour
             }
         }
     }
+  
 }
