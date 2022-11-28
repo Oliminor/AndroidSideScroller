@@ -31,7 +31,9 @@ public class EnemySpawner : MonoBehaviour
     public List<EnemySpawnData> GetEnemySpawnerObjects() { return spawnableEnemyObjects; }
 
     public List<SpawnRate> GetObstacleSpawnRate() { return obstacleSpawnRate; }
-    public List<EnemySpawnData> GetObstaclepawnerObjects() { return spawnablObstacleObjects; }   
+    public List<EnemySpawnData> GetObstaclepawnerObjects() { return spawnablObstacleObjects; }
+
+    public float GetDelayStartTime() { return delayStartTime; }
 
     public List<Transform> GetActiveEnemyList()
     {

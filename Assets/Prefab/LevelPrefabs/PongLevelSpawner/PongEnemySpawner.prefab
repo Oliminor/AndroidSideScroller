@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4470840859592041285}
   - component: {fileID: 1500221306}
   m_Layer: 0
-  m_Name: EnemySpawner
+  m_Name: PongEnemySpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -46,51 +46,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uniqueObjectList:
-  - spawnTime: 40
+  - spawnTime: 0
     spawnObject: {fileID: 185371263490242052, guid: 42bbcd5f1d8f66e4191c5d898ecacb57,
       type: 3}
   spawnableEnemyObjects: []
   enemySpawnRate: []
-  spawnablObstacleObjects:
-  - spawnObject: {fileID: 8158471139404077839, guid: 0dfa6e7c255361f4aa2281c643f4aaaf,
-      type: 3}
-    spawnPosY: {x: 0.1, y: 0.9}
-    amountOnMap: 12
-    spawnRotation: {x: 0, y: -90, z: 0}
-  - spawnObject: {fileID: 1571362670439007529, guid: 3b96ab4d893b66042995554dc9490df6,
-      type: 3}
-    spawnPosY: {x: 0.1, y: 0.9}
-    amountOnMap: 12
-    spawnRotation: {x: 0, y: -90, z: 0}
-  - spawnObject: {fileID: 6614920242449510896, guid: 48040a8d38528d64ebad623da6f349f8,
-      type: 3}
-    spawnPosY: {x: 0.1, y: 0.9}
-    amountOnMap: 12
-    spawnRotation: {x: 0, y: -90, z: 0}
-  - spawnObject: {fileID: 4782023021147811676, guid: ef7ea334aa947a34a98a7431b55d27f0,
-      type: 3}
-    spawnPosY: {x: 0.1, y: 0.9}
-    amountOnMap: 12
-    spawnRotation: {x: 0, y: -90, z: 0}
-  - spawnObject: {fileID: 7826775764178410735, guid: fe4086a1d37bb9949bbb135da1917655,
-      type: 3}
-    spawnPosY: {x: 0.1, y: 0.9}
-    amountOnMap: 12
-    spawnRotation: {x: 0, y: -90, z: 0}
-  - spawnObject: {fileID: 4257050771112614781, guid: 2a4d940780e21dc4cb74d6ce0ad8e5b1,
-      type: 3}
-    spawnPosY: {x: 0.1, y: 0.9}
-    amountOnMap: 12
-    spawnRotation: {x: 0, y: -90, z: 0}
-  - spawnObject: {fileID: 6696258177427343739, guid: f25311512e9220f4a81d1e70b8264c82,
-      type: 3}
-    spawnPosY: {x: 0.1, y: 0.9}
-    amountOnMap: 12
-    spawnRotation: {x: 0, y: -90, z: 0}
-  obstacleSpawnRate:
-  - spawnRate: 0.4
-    spawnRateTimeLimit: 60
-  fixedTime: 65
+  spawnablObstacleObjects: []
+  obstacleSpawnRate: []
+  fixedTime: 60
   delayStartTime: 5
   delayEndTime: 10
   activeEnemyList: []

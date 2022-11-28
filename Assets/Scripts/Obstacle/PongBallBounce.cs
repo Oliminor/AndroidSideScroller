@@ -12,9 +12,11 @@ public class PongBallBounce : MonoBehaviour
     private LineRenderer lr;
     private Vector3 lastFrameVelocity;
     private Vector3 direction;
+    private Vector3 previousPosition;
 
-    void Start()
+    void OnEnable()
     {
+        previousPosition = transform.position;
         float x = Random.Range(1.0f, -1.0f);
         float y = Random.Range(1.0f, -1.0f);
         direction = transform.TransformDirection(new Vector3(x, y, 0));
@@ -52,6 +54,8 @@ public class PongBallBounce : MonoBehaviour
 
     private void PongBallLaser()
     {
+        Vector3 direction = transform.position - previousPosition;
+
         RaycastHit hit;
         if (Physics.Raycast(transform.position, direction, out hit, 100, whatIsSolid))
         {
@@ -61,5 +65,7 @@ public class PongBallBounce : MonoBehaviour
             lr.SetPositions(positions);
 
         }
+
+        previousPosition = transform.position;
     }
 }

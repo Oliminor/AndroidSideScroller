@@ -1,0 +1,120 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4470840859592041287
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4470840859592041284}
+  - component: {fileID: 4470840859592041285}
+  - component: {fileID: 1500221306}
+  m_Layer: 0
+  m_Name: TetrisEnemySpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4470840859592041284
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4470840859592041287}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4470840859592041285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4470840859592041287}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 895b4192cea0bfd4c82ccef7af0791f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uniqueObjectList: []
+  spawnableEnemyObjects: []
+  enemySpawnRate: []
+  spawnablObstacleObjects:
+  - spawnObject: {fileID: 8158471139404077839, guid: 0dfa6e7c255361f4aa2281c643f4aaaf,
+      type: 3}
+    spawnPosY: {x: 0.1, y: 0.9}
+    amountOnMap: 20
+    spawnRotation: {x: 0, y: -90, z: 0}
+  - spawnObject: {fileID: 1571362670439007529, guid: 3b96ab4d893b66042995554dc9490df6,
+      type: 3}
+    spawnPosY: {x: 0.1, y: 0.9}
+    amountOnMap: 20
+    spawnRotation: {x: 0, y: -90, z: 0}
+  - spawnObject: {fileID: 6614920242449510896, guid: 48040a8d38528d64ebad623da6f349f8,
+      type: 3}
+    spawnPosY: {x: 0.1, y: 0.9}
+    amountOnMap: 20
+    spawnRotation: {x: 0, y: -90, z: 0}
+  - spawnObject: {fileID: 4782023021147811676, guid: ef7ea334aa947a34a98a7431b55d27f0,
+      type: 3}
+    spawnPosY: {x: 0.1, y: 0.9}
+    amountOnMap: 20
+    spawnRotation: {x: 0, y: -90, z: 0}
+  - spawnObject: {fileID: 7826775764178410735, guid: fe4086a1d37bb9949bbb135da1917655,
+      type: 3}
+    spawnPosY: {x: 0.1, y: 0.9}
+    amountOnMap: 20
+    spawnRotation: {x: 0, y: -90, z: 0}
+  - spawnObject: {fileID: 4257050771112614781, guid: 2a4d940780e21dc4cb74d6ce0ad8e5b1,
+      type: 3}
+    spawnPosY: {x: 0.1, y: 0.9}
+    amountOnMap: 20
+    spawnRotation: {x: 0, y: -90, z: 0}
+  - spawnObject: {fileID: 6696258177427343739, guid: f25311512e9220f4a81d1e70b8264c82,
+      type: 3}
+    spawnPosY: {x: 0.1, y: 0.9}
+    amountOnMap: 20
+    spawnRotation: {x: 0, y: -90, z: 0}
+  obstacleSpawnRate:
+  - spawnRate: 0.6
+    spawnRateTimeLimit: 15
+  - spawnRate: 0.5
+    spawnRateTimeLimit: 30
+  - spawnRate: 0.4
+    spawnRateTimeLimit: 45
+  - spawnRate: 0.3
+    spawnRateTimeLimit: 60
+  fixedTime: 0
+  delayStartTime: 5
+  delayEndTime: 10
+  activeEnemyList: []
+--- !u!114 &1500221306
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4470840859592041287}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c27167f5818ad3447bf27928aaacf675, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  availiblePowerups: []
+  powerUpTypes:
+  - {fileID: 5226063281503091744, guid: 0b7778b4c83ffef41ba17f67a4b2acb8, type: 3}
+  - {fileID: 4467057164015338351, guid: 8668982aeff07a9468eb3d71d59b7710, type: 3}
+  - {fileID: 4384547241342226611, guid: 1db34434f0fad1549a2f633acfa3e2ae, type: 3}
+  - {fileID: 8410956036858946263, guid: c5bd6f9cd2cccfb479757325d7d66f97, type: 3}
+  - {fileID: 6802329505934868341, guid: e2d7f30cb81ee0f4788f892871feef54, type: 3}
+  - {fileID: 4384547241342226611, guid: 5659c1979dbf4ee4192807eaa890a34f, type: 3}
+  numberOfEachPowerupType: 5

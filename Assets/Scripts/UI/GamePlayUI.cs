@@ -110,6 +110,8 @@ public class GamePlayUI : MonoBehaviour
         multiplier1Text.text = gM.GetMultiplierTick()[0].ToString();
         multiplier15Text.text = gM.GetMultiplierTick()[1].ToString();
         multiplier2Text.text = gM.GetMultiplierTick()[2].ToString();
+
+        PlayerSettings.instance.SetHightScore(SceneManager.GetActiveScene().buildIndex - 1, gM.GetTotalScore());
     }
 
     public void RestartLevel()

@@ -5,20 +5,27 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
+using TMPro;
 
 public class MainMenuManager : MonoBehaviour
 {
+    public static MainMenuManager instance;
+
+    [SerializeField] List<TextMeshProUGUI> highScoreText;
     [SerializeField] RectTransform optionsMenu;
     [SerializeField] RectTransform levelSelector;
     [SerializeField] RectTransform menuButtons;
     [SerializeField] Button optionsButton;
     [SerializeField] Button backButton;
+    [SerializeField] RectTransform selectALevelText;
     [SerializeField] Canvas mainMenuCanvas;
     [SerializeField] TMPro.TMP_Dropdown dropDownMenu;
     [SerializeField] Volume postProcessVolume;
     [SerializeField] Toggle bloomToggleButton;
     [SerializeField] Toggle hDRToggleButton;
     [SerializeField] Slider renderScaleSlider;
+
+    public List<TextMeshProUGUI> GetHighScoreText() { return highScoreText; }
 
     float optionsStartY;
     float optionsLerpY;
@@ -34,6 +41,11 @@ public class MainMenuManager : MonoBehaviour
 
     bool optionsBool = false;
     bool startGameBool = false;
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     void Start()
     {
@@ -84,16 +96,20 @@ public class MainMenuManager : MonoBehaviour
             startGameBool = false;
             startGameLerpX = startGameStartX;
             backButton.gameObject.SetActive(false);
+            selectALevelText.gameObject.SetActive(false);
 
             selectorLerpX = Screen.width * 2.5f;
         }
         else
         {
+            PlayerSettings.instance.RefreshHighScore();
+
             startGameBool = true;
             optionsButton.interactable = false;
             optionsButton.interactable = true;
             startGameLerpX = mainMenuCanvas.GetComponent<RectTransform>().rect.xMin - 500;
             backButton.gameObject.SetActive(true);
+            selectALevelText.gameObject.SetActive(true);
 
             selectorLerpX = selectorStartX;
 
@@ -137,6 +153,7 @@ public class MainMenuManager : MonoBehaviour
     private void SetupStartGameOptionsMenu()
     {
         backButton.gameObject.SetActive(false);
+        selectALevelText.gameObject.SetActive(false);
         levelSelector.gameObject.SetActive(true);
 
         Vector2 defaultPos = menuButtons.position;

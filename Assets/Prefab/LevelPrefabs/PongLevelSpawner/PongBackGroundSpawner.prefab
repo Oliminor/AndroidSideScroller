@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 7543627134931822726}
   - component: {fileID: 7543627134931822725}
   m_Layer: 0
-  m_Name: BackgroundSpawner
+  m_Name: PongBackGroundSpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -77,15 +77,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnableObjects:
-  - {fileID: 8307684852020630185, guid: baf4f4b9247b2684abcec5d0b5f73c66, type: 3}
-  - {fileID: 4679042136301049837, guid: 10143e4c098746e48a56b5ae4c326b51, type: 3}
-  - {fileID: 8918373032086071120, guid: 8f2431312ababf24c9417fe96c11dc8e, type: 3}
-  - {fileID: 6195899941749223813, guid: 712ebd05d9dc9f249a35738d639726b5, type: 3}
-  - {fileID: 5141824949978630602, guid: 05ec02c0ca784df4fb76f2a02e27367a, type: 3}
-  - {fileID: 2607065197691539778, guid: 7989286a0dc638e4c85c36827cfa5204, type: 3}
-  - {fileID: 8105663664233458049, guid: 90ac8e29f078dce4c808f6e01e406cd4, type: 3}
+  - {fileID: 5544135357648537880, guid: c8b8325f055e12440863bca4451690ba, type: 3}
+  - {fileID: 7329234608700477631, guid: 4eb8222690bbec74da9f4a5f4139c8a6, type: 3}
   backgroundParentObj: {fileID: 7543627134135339091}
-  numberOfObjectToPool: 6
+  numberOfObjectToPool: 9
   objectOnTheSceneN: 8
   fixedXPosition: 12
   fixedZPosition: 6

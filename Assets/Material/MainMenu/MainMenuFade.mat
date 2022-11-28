@@ -40,7 +40,7 @@ Material:
     - _Blend: 0
     - _CastShadows: 1
     - _Cull: 2
-    - _Depth: 0.342
+    - _Depth: 0.321
     - _DstBlend: 10
     - _Metallic: 0
     - _QueueControl: 0
