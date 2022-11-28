@@ -1061,11 +1061,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1789087257961090748, guid: ad3c6b4e7d1b58e4dbe12bfc658d37e9,
         type: 3}
-      propertyPath: isGodModeOn
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1789087257961090748, guid: ad3c6b4e7d1b58e4dbe12bfc658d37e9,
-        type: 3}
       propertyPath: inputManager
       value: 
       objectReference: {fileID: 1975129443}
