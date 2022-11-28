@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class PongManager : MonoBehaviour
 {
+    [SerializeField] private float lifeTime;
+    [SerializeField] private RectTransform mark;
+    [SerializeField] private Transform pongCanvas;
+
     [SerializeField] private Transform pongBall;
     [SerializeField] private Transform pongLeft;
     [SerializeField] private Transform pongRight;
@@ -16,13 +20,24 @@ public class PongManager : MonoBehaviour
     float zPosition;
     void Start()
     {
+        Destroy(gameObject, lifeTime);
         GenerateColldiersAroundWindow();
         Initalize();
+        StartCoroutine(spawnDelay());
     }
 
     private void Update()
     {
         PongMovement();
+    }
+
+    IEnumerator spawnDelay()
+    {
+        InstantiateMarks();
+        yield return new WaitForSeconds(3);
+        pongLeft.gameObject.SetActive(true);
+        pongRight.gameObject.SetActive(true);
+        pongBall.gameObject.SetActive(true);
     }
 
     private void Initalize()
@@ -31,16 +46,49 @@ public class PongManager : MonoBehaviour
         Vector3 spwanPosWorldToPoint = Camera.main.ViewportToWorldPoint(spawnPos);
 
         pongLeft.position = spwanPosWorldToPoint;
+        pongLeft.gameObject.SetActive(false);
 
         spawnPos = new Vector3(0.94f, 0.5f, GameManager.instance.GetZPosition());
         spwanPosWorldToPoint = Camera.main.ViewportToWorldPoint(spawnPos);
 
         pongRight.position = spwanPosWorldToPoint;
+        pongRight.gameObject.SetActive(false);
 
         spawnPos = new Vector3(0.5f, 0.5f, GameManager.instance.GetZPosition());
         spwanPosWorldToPoint = Camera.main.ViewportToWorldPoint(spawnPos);
 
         pongBall.position = spwanPosWorldToPoint;
+        pongBall.gameObject.SetActive(false);
+    }
+
+    private void InstantiateMarks()
+    {
+        List<Transform> list = new();
+        list.Add(pongBall);
+        list.Add(pongLeft);
+        list.Add(pongRight);
+
+        foreach (var item in list)
+        {
+            GameObject go = Instantiate(mark.gameObject, item.position, Quaternion.identity, pongCanvas);
+
+            Vector2 pongBallPos = Camera.main.WorldToScreenPoint(item.transform.position);
+
+            Vector3 topPos = Camera.main.WorldToScreenPoint(item.GetComponent<BoxCollider>().bounds.center + Vector3.up * item.GetComponent<BoxCollider>().size.y * item.transform.localScale.y);
+            Vector3 downPos = Camera.main.WorldToScreenPoint(item.GetComponent<BoxCollider>().bounds.center + Vector3.down * item.GetComponent<BoxCollider>().size.y * item.transform.localScale.y);
+
+            Vector3 leftPos = Camera.main.WorldToScreenPoint(item.GetComponent<BoxCollider>().bounds.center + Vector3.right * item.GetComponent<BoxCollider>().size.x * item.transform.localScale.x);
+            Vector3 rightPos = Camera.main.WorldToScreenPoint(item.GetComponent<BoxCollider>().bounds.center + Vector3.left * item.GetComponent<BoxCollider>().size.x * item.transform.localScale.x);
+
+
+            float height = Vector3.Distance(topPos, downPos);
+            float width = Vector3.Distance(leftPos, rightPos);
+
+            go.GetComponent<RectTransform>().transform.position = pongBallPos;
+            go.GetComponent<RectTransform>().sizeDelta = new Vector2(width / 1.5f, height / 1.5f);
+
+            Destroy(go, 3);
+        }
     }
 
     private void PongMovement()

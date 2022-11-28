@@ -7,6 +7,7 @@ public class PlayerSettings : MonoBehaviour
     public static PlayerSettings instance;
 
     [SerializeField] private int controllerType = 1;
+    private List<int> highScores = new();
     private float renderScale = 1.0f;
     private bool isOptionIsOn = false;
     private bool isBloomOn = false;
@@ -14,6 +15,8 @@ public class PlayerSettings : MonoBehaviour
     private int resolutionIndex = 0;
     private Vector2 nativeResolution; 
 
+    public void SetHightScore(int _index, int _highScore) { highScores[_index] = _highScore; }
+    public List<int> GetHighScore() { return highScores; }
 
     public bool IsOptionIsOn { get { return isOptionIsOn; } set { isOptionIsOn = value; } }
     public int ResolutionIndex { get { return resolutionIndex; } set { resolutionIndex = value; } }
@@ -22,6 +25,16 @@ public class PlayerSettings : MonoBehaviour
     public bool IsHDROn { get { return isHDROn; } set { isHDROn = value; } }
     public float RenderScale { get { return renderScale; } set { renderScale = value; } }
     public Vector2 GetNativeResolution { get { return GetNativeResolution; } private set { } }
+
+    private void Start()
+    {
+        if (!MainMenuManager.instance) return;
+
+        for (int i = 0; i < MainMenuManager.instance.GetHighScoreText().Count; i++)
+        {
+            highScores.Add(0);
+        }
+    }
 
     void Awake()
     {
@@ -34,5 +47,13 @@ public class PlayerSettings : MonoBehaviour
             DontDestroyOnLoad(this);
         }
         else Destroy(this);
+    }
+
+    public void RefreshHighScore()
+    {
+        for (int i = 0; i < MainMenuManager.instance.GetHighScoreText().Count; i++)
+        {
+            MainMenuManager.instance.GetHighScoreText()[i].text = highScores[i].ToString();
+        }
     }
 }

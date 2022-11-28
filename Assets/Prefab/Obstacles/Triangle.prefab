@@ -125,6 +125,8 @@ MonoBehaviour:
   stepSize: 0.7
   stepTime: 0.2
   random90Rotation: 1
+  cloneItself: 1
+  cloneRate: 0.05
 --- !u!114 &6674295772927176966
 MonoBehaviour:
   m_ObjectHideFlags: 0

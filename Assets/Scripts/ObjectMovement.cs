@@ -19,6 +19,8 @@ public class ObjectMovement : MonoBehaviour
     [SerializeField] float stepTime;
 
     [SerializeField] bool random90Rotation;
+    [SerializeField] bool cloneItself;
+    [SerializeField] float cloneRate;
     float startY;
 
     private void Start()
@@ -28,6 +30,8 @@ public class ObjectMovement : MonoBehaviour
         startY = transform.position.y;
 
         if (oldSchoolMovement) StartCoroutine(RetroMovement());
+
+        if (cloneItself) StartCoroutine(CloneItself());
     }
 
     // Update is called once per frame
@@ -50,6 +54,18 @@ public class ObjectMovement : MonoBehaviour
         {
             int rotation = Random.Range(0, 4);
             transform.rotation = Quaternion.Euler(new Vector3(rotation * 90, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z));
+        }
+    }
+    IEnumerator CloneItself()
+    {
+        while(true)
+        {
+            yield return new WaitForSeconds(cloneRate);
+
+            GameObject go = Instantiate(this.gameObject, transform.position, transform.rotation);
+            go.AddComponent<AlphaFade>();
+            Destroy(go.GetComponent<ObjectMovement>());
+            Destroy(go.GetComponent<MeshCollider>());
         }
     }
 

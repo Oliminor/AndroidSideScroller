@@ -76,7 +76,6 @@ public class BaseEnemy : MonoBehaviour, IDamageable
     private void EnemyDeath()
     {
         GameObject go = Instantiate(enemyExplosion, transform.position, Quaternion.identity);
-        powerUpDrop();
         GameManager.instance.AddScoreFromEnemy(score);
         GameManager.instance.SetEnemyKilled();
         Destroy(go, 3);
@@ -85,6 +84,7 @@ public class BaseEnemy : MonoBehaviour, IDamageable
         int _popUpScore = (int)_score;
         CameraShake.instance.TriggerShake(0.1f, 0.1f, 0.05f);
         PowerUpTextPopUp.instance.InstantiatePopUpText("+" + _popUpScore.ToString(), Color.white, transform.position);
+        powerUpDrop();
     }
 
     private void powerUpDrop()
