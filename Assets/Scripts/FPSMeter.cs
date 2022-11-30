@@ -40,6 +40,7 @@ public class FPSMeter : MonoBehaviour
 
     void OnGUI()
     {
+        return;
         GUIStyle guiStyle = new GUIStyle();
         guiStyle.fontSize = 35;
         guiStyle.normal.textColor = Color.white;

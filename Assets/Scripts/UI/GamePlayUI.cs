@@ -10,8 +10,8 @@ public class GamePlayUI : MonoBehaviour
     public static GamePlayUI instance;
 
     [SerializeField] private TextMeshProUGUI scoreText;
-    [SerializeField] private TextMeshProUGUI scoreMultiplierText;
-    [SerializeField] private List<Image> multiplierGraphicList;
+    //[SerializeField] private TextMeshProUGUI scoreMultiplierText;
+    //[SerializeField] private List<Image> multiplierGraphicList;
     [SerializeField] private RectTransform playerHealth;
     [SerializeField] private RectTransform gameOverScene;
     [SerializeField] private RectTransform pauseMenuUI;
@@ -56,20 +56,20 @@ public class GamePlayUI : MonoBehaviour
         ScoreText();
         LerpScoreSize();
         LerpScoreMultiplierSize();
-        ScoreMultiplierText();
-        MultiplierGraphicLerp();
+        //ScoreMultiplierText();
+        //MultiplierGraphicLerp();
     }
 
     private void OInitialized()
     {
         scoreTextSize = scoreText.fontSize;
-
+        /*
         for (int i = 0; i < multiplierGraphicList.Count; i++)
         {
             Color _color = multiplierGraphicList[i].color;
             multiplierGraphicList[i].color = new Color(_color.r, _color.g, _color.b, 0);
         }
-
+        */
         for (int i = 0; i < GameManager.instance.GetPlayer().GetLives(); i++)
         {
             Image go =  Instantiate(playerLivesImage, playerHealth);
@@ -102,7 +102,18 @@ public class GamePlayUI : MonoBehaviour
     public void EndLevelText()
     {
         GameManager gM = GameManager.instance;
-        starsText.text = gM.GetMaximumScore().ToString();
+
+        float percent = (float)gM.GetTotalScore() / gM.GetMaximumScore() * 100.0f;
+
+
+        Debug.Log(percent);
+
+        int star = 1;
+
+        if (percent > 60) star = 2;
+        if (percent > 80) star = 3;
+
+        starsText.text = star.ToString();
         totalScoreText.text = gM.GetTotalScore().ToString();
         timeScoreText.text = gM.GetTimeScore().ToString();
         enemyKilledText.text = gM.GetEnemyKilledNumber().ToString() + "/" + gM.GetEnemyNumber().ToString();
@@ -111,7 +122,12 @@ public class GamePlayUI : MonoBehaviour
         multiplier15Text.text = gM.GetMultiplierTick()[1].ToString();
         multiplier2Text.text = gM.GetMultiplierTick()[2].ToString();
 
-        PlayerSettings.instance.SetHightScore(SceneManager.GetActiveScene().buildIndex - 1, gM.GetTotalScore());
+        int index = SceneManager.GetActiveScene().buildIndex - 1;
+
+        if (PlayerSettings.instance.GetHighScore()[index] < gM.GetTotalScore())
+        {
+            PlayerSettings.instance.SetHightScore(index, gM.GetTotalScore());
+        }
     }
 
     public void RestartLevel()
@@ -218,8 +234,8 @@ public class GamePlayUI : MonoBehaviour
 
     private void ScoreMultiplierText()
     {
-        float multiplier = GameManager.instance.GetScoreMultiplier();
-        scoreMultiplierText.text = "x" + multiplier;
+        //float multiplier = GameManager.instance.GetScoreMultiplier();
+        //scoreMultiplierText.text = "x" + multiplier;
     }
 
     private void LerpScoreSize()
@@ -229,14 +245,14 @@ public class GamePlayUI : MonoBehaviour
 
     private void LerpScoreMultiplierSize()
     {
-        scoreMultiplierText.fontSize = Mathf.Lerp(scoreMultiplierText.fontSize, scoreTextSize, lerpTime);
+        //scoreMultiplierText.fontSize = Mathf.Lerp(scoreMultiplierText.fontSize, scoreTextSize, lerpTime);
     }
 
     public void SetScoreTextSize()
     {
         scoreText.fontSize = lerpMaxTextSize;
     }
-
+    /*
     public void SetScoreMultiplierTextSize(int index)
     {
         scoreMultiplierText.fontSize = lerpMaxTextSize;
@@ -257,4 +273,5 @@ public class GamePlayUI : MonoBehaviour
             }
         }
     }
+    */
 }

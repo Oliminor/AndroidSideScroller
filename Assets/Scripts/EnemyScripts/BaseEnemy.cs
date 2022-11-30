@@ -80,7 +80,7 @@ public class BaseEnemy : MonoBehaviour, IDamageable
         GameManager.instance.SetEnemyKilled();
         Destroy(go, 3);
         Destroy(gameObject);
-        float _score = GameManager.instance.GetScoreMultiplier() * score;
+        float _score = score; //* GameManager.instance.GetScoreMultiplier();
         int _popUpScore = (int)_score;
         CameraShake.instance.TriggerShake(0.1f, 0.1f, 0.05f);
         PowerUpTextPopUp.instance.InstantiatePopUpText("+" + _popUpScore.ToString(), Color.white, transform.position);
@@ -89,6 +89,8 @@ public class BaseEnemy : MonoBehaviour, IDamageable
 
     private void powerUpDrop()
     {
+        if (PowerUpManager.instance.availiblePowerups.Count == 0) return;
+
         int randomChance = Random.Range(0, 2);
         if(randomChance==1)
         {

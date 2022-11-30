@@ -20,8 +20,8 @@ public class GameManager : MonoBehaviour
 
     private float lerpScore;
     private float lerpTime;
-    private float scoreMultiplier = 1;
-    private float tempScoreMultiplier;
+    //private float scoreMultiplier = 1;
+    //private float tempScoreMultiplier;
     private int multiplierIndex;
     private int gameTime;
 
@@ -41,8 +41,8 @@ public class GameManager : MonoBehaviour
     public void SetScore(int _score) { gameScore = _score; }
     public int GetScore() { return (int)gameScore; }
     public float GetZPosition() { return globalZposition; }
-    public void SetScoreMultiplier(float _scoreMultiplier) { scoreMultiplier = _scoreMultiplier; }
-    public float GetScoreMultiplier() { return scoreMultiplier; }
+    //public void SetScoreMultiplier(float _scoreMultiplier) { scoreMultiplier = _scoreMultiplier; }
+    //public float GetScoreMultiplier() { return scoreMultiplier; }
     public int GetMultiplierIndex() { return multiplierIndex; }
     public bool GetIsPaused() { return isPaused; }
     public void SetIsPaused(bool _isPaused) { isPaused = _isPaused; }
@@ -58,14 +58,14 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         multiplierTick = new int[multiplierValue.Count];
-        tempScoreMultiplier = scoreMultiplier;
+        //tempScoreMultiplier = scoreMultiplier;
         instance = this;
     }
 
     private void Update()
     {
         LerpScore();
-        ScoreMultiplierLayer();
+        //ScoreMultiplierLayer();
     }
 
     public int GetTotalScore() 
@@ -80,7 +80,7 @@ public class GameManager : MonoBehaviour
 
         int playerMaxLife = 3;
 
-        float maximumScore = (gameTime * scorePerSecond + enemyScore) * multiplierValue[multiplierValue.Count - 1] * playerMaxLife;
+        float maximumScore = (gameTime * scorePerSecond + enemyScore) * playerMaxLife; //* multiplierValue[multiplierValue.Count - 1]
 
         return (int)maximumScore;
     }
@@ -95,12 +95,12 @@ public class GameManager : MonoBehaviour
         if (playerPos.x < 0.666f) multiplierIndex = 1;
         if (playerPos.x < 0.333f) multiplierIndex = 0;
 
-        scoreMultiplier = multiplierValue[multiplierIndex];
+        //scoreMultiplier = multiplierValue[multiplierIndex];
 
 
-        if (tempScoreMultiplier != multiplierIndex) GamePlayUI.instance.SetScoreMultiplierTextSize(multiplierIndex);
+       // if (tempScoreMultiplier != multiplierIndex) GamePlayUI.instance.SetScoreMultiplierTextSize(multiplierIndex);
 
-        tempScoreMultiplier = multiplierIndex;
+        //tempScoreMultiplier = multiplierIndex;
 
     }
 
@@ -108,8 +108,8 @@ public class GameManager : MonoBehaviour
     {
         while (!isGameOver && !isTheLevelEnded)
         {
-            lerpScore += scorePerSecond * scoreMultiplier;
-            timeScore += scorePerSecond * scoreMultiplier;
+            lerpScore += scorePerSecond; //* scoreMultiplier;
+            timeScore += scorePerSecond; //* scoreMultiplier;
             multiplierTick[multiplierIndex]++;
             gameTime++;
             ResetLerpTime();
@@ -142,7 +142,7 @@ public class GameManager : MonoBehaviour
 
     public void AddScoreFromEnemy(int _score)
     {
-        lerpScore += _score * scoreMultiplier;
+        lerpScore += _score; // * scoreMultiplier;
         GamePlayUI.instance.SetScoreTextSize();
     }
 }
