@@ -47,6 +47,7 @@ public class GameManager : MonoBehaviour
     public bool GetIsPaused() { return isPaused; }
     public void SetIsPaused(bool _isPaused) { isPaused = _isPaused; }
     public bool GetIsLevelEnded() { return isTheLevelEnded; }
+    public bool GetIsGameOver() { return isGameOver; }
     public float GetTimeScore() { return (int)timeScore; }
     public int GetEnemyNumber() { return allEnemyNumber; }
     public void SetEnemyNumber() { allEnemyNumber++; }

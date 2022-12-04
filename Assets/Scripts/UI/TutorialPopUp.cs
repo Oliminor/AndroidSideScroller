@@ -7,6 +7,8 @@ public class TutorialPopUp : MonoBehaviour
     [SerializeField] private List<Tutorials> tutorialList;
     [SerializeField] private RectTransform blackBG;
 
+    bool isFirstTouch;
+
     private int tutorialIndex;
     void Start()
     {
@@ -21,7 +23,17 @@ public class TutorialPopUp : MonoBehaviour
     void Update()
     {
 #if !UNITY_EDITOR_WIN
-          if (Input.touchCount > 1) DeactivateTutorial();
+           if (Input.touchCount < 1)
+        {
+            isFirstTouch = false;
+            return;
+        }
+
+        if (!isFirstTouch)
+        {
+            isFirstTouch = true;
+            DeactivateTutorial();
+        }
 #endif
 
 #if UNITY_EDITOR_WIN

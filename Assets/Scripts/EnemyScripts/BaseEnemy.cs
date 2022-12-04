@@ -44,6 +44,7 @@ public class BaseEnemy : MonoBehaviour, IDamageable
         if (pos.x > 1.0) return;
 
         health--;
+        AudioManager.instance.Play("EnemyHurt");
         StartCoroutine(DamageFlash());
 
         if (health <= 0)
@@ -75,6 +76,7 @@ public class BaseEnemy : MonoBehaviour, IDamageable
 
     private void EnemyDeath()
     {
+        AudioManager.instance.Play("EnemyExplode");
         GameObject go = Instantiate(enemyExplosion, transform.position, Quaternion.identity);
         GameManager.instance.AddScoreFromEnemy(score);
         GameManager.instance.SetEnemyKilled();
@@ -91,7 +93,7 @@ public class BaseEnemy : MonoBehaviour, IDamageable
     {
         if (PowerUpManager.instance.availiblePowerups.Count == 0) return;
 
-        int randomChance = Random.Range(0, 2);
+        int randomChance = Random.Range(0, 3);
         if(randomChance==1)
         {
             GameObject targetPower = PowerUpManager.instance.availiblePowerups[0];

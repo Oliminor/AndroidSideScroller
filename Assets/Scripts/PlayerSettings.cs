@@ -10,11 +10,12 @@ public class PlayerSettings : MonoBehaviour
     private List<int> highScores = new();
     private float renderScale = 1.0f;
     private bool isOptionIsOn = false;
-    private bool isBloomOn = false;
+    private bool isBloomOn = true;
     private bool isHDROn = true;
     private int resolutionIndex = 0;
     private Vector2 nativeResolution; 
 
+    public void AddScore() { highScores.Add(0); }
     public void SetHightScore(int _index, int _highScore) { highScores[_index] = _highScore; }
     public List<int> GetHighScore() { return highScores; }
 
@@ -25,16 +26,6 @@ public class PlayerSettings : MonoBehaviour
     public bool IsHDROn { get { return isHDROn; } set { isHDROn = value; } }
     public float RenderScale { get { return renderScale; } set { renderScale = value; } }
     public Vector2 GetNativeResolution { get { return GetNativeResolution; } private set { } }
-
-    private void Start()
-    {
-        if (!MainMenuManager.instance) return;
-
-        for (int i = 0; i < MainMenuManager.instance.GetHighScoreText().Count; i++)
-        {
-            highScores.Add(0);
-        }
-    }
 
     void Awake()
     {

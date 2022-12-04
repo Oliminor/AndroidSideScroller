@@ -32,6 +32,7 @@ public class PowerUp : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        AudioManager.instance.Play("PowerUpPickUp");
         if (other.gameObject == player.gameObject)
         {
             switch (powerupType)

@@ -154,14 +154,14 @@ PlayerSettings:
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 16.9
   applicationIdentifier:
-    Android: com.DefaultCompany.StarRock
+    Android: com.KingstonUniversityGroup6.StarRock
     Standalone: com.UnityTechnologies.com.unity.template-starter-kit
   buildNumber:
     Standalone: 0
     iPhone: 0
     tvOS: 0
-  overrideDefaultApplicationIdentifier: 0
-  AndroidBundleVersionCode: 2
+  overrideDefaultApplicationIdentifier: 1
+  AndroidBundleVersionCode: 3
   AndroidMinSdkVersion: 22
   AndroidTargetSdkVersion: 33
   AndroidPreferredInstallLocation: 1
@@ -430,32 +430,44 @@ PlayerSettings:
       m_Height: 36
       m_Kind: 0
       m_SubKind: 
-    - m_Textures: []
+    - m_Textures:
+      - {fileID: 2800000, guid: 5889a26f967049e428d3437663c7472e, type: 3}
+      - {fileID: 2800000, guid: 08df54135f03e2a49a594c4eaafb7815, type: 3}
       m_Width: 432
       m_Height: 432
       m_Kind: 2
       m_SubKind: 
-    - m_Textures: []
+    - m_Textures:
+      - {fileID: 2800000, guid: 4554486b87be4234580cb3302ec81f76, type: 3}
+      - {fileID: 2800000, guid: 7b83585ca68fb664a8dbbdc1a5b7953d, type: 3}
       m_Width: 324
       m_Height: 324
       m_Kind: 2
       m_SubKind: 
-    - m_Textures: []
+    - m_Textures:
+      - {fileID: 2800000, guid: 4454410642c379c46bc11db908c6bf6e, type: 3}
+      - {fileID: 2800000, guid: 1eb873daee45478408c2c69b749bf539, type: 3}
       m_Width: 216
       m_Height: 216
       m_Kind: 2
       m_SubKind: 
-    - m_Textures: []
+    - m_Textures:
+      - {fileID: 2800000, guid: 21220875e8a710a479c7e7f4c526c55c, type: 3}
+      - {fileID: 2800000, guid: de8ce5069df4de24d9ac1e8f5db4c75e, type: 3}
       m_Width: 162
       m_Height: 162
       m_Kind: 2
       m_SubKind: 
-    - m_Textures: []
+    - m_Textures:
+      - {fileID: 2800000, guid: 198843d602c06ba49898de4b1d44f7bb, type: 3}
+      - {fileID: 2800000, guid: 2e1a2ddd6ea1b604c92e99eb607ff8ee, type: 3}
       m_Width: 108
       m_Height: 108
       m_Kind: 2
       m_SubKind: 
-    - m_Textures: []
+    - m_Textures:
+      - {fileID: 2800000, guid: f4bd930598fbbcf4898b5afbe459baed, type: 3}
+      - {fileID: 2800000, guid: 3be99084c0bc2884da579e0caaaf247c, type: 3}
       m_Width: 81
       m_Height: 81
       m_Kind: 2

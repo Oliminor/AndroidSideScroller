@@ -172,6 +172,7 @@ MonoBehaviour:
   - {fileID: 7960708636282816021}
   horizontalSpeed: 2
   thruster: {fileID: 1446405121116462117}
+  stayTime: 1.5
 --- !u!114 &7343449379388200566
 MonoBehaviour:
   m_ObjectHideFlags: 0

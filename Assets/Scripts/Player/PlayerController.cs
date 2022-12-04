@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] bool isGodModeOn = false;
+    [SerializeField] bool ObstacleMode = false;
 
     [Header("Health and Body")]//health and body 
     [SerializeField] Transform projectileParent;
@@ -76,6 +77,7 @@ public class PlayerController : MonoBehaviour
     private float maxAngle = 15;
     private float rotationSpeed = 75.0f;
     float currentFireRate;
+    float laserTime;
     Quaternion initialRotation;
     bool isBulletTimeOn = false;
     Vector3 startPosition;
@@ -139,7 +141,7 @@ public class PlayerController : MonoBehaviour
         }
 
         //start shooting coroutine
-        StartCoroutine(AutoFire());
+        if (!ObstacleMode) StartCoroutine(AutoFire());
     }
 
     private void Update()
@@ -250,7 +252,7 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator AutoFire()
     {
-        while (true)
+        while (!GameManager.instance.GetIsLevelEnded() && !GameManager.instance.GetIsGameOver())
         {
             StartCoroutine(FiringPattern());
            
@@ -304,6 +306,7 @@ public class PlayerController : MonoBehaviour
 
         if (isProtected == false) //if no shield is up, take damage and reset barrel count
         {
+            AudioManager.instance.Play("PlayerDeathExplode");
             lives--;
             GameObject go = Instantiate(explodeParticle, transform.position, Quaternion.identity);
             Destroy(go, 1.5f);
@@ -346,6 +349,7 @@ public class PlayerController : MonoBehaviour
         switch (shootingPatternSwitch)
         {
             case ShootingPatternSwitch.STANDARDPATTERN:                      // BARRELS AND ANGLES CASE- STANDARD SHOOTING PATTERNS 
+                AudioManager.instance.Play("ShootNormal");
                 for (int i = startAngles; i < angleNumber; i++)
                 {
                     int angleUp = (i + 1) * 5;
@@ -417,10 +421,17 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator ActicateLaser()
     {
-        LaserProjectile.SetActive(true);
+        laserTime = laserActiveTime;
+        AudioManager.instance.Play("Laser");
 
-        yield return new WaitForSeconds(laserActiveTime);
+        while (laserTime > 0)
+        {
+            LaserProjectile.SetActive(true);
+            laserTime -= Time.deltaTime;
+            yield return null;
+        }
 
+        AudioManager.instance.Stop("Laser");
         LaserProjectile.SetActive(false);
     }
 

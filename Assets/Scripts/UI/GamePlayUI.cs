@@ -31,6 +31,8 @@ public class GamePlayUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI multiplier15Text;
     [SerializeField] private TextMeshProUGUI multiplier2Text;
 
+    [SerializeField] private RectTransform stars;
+
     [SerializeField] private float alphaMax;
     [SerializeField] private float alphaLerp;
     [SerializeField] private float lerpMaxTextSize;
@@ -105,13 +107,15 @@ public class GamePlayUI : MonoBehaviour
 
         float percent = (float)gM.GetTotalScore() / gM.GetMaximumScore() * 100.0f;
 
-
-        Debug.Log(percent);
-
         int star = 1;
 
         if (percent > 60) star = 2;
         if (percent > 80) star = 3;
+
+        for (int i = 0; i < star; i++)
+        {
+            stars.GetChild(i).GetChild(0).gameObject.SetActive(true);
+        }
 
         starsText.text = star.ToString();
         totalScoreText.text = gM.GetTotalScore().ToString();
@@ -132,12 +136,14 @@ public class GamePlayUI : MonoBehaviour
 
     public void RestartLevel()
     {
+        AudioManager.instance.Play("SelectSound");
         Time.timeScale = 1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     public void RestartFromPause()
     {
+        AudioManager.instance.Play("SelectSound");
         Time.timeScale = 1;
         StartCoroutine(RestartLevelFromPause());
     }
@@ -153,6 +159,7 @@ public class GamePlayUI : MonoBehaviour
 
     public void BackToMainMenu()
     {
+        AudioManager.instance.Play("SelectSound");
         Time.timeScale = 1;
         SceneManager.LoadScene(0);
         if (Transition.instance) Transition.instance.OpenTransition();
@@ -161,6 +168,7 @@ public class GamePlayUI : MonoBehaviour
 
     public void BackToMainFromPause()
     {
+        AudioManager.instance.Play("SelectSound");
         StartCoroutine(BackToMainMenuFromPause());
     }
 
@@ -175,8 +183,23 @@ public class GamePlayUI : MonoBehaviour
         SceneManager.LoadScene(0);
     }
 
+    public void NextLevel()
+    {
+        AudioManager.instance.Play("SelectSound");
+        int nextLevelIndex = SceneManager.GetActiveScene().buildIndex + 1;
+
+        if (nextLevelIndex >= SceneManager.sceneCountInBuildSettings)
+        {
+            StartCoroutine(BackToMainMenuFromPause());
+            return;
+        }
+
+        SceneManager.LoadScene(nextLevelIndex);
+    }
+
     public void PauseResumeGame()
     {
+        AudioManager.instance.Play("SelectSound");
         if (!GameManager.instance.GetIsPaused())
         {
             Time.timeScale = 0;

@@ -7,6 +7,7 @@ public class Enemy2AI : BaseEnemy
     //Movement speed
     [SerializeField] private float horizontalSpeed;
     [SerializeField] Transform thruster;
+    [SerializeField] float stayTime;
 
     private bool isChargeing = false;
     private bool startFollow = false;
@@ -34,7 +35,7 @@ public class Enemy2AI : BaseEnemy
     {
         while (true)
         {
-            yield return new WaitForSeconds(5);
+            yield return new WaitForSeconds(stayTime);
             isChargeing = true;
             health = 1;
         }

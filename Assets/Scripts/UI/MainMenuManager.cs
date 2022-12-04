@@ -11,9 +11,9 @@ public class MainMenuManager : MonoBehaviour
 {
     public static MainMenuManager instance;
 
-    [SerializeField] List<TextMeshProUGUI> highScoreText;
-    [SerializeField] RectTransform optionsMenu;
     [SerializeField] RectTransform levelSelector;
+    [SerializeField] RectTransform optionsMenu;
+    [SerializeField] RectTransform levelSelectorScrollView;
     [SerializeField] RectTransform menuButtons;
     [SerializeField] Button optionsButton;
     [SerializeField] Button backButton;
@@ -24,6 +24,11 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField] Toggle bloomToggleButton;
     [SerializeField] Toggle hDRToggleButton;
     [SerializeField] Slider renderScaleSlider;
+    [SerializeField] Slider masterVolumeSlider;
+    [SerializeField] Slider musicVolumeSlider;
+    [SerializeField] Slider effectVolumeSlider;
+
+    [SerializeField] List<TextMeshProUGUI> highScoreText = new();
 
     public List<TextMeshProUGUI> GetHighScoreText() { return highScoreText; }
 
@@ -51,6 +56,7 @@ public class MainMenuManager : MonoBehaviour
     {
         SetupOptionsMenu();
         SetupStartGameOptionsMenu();
+
         Initialize();
     }
 
@@ -58,6 +64,7 @@ public class MainMenuManager : MonoBehaviour
     {
         LerpOptions();
         LerpStartGame();
+        MusicVolume();
     }
 
     private void Initialize()
@@ -66,6 +73,9 @@ public class MainMenuManager : MonoBehaviour
         bloomToggleButton.isOn = PlayerSettings.instance.IsBloomOn;
         hDRToggleButton.isOn = PlayerSettings.instance.IsHDROn;
         renderScaleSlider.value = PlayerSettings.instance.RenderScale;
+        if (AudioManager.instance) masterVolumeSlider.value = AudioManager.instance.GetMasterVolume();
+        if (AudioManager.instance) musicVolumeSlider.value = AudioManager.instance.GetMusicVolume();
+        if (AudioManager.instance) effectVolumeSlider.value = AudioManager.instance.GetEffectVolume();
 
         if (PlayerSettings.instance.IsOptionIsOn)
         {
@@ -73,6 +83,20 @@ public class MainMenuManager : MonoBehaviour
             optionsBool = true;
             optionsLerpY = optionsStartY;
         }
+
+        for (int i = 0; i < levelSelector.transform.childCount; i++)
+        {
+            highScoreText.Add(levelSelector.transform.GetChild(i).GetChild(2).GetComponent<TextMeshProUGUI>());
+            PlayerSettings.instance.AddScore();
+        }
+
+    }
+
+    private void MusicVolume()
+    {
+        AudioManager.instance.SetMasterVolume(masterVolumeSlider.value);
+        AudioManager.instance.SetMusicVolume(musicVolumeSlider.value);
+        AudioManager.instance.SetEffectVolume(effectVolumeSlider.value);
     }
 
     public void SelectLevel(int _index)
@@ -82,6 +106,8 @@ public class MainMenuManager : MonoBehaviour
 
     IEnumerator LoadLevel(int _index)
     {
+        AudioManager.instance.Play("SelectSound");
+
         Transition.instance.CloseTransition();
 
         yield return new WaitForSeconds(1);
@@ -91,6 +117,7 @@ public class MainMenuManager : MonoBehaviour
 
     public void StartGame()
     {
+        AudioManager.instance.Play("SelectSound");
         if (startGameBool)
         {
             startGameBool = false;
@@ -124,6 +151,7 @@ public class MainMenuManager : MonoBehaviour
     }
     public void Options()
     {
+        AudioManager.instance.Play("SelectSound");
         if (!optionsBool) 
         {
             PlayerSettings.instance.IsOptionIsOn = true;
@@ -154,7 +182,7 @@ public class MainMenuManager : MonoBehaviour
     {
         backButton.gameObject.SetActive(false);
         selectALevelText.gameObject.SetActive(false);
-        levelSelector.gameObject.SetActive(true);
+        levelSelectorScrollView.gameObject.SetActive(true);
 
         Vector2 defaultPos = menuButtons.position;
         startGameStartX = defaultPos.x;
@@ -162,11 +190,11 @@ public class MainMenuManager : MonoBehaviour
         startGamePosX = startGameStartX;
         menuButtons.position = defaultPos;
 
-        Vector2 defaultPosSelector = levelSelector.position;
+        Vector2 defaultPosSelector = levelSelectorScrollView.position;
         selectorStartX = defaultPosSelector.x;
         selectorLerpX = Screen.width * 2.5f;
         selectorPosX = selectorLerpX;
-        levelSelector.position = new Vector2(selectorPosX, defaultPosSelector.y);
+        levelSelectorScrollView.position = new Vector2(selectorPosX, defaultPosSelector.y);
     }
 
     private void LerpOptions()
@@ -182,9 +210,9 @@ public class MainMenuManager : MonoBehaviour
         startGamePosX = Mathf.Lerp(startGamePosX, startGameLerpX, 0.2f);
         menuButtons.position = new Vector3(startGamePosX, defaultPos.y);
 
-        Vector2 defaultPosSelector = levelSelector.position;
+        Vector2 defaultPosSelector = levelSelectorScrollView.position;
         selectorPosX = Mathf.Lerp(selectorPosX, selectorLerpX, 0.2f);
-        levelSelector.position = new Vector3(selectorPosX, defaultPosSelector.y);
+        levelSelectorScrollView.position = new Vector3(selectorPosX, defaultPosSelector.y);
     }
 
     public void SetResolution()

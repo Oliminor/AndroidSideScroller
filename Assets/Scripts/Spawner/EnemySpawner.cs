@@ -35,6 +35,8 @@ public class EnemySpawner : MonoBehaviour
 
     public float GetDelayStartTime() { return delayStartTime; }
 
+    bool isGameOver = false;
+
     public List<Transform> GetActiveEnemyList()
     {
         for (int i = 0; i < activeEnemyList.Count; i++) if (activeEnemyList[i] == null) activeEnemyList.RemoveAt(i);
@@ -60,8 +62,9 @@ public class EnemySpawner : MonoBehaviour
     {
         fixedTime -= Time.deltaTime;
 
-        if (enemyList.Count <= 0 && obstacleList.Count <= 0 && !GameManager.instance.GetIsLevelEnded() && fixedTime <= 0)
+        if (enemyList.Count <= 0 && obstacleList.Count <= 0 && !GameManager.instance.GetIsLevelEnded() && !GameManager.instance.GetIsGameOver() && fixedTime <= 0 && !isGameOver)
         {
+            isGameOver = true;
             StartCoroutine(GameEnded());
             return;
         }
@@ -105,8 +108,8 @@ public class EnemySpawner : MonoBehaviour
 
     IEnumerator GameEnded()
     {
-        GameManager.instance.LevelFinished();
         yield return new WaitForSeconds(delayEndTime);
+        GameManager.instance.LevelFinished();
         GamePlayUI.instance.EndLevelSceneTrigger();
     }
 

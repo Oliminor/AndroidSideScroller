@@ -21,7 +21,7 @@ public class PongBallBounce : MonoBehaviour
         float y = Random.Range(1.0f, -1.0f);
         direction = transform.TransformDirection(new Vector3(x, y, 0));
         rb = GetComponent<Rigidbody>();
-        lr = GetComponent<LineRenderer>();
+        //lr = GetComponent<LineRenderer>();
         rb.AddForce(direction.normalized * speed, ForceMode.Impulse);
     }
 
@@ -38,6 +38,7 @@ public class PongBallBounce : MonoBehaviour
 
     private void Bounce(Vector3 collisionNormal, string _name)
     {
+        AudioManager.instance.Play("PongHit");
         speed += 0.25f;
         Vector3 _direction = Vector3.Reflect(lastFrameVelocity.normalized, collisionNormal);
         float y = Random.Range(1.0f, -1.0f);
@@ -61,8 +62,8 @@ public class PongBallBounce : MonoBehaviour
         {
             Vector3[] positions = new Vector3[2] { transform.position, hit.point};
 
-            lr.positionCount = 2;
-            lr.SetPositions(positions);
+            //lr.positionCount = 2;
+            //lr.SetPositions(positions);
 
         }
 
