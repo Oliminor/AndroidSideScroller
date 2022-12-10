@@ -6,13 +6,16 @@ public class TutorialPopUp : MonoBehaviour
 {
     [SerializeField] private List<Tutorials> tutorialList;
     [SerializeField] private RectTransform blackBG;
+    [SerializeField] private RectTransform continueText;
 
     bool isFirstTouch;
+    bool tutorialReadyToExit = false;
 
     private int tutorialIndex;
     void Start()
     {
         blackBG.gameObject.SetActive(false);
+        continueText.gameObject.SetActive(false);
 
         for (int i = 0; i < tutorialList.Count; i++)
         {
@@ -22,6 +25,8 @@ public class TutorialPopUp : MonoBehaviour
 
     void Update()
     {
+        if (!tutorialReadyToExit) return;
+
 #if !UNITY_EDITOR_WIN
            if (Input.touchCount < 1)
         {
@@ -47,6 +52,7 @@ public class TutorialPopUp : MonoBehaviour
 
         Time.timeScale = 1;
         blackBG.gameObject.SetActive(false);
+        continueText.gameObject.SetActive(false);
         tutorialList[tutorialIndex].tutorialPicture.gameObject.SetActive(false);
         tutorialIndex++;
     }
@@ -55,9 +61,13 @@ public class TutorialPopUp : MonoBehaviour
     {
         image.SetActive(false);
         yield return new WaitForSeconds(time);
+        tutorialReadyToExit = false;
         image.SetActive(true);
         blackBG.gameObject.SetActive(true);
         Time.timeScale = 0;
+        yield return new WaitForSecondsRealtime(1);
+        continueText.gameObject.SetActive(true);
+        tutorialReadyToExit = true;
     }
 }
 

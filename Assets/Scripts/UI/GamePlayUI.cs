@@ -92,13 +92,16 @@ public class GamePlayUI : MonoBehaviour
 
     IEnumerator EndLevelEnumerator()
     {
-        if (Transition.instance) Transition.instance.CloseTransition();
+        if (Transition.instance && !GameManager.instance.GetIsGameOver()) Transition.instance.CloseTransition();
 
         yield return new WaitForSeconds(1);
 
-        endLevelAnimator.SetTrigger("endLevel");
-        gameHUB.gameObject.SetActive(false);
-        EndLevelText();
+        if (!GameManager.instance.GetIsGameOver())
+        {
+            endLevelAnimator.SetTrigger("endLevel");
+            gameHUB.gameObject.SetActive(false);
+            EndLevelText();
+        }
     }
 
     public void EndLevelText()
@@ -229,12 +232,15 @@ public class GamePlayUI : MonoBehaviour
 
     IEnumerator GameOver()
     {
-        if (Transition.instance) Transition.instance.CloseTransition();
-        gameHUB.gameObject.SetActive(false);
+        if (!GameManager.instance.GetIsLevelEnded())
+        {
+            if (Transition.instance) Transition.instance.CloseTransition();
+            gameHUB.gameObject.SetActive(false);
+        }
 
         yield return new WaitForSeconds(1);
 
-        gameOverAnimator.SetTrigger("gameOver");
+        if (!GameManager.instance.GetIsLevelEnded()) gameOverAnimator.SetTrigger("gameOver");
     }
 
     public void AddHealth()
